@@ -1,0 +1,44 @@
+---
+interface Props {
+    title: string;
+    link: string;
+    additionalClass?: string;
+    bg?: string;
+}
+
+const {
+    title,
+    link,
+    additionalClass = false,
+    bg = "var(--color-brand)",
+} = Astro.props;
+---
+
+<a
+    style=`background-color:${bg} ;`
+    class={`buttomPrimary w-fit flex gap-1.5 h-fit  ${!additionalClass ? " px-2 py-2 " : additionalClass}`}
+    class:list={{}}
+    href={link}
+    rel="noopener noreferrer"
+    aria-label={`Contactar por WhatsApp`}
+>
+    <slot name="before-icon" />
+    {title}
+</a>
+
+<style>
+    .buttomPrimary {
+        /* display: flex; */
+        border-radius: 4px;
+
+        /* color: rgb(255, 255, 255); */
+        --color-gradient: #f34503;
+
+        /* background-color: var(--color-brand); */
+        /* background-image: linear-gradient(
+            to right,
+            var(--color-brand),
+            var(--color-gradient)
+        ); */
+    }
+</style>

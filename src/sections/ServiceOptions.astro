@@ -1,0 +1,128 @@
+---
+import { Icon } from "astro-icon/components";
+import ButtonPrimary from "../components/ButtonPrimary.astro";
+
+const services = [
+    {
+        icon: "timer",
+        title: "Horas de introducción",
+        description: `Prepárate con programas diseñados para líderes y equipos que buscan excelencia en seguridad`,
+        duration: "12 Modulos",
+    },
+    {
+        icon: "timer-2",
+        title: "UX & Product Design",
+        description: ` Excepteur sint occaecat cupidatat, Ut enim ad minim veniam,
+                    ipsum dolor sit amet`,
+        duration: "6 Meses",
+    },
+    {
+        icon: "gears",
+        title: "UX & Product Design",
+        description: ` Excepteur sint occaecat cupidatat, Ut enim ad minim veniam,
+                    ipsum dolor sit amet`,
+        duration: "3 horas",
+    },
+    {
+        icon: "date",
+        title: "UX & Product Design",
+        description: ` Excepteur sint occaecat cupidatat, Ut enim ad minim veniam,
+                    ipsum dolor sit amet`,
+        duration: "3 horas",
+    },
+];
+---
+
+<section
+    class="w-full h-fit flex md:items-center relative text-gray-600 body-font md:py-20"
+>
+    <div
+        class=`flex flex-col md:gap-20 max-w-7xl mx-auto py-10 px-6 md:px-14 items-center relative z-10 `
+    >
+        <!-- col-1 -->
+        <div
+            class="self-start top-30 flex flex-col justify-center w-full mb-16 md:mb-0 items-center"
+        >
+            <Icon
+                name="rute-map"
+                size={20}
+                class="*:text-(--color-brand-secundary) w-18 h-auto"
+            />
+            <span class="text-lg font-bold pt-5 text-(--color-brand-secundary)"
+                >Ruta de capacitación</span
+            >
+            <h2
+                class="text-(--color-text-primary) text-4xl mb-4 pt-5 font-bold title-font text-center sm:text-4xl lg:text-5xl md:text-4xl"
+            >
+                <span class="text-(--color-brand-secundary)">Nuestro</span> mapa de
+                capacitación
+            </h2>
+
+            <!-- bg-(--color-brand-secundary) -->
+            <p
+                class="md:max-w-[110ch] text-center leading-relaxed font-normal text-[1.1em] text-gray-700"
+            >
+                Prepárate con programas diseñados para líderes y equipos que
+                buscan excelencia en seguridad. Nuestros cursos cuentan con
+                certificacio uscan excelencia en seguridad. Nuestros cursos
+            </p>
+            <ul class="flex flex-col gap-4 text-[1.1em]"></ul>
+
+            <!-- <div class="flex justify-center">
+                <ButtonPrimary
+                    title="Contacto"
+                    link="#"
+                    bg="var(--color-brand)"
+                    additionalClass="px-2.5 py-1.5"
+                />
+            </div> -->
+        </div>
+        <!-- col-2-->
+        <div class="grid md:grid-cols-4 grid-cols-1 gap-8">
+            {
+                services.map((service) => {
+                    return (
+                        <section class="flex flex-col items-center gap-2 bg-[#D5D9DA50] p-8 rounded-2xl">
+                            <span class="text-4xl w-15 lg:w-10 xl:w-14 ">
+                                <Icon
+                                    name={
+                                        service.icon === ""
+                                            ? "star"
+                                            : `${service.icon}`
+                                    }
+                                    size={50}
+                                    class="text-(--color-brand-secundary) w-full h-auto"
+                                />
+                            </span>
+                            <h2 class="text-2xl text-(--color-brand) font-medium lg:text-lg xl:text-2xl text-center ">
+                                {service.title}
+                            </h2>
+                            {/* <p class="text-base lg:text-sm text-center">
+                                {service.description}
+                            </p> */}
+                            <span class="text-(--color-brand-secundary) lg:text-sm font-semibold">
+                                {service.duration}
+                            </span>
+                        </section>
+                    );
+                })
+            }
+        </div>
+    </div>
+</section>
+
+<style>
+    .btn-item-service {
+        --color-btn-border-service: color-mix(
+            in oklab,
+            var(--color-brand-secundary) 20%,
+            transparent
+        );
+
+        /* --color-btn-border-service: color-mix(
+      in oklab,
+      var(--color-brand-secundary),
+      white 60% */
+        border: 1px solid var(--color-btn-border-service);
+    }
+</style>

@@ -1,0 +1,185 @@
+---
+import { Icon } from "astro-icon/components";
+import ButtonPrimary from "../components/ButtonPrimary.astro";
+import Picture from "astro/components/Picture.astro";
+import Contact from "./Contact.astro";
+---
+
+<section
+    class="hero w-full min-h-120 md:items-center relative text-(--color-brand-secundary) body-font"
+>
+    <!-- Fondo con imagen y overlay -->
+    <!-- <div class="absolute left-0 right-0">
+        <img src={bgHeroImg.src} alt="Fondo hero" class="w-full" />
+        </div> -->
+
+    <div id="overlay" class="absolute inset-0 indent-5"></div>
+
+    <!-- Contenido parincipal -->
+    <div
+        class="flex lg:max-w-7xl mx-auto px-4 re md:px-14 py-14 md:flex-row flex-col relative z-10"
+    >
+        <div
+            class="md:w-3/5 md:pr-16 flex flex-col bottom-0 left-0 md:text-left mb-16 md:mb-0 text-center"
+        >
+            <div class="sticky top-20">
+                <span
+                    class="btn-item-service text-[.8em]
+         px-3 py-1
+         rounded-2xl
+         border-[0.1em]
+         font-light"
+                >
+                    • Contacto
+                </span>
+                <h2
+                    class="title-font
+                leading-10 lg:leading-10 xl:leading-14
+                capitalize
+                font-bold
+                text-3xl sm:text-4xl md:text-4xl lg:text-4xl xl:text-5xl
+                mb-4
+                pt-2
+                text-(--color-text-secundary)"
+                >
+                    Hablemos <br />
+                    <span class="gradiente-title-g">
+                        para crear tu sitio web
+                    </span>
+                </h2>
+                <p
+                    class="title-font
+                leading-8 lg:leading-6
+                
+                font-normal
+                text-3xl sm:text-4xl md:text-4xl lg:text-2xl
+                mb-4
+                text-(--color-brand-secundary)"
+                >
+                    Puedes ponerte en contacto por medio de estas opciones:
+                </p>
+                <address class="flex flex-col md:flex-row gap-6 pt-8 w-full">
+                    <div
+                        class="flex items-center flex-col md:flex-row gap-4 py-2 rounded-2xl w-full md:w-1/2"
+                    >
+                        <div
+                            class="shrink-0 flex items-center justify-center w-12 h-12 lg:w-10 lg:h-10 xl:w-14 xl:h-14 text-(--color-brand-secundary)"
+                        >
+                            <Icon
+                                name="whatsapp-solid"
+                                size={50}
+                                class="w-full h-auto"
+                            />
+                        </div>
+
+                        <div class="flex flex-col min-w-0">
+                            <h2
+                                class="text-xl font-medium text-(--color-brand-secundary) lg:text-base xl:text-xl leading-tight"
+                            >
+                                WhatsApp
+                            </h2>
+                            <a
+                                href="[https://wa.me/529211192209](https://wa.me/529211192209)"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                class="text-(--color-text-primary) text-base lg:text-xs xl:text-sm font-normal hover:underline break-all"
+                            >
+                                921-119-22-09
+                            </a>
+                        </div>
+                    </div>
+
+                    <div
+                        class="flex items-center flex-col md:flex-row gap-4 py-2 rounded-2xl w-full md:w-1/2"
+                    >
+                        <div
+                            class="shrink-0 flex items-center justify-center w-12 h-12 lg:w-10 lg:h-10 xl:w-14 xl:h-14 text-(--color-brand-secundary)"
+                        >
+                            <Icon
+                                name="e-mail"
+                                size={50}
+                                class="w-full h-auto"
+                            />
+                        </div>
+
+                        <div class="flex flex-col min-w-0">
+                            <h2
+                                class="text-xl font-medium text-(--color-brand-secundary) lg:text-base xl:text-xl leading-tight"
+                            >
+                                Correo
+                            </h2>
+                            <a
+                                href="mailto:berthortizweb@gmail.com"
+                                class="text-(--color-text-primary) text-base lg:text-xs xl:text-sm font-normal hover:underline break-all"
+                            >
+                                berthortizweb@gmail.com
+                            </a>
+                        </div>
+                    </div>
+                </address>
+            </div>
+        </div>
+        <div class="md:w-2/5 w-5/6 flex self-center">
+            <Contact />
+        </div>
+    </div>
+</section>
+
+<style>
+    #overlay {
+        /* backdrop-filter: blur(5px); */
+        padding: 20px;
+        border-radius: 8px;
+    }
+
+    #logo-bg {
+        opacity: 0.7;
+        position: relative;
+        /* border: 1px solid red; */
+        padding: 40px;
+    }
+
+    #container-logo-bg::before {
+        content: "";
+        /* border: 1px solid red; */
+
+        backdrop-filter: blur(5px);
+
+        color: aqua;
+        position: absolute;
+        z-index: 10;
+    }
+
+    /* .hero {
+        background-image:
+            linear-gradient(
+                45deg,
+                rgba(255, 255, 255, 0.8) 30%,
+                rgba(0, 0, 0, 0.1) 70%
+            ),
+            url("/images/bg-2.png");
+        background-size: cover;
+        background-position: center;
+        height: fit-content;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: black;
+    } */
+
+    .gradiente-title-hero {
+        --color-gradient: #f34503;
+        background-image: linear-gradient(
+            to right,
+            var(--color-brand-secundary),
+            var(--color-gradient)
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .gradiente-title-hero {
+        color: #0090f7;
+        /* fallback */
+    }
+</style>

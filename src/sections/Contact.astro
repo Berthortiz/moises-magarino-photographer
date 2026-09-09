@@ -1,0 +1,255 @@
+---
+// ContactForm.astro
+---
+
+<div class="form-container">
+    <form
+        id="my-astro-form"
+        action="https://formspree.io/f/xojrdejj"
+        class="fs-form"
+        method="POST"
+    >
+        <fieldset class="flex flex-col gap-2">
+            <legend
+                class="text-(--color-text-black) md:text-3xl font-bold pb-6 leading-6 text-center"
+                >Llena el formulario<br />
+                <span class="text-[1.2rem] font-medium">
+                    Creamos la web que nesecitas</span
+                ></legend
+            >
+            <!-- Nombre -->
+            <div class="fs-field">
+                <label class="fs-label" for="name-f">Nombre</label>
+                <input
+                    class="fs-input"
+                    id="name-f"
+                    name="name-f"
+                    required
+                    placeholder="Tu nombre completo"
+                />
+            </div>
+
+            <!-- Email -->
+            <div class="fs-field">
+                <label class="fs-label" for="email">Correo Electrónico</label>
+                <input
+                    class="fs-input"
+                    type="email"
+                    id="email"
+                    name="email"
+                    required
+                    placeholder="ejemplo@correo.com"
+                />
+            </div>
+
+            <!-- Selección de Servicio -->
+            <div class="fs-field">
+                <label class="fs-label" for="service">Servicio de Interés</label
+                >
+                <select class="fs-select" id="service" name="service" required>
+                    <option value="" disabled selected
+                        >Selecciona un servicio</option
+                    >
+                    <option value="diseno-web">Diseño Web</option>
+                    <option value="marketing">Marketing Digital</option>
+                    <option value="consultoria">Consultoría</option>
+                </select>
+            </div>
+
+            <!-- Mensaje -->
+            <div class="fs-field">
+                <label class="fs-label" for="message">Mensaje</label>
+                <textarea
+                    class="fs-textarea"
+                    id="message"
+                    name="message"
+                    rows="4"
+                    required
+                    placeholder="Cuéntanos más..."></textarea>
+            </div>
+
+            <!-- Consentimiento -->
+            <div class="fs-checkbox-field">
+                <input
+                    class="fs-checkbox"
+                    id="dpa-consent"
+                    name="dpa-consent"
+                    required
+                    type="checkbox"
+                    value="consent"
+                />
+                <label class="fs-label" for="dpa-consent"
+                    >Acepto el procesamiento de mis datos</label
+                >
+            </div>
+
+            <div class="fs-button-group">
+                <button class="fs-button" type="submit" id="submit-btn"
+                    >Enviar Solicitud</button
+                >
+            </div>
+        </fieldset>
+    </form>
+
+    <div id="success-message" style="display:none;" class="msg-success fade-in">
+        <div class="success-icon">✓</div>
+        <h3>¡Mensaje enviado!</h3>
+        <p>Gracias por contactarnos, te responderemos lo antes posible.</p>
+    </div>
+
+    <div id="error-message" style="display:none;" class="msg-error fade-in">
+        Hubo un error. Por favor, inténtalo de nuevo.
+    </div>
+</div>
+
+<script src="https://unpkg.com/@formspree/ajax@1" defer></script>
+
+<script is:inline>
+    document.addEventListener("DOMContentLoaded", () => {
+        const form = document.getElementById("my-astro-form");
+        const successDiv = document.getElementById("success-message");
+        const errorDiv = document.getElementById("error-message");
+
+        if (window.formspree) {
+            window.formspree("initForm", {
+                formElement: "#my-astro-form",
+                formId: "xojrdejj",
+                onSuccess: (data) => {
+                    form.style.display = "none";
+                    successDiv.style.display = "block";
+                },
+                onError: (err) => {
+                    errorDiv.style.display = "block";
+                },
+            });
+        }
+    });
+</script>
+
+<style>
+    @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap");
+
+    :root {
+        --color-background: #cbd5e1;
+        --color-border-active: #23494c;
+        --color-border-default: #94a3b8;
+        --color-highlight: #7ecac7;
+        --color-primary: #23494c;
+        --color-primary-active: #122d30;
+        --color-text-default: #0f172a;
+        --color-text-muted: #475569;
+    }
+
+    .form-container {
+        max-width: 500px; /* Limitamos el ancho para que se vea bien en una columna */
+        margin: 0 auto;
+        /* padding: 20px; */
+    }
+
+    .fs-form {
+        display: flex;
+        flex-direction: column;
+        gap: 1.25rem;
+        background-color: var(--color-brand-secundary);
+        padding: 1.6em 2.5em 2.5em 2.5em;
+        border-radius: 10px;
+        font-size: 1em;
+    }
+
+    .fs-field {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .fs-label {
+        font-family: "Inter", sans-serif;
+        font-size: 0.875rem;
+        font-size: 0.8em;
+        font-weight: 600;
+        color: var(--color-text-black);
+    }
+
+    .fs-input,
+    .fs-select,
+    .fs-textarea {
+        font-family: inherit;
+        padding: 0.75rem;
+        border-radius: 0.375rem;
+        border: 1px solid var(--color-border-default);
+        font-size: 0.675rem;
+        outline: none;
+        font-weight: 500;
+        color: color-mix(
+            in oklab,
+            var(--color-text-black) 100%,
+            transparent 40%
+        );
+        transition: all 0.2s;
+        caret-color: var(--color-text-primary);
+    }
+
+    .fs-select {
+        color: var(--color-text-primary);
+    }
+
+    :is(.fs-input, .fs-textarea)::placeholder {
+        color: var(--color-text-primary);
+    }
+    /* .fs-input:focus,
+    .fs-select:focus,
+    .fs-textarea:focus {
+        border-color: color-mix(
+            in oklab,
+            var(--color-brand) 80%,
+            transparent 60%
+        );
+        box-shadow: 0 0 0 3px
+            color-mix(in oklab, var(--color-brand-two) 80%, transparent 50%);
+    } */
+
+    .fs-checkbox-field {
+        display: flex;
+        align-items: flex-start;
+        gap: 0.75rem;
+        margin-top: 0.5rem;
+    }
+
+    .fs-button {
+        background-color: color-mix(
+            in oklab,
+            var(--color-brand) 80%,
+            transparent 10%
+        );
+
+        color: white;
+        padding: 0.875rem;
+        border-radius: 0.375rem;
+        font-weight: 600;
+        cursor: pointer;
+        width: 100%; /* Botón a lo ancho total */
+        transition: background 0.2s;
+    }
+
+    .fs-button:hover {
+        background-color: var(--color-brand);
+    }
+
+    .msg-success,
+    .msg-error {
+        padding: 1rem;
+        border-radius: 0.375rem;
+        margin-bottom: 1rem;
+        text-align: center;
+        font-size: 0.875rem;
+    }
+
+    .msg-success {
+        background-color: #dcfce7;
+        color: #166534;
+    }
+    .msg-error {
+        background-color: #fee2e2;
+        color: #991b1b;
+    }
+</style>

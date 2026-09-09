@@ -1,0 +1,112 @@
+---
+import Layout from "../layouts/Layout.astro";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+import "swiper/css/free-mode";
+
+const title = "Raep - Capacitador en Seguridad Industrial";
+const description =
+    "Capacitador especializado en seguridad industrial empresarial...";
+---
+
+<Layout title={title} description={description}>
+    <div class="swiper mySwiper">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide bg-amber-400">Slide 1</div>
+            <div class="swiper-slide bg-emerald-500">Slide 2</div>
+            <div class="swiper-slide bg-indigo-700">Slide 3</div>
+        </div>
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
+        <div class="swiper-pagination"></div>
+    </div>
+
+    <div class="parent-container">
+        <h2 class="text-center text-2xl mb-8 font-bold">
+            Nuestros Aliados / Servicios
+        </h2>
+
+        <div class="swiper marqueeSwiper">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide card-item">Defensa</div>
+                <div class="swiper-slide card-item">Químicos</div>
+                <div class="swiper-slide card-item">Extintores</div>
+                <div class="swiper-slide card-item">Prevención</div>
+                <div class="swiper-slide card-item">Seguridad</div>
+                <div class="swiper-slide card-item">Empresas</div>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        .mySwiper {
+            width: 100%;
+            height: 500px;
+        }
+
+        .parent-container {
+            max-width: 1000px;
+            margin: 80px auto;
+            padding: 0 20px;
+            overflow: hidden;
+        }
+
+        .marqueeSwiper {
+            width: 100%;
+            height: 120px;
+        }
+
+        .card-item {
+            width: 250px !important;
+            height: 100px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #f1f5f9;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            font-weight: bold;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .marqueeSwiper :global(.swiper-wrapper) {
+            transition-timing-function: linear !important;
+        }
+    </style>
+
+    <script>
+        import Swiper from "swiper";
+        import {
+            Navigation,
+            Pagination,
+            Autoplay,
+            FreeMode,
+        } from "swiper/modules";
+
+        new Swiper(".mySwiper", {
+            modules: [Navigation, Pagination],
+            loop: true,
+            pagination: { el: ".swiper-pagination", clickable: true },
+            navigation: {
+                nextEl: ".swiper-button-next",
+                prevEl: ".swiper-button-prev",
+            },
+        });
+
+        new Swiper(".marqueeSwiper", {
+            modules: [Autoplay, FreeMode],
+            loop: true,
+
+            slidesPerView: "auto",
+            spaceBetween: 30,
+
+            freeMode: true,
+            speed: 6000,
+            autoplay: {
+                delay: 0,
+                disableOnInteraction: false,
+            },
+        });
+    </script>
+</Layout>

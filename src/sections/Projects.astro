@@ -1,0 +1,276 @@
+---
+import { Icon } from "astro-icon/components";
+import Picture from "astro/components/Picture.astro";
+import fgcImg from "../assets/img/projects/fgcconsulting.png";
+import mariaImg from "../assets/img/projects/maria-martel-realtor.png";
+import k26Img from "../assets/img/projects/k26.png";
+
+const projects = [
+  {
+    id: 1,
+    name_proyect: "Consulting FGC",
+    sub_title: "Landing Page Corporativa ",
+    image: fgcImg,
+    description:
+      "Una consultora en Florida que facilita la integración y el crecimiento de los recién llegados a Estados Unidos. Ofrece servicios clave como asesoría en trámites migratorios, creación y registro de empresas con obtención de EIN, orientación financiera para mejorar el crédito e inversión, y la gestión efectiva para recuperar fondos excedentes de propiedades subastadas.",
+    technologies: [
+      {
+        iconName: "icon_wordpress",
+        label: "WordPress",
+      },
+      {
+        iconName: "elementor",
+        label: "Elementor",
+      },
+    ],
+    buttons: [
+      {
+        name: "Ver Sitio Web",
+        link: "https://consultingfgc.com/es_es/",
+        icon: "icon-link",
+      },
+      {
+        name: "Hacer Cotización",
+        link: "https://wa.link/bqgy6d",
+        icon: "whatsapp-solid",
+      },
+    ],
+  },
+  {
+    id: 2,
+    name_proyect: "Maria A. Martel",
+    sub_title: "Landing Page Corporativa ",
+    image: mariaImg,
+    description:
+      "Esta web presenta a María Alejandra Martell, Realtor® bilingüe en Florida (Miami, Orlando y Tampa). Ofrece servicios de compra, venta e inversión inmobiliaria para la comunidad latina. Su método de cinco pasos guía desde el análisis financiero hasta la entrega de llaves, complementado con planes de marketing personalizados y una guía gratuita para inversores.",
+    technologies: [
+      {
+        iconName: "icon_wordpress",
+        label: "WordPress",
+      },
+      {
+        iconName: "elementor",
+        label: "Elementor",
+      },
+    ],
+    buttons: [
+      {
+        name: "Ver Sitio Web",
+        link: "https://lightyellow-ant-974015.hostingersite.com/",
+        icon: "icon-link",
+      },
+      {
+        name: "Hacer Cotización",
+        link: "https://wa.link/bqgy6d",
+        icon: "whatsapp-solid",
+      },
+    ],
+  },
+
+  {
+    id: 3,
+    name_proyect: "K26 Arquitectura",
+    sub_title: "Portafolio web ",
+    image: k26Img,
+    description:
+      "K26 es un estudio de arquitectura y construcción en Costa Rica que destaca por su modelo integrado Design-Build (Diseño y Construcción). Con más de una década de trayectoria, la firma liderada por Diego Núñez fusiona la creatividad visual con el rigor técnico estructural para crear residencias y espacios comerciales modernos, funcionales y de alta calidad.",
+    technologies: [
+      {
+        iconName: "icon_wordpress",
+        label: "WordPress",
+      },
+      {
+        iconName: "elementor",
+        label: "Elementor",
+      },
+    ],
+    buttons: [
+      {
+        name: "Ver Sitio Web",
+        link: "https://k26arquitectura.com/",
+        icon: "icon-link",
+      },
+      {
+        name: "Hacer Cotización",
+        link: "https://wa.link/bqgy6d",
+        icon: "whatsapp-solid",
+      },
+    ],
+  },
+];
+
+//  technologies: [
+//             {
+//                 iconName: "astro",
+//                 label: "Astro",
+//             }, {
+//                 iconName: "icon_wordpress",
+//                 label: "WordPress",
+//             }, {
+//                 iconName: "elementor",
+//                 label: "Elementor",
+//             },{
+//                 iconName: "tailwind",
+//                 label: "Tailwind",
+//             },
+
+//         ],
+---
+
+<picture
+  id="proyects"
+  class="lg:max-w-7xl mx-auto flex flex-col justify-center text-white px-6 py-18 lg:pt-16"
+>
+  <!-- <h2 class="text-2xl font-black lg:pb-10 md:text-3xl lg:text-4xl text-center">
+    <span class="gradiente-title"> Proyectos</span>
+    Web que he creado
+  </h2> -->
+  <!-- <p class="text-center text-gray-400 pb-2 md:pb-2 lg:text-2xl lg:pb-18">
+    Páginas web que he creado para algunos de mis clientes
+  </p> -->
+
+  <!-- Uploaded to: SVG Repo, www.svgrepo.com, Transformed by: SVG Repo Mixer Tools -->
+  <!--?xml version="1.0" standalone="no"?-->
+  <img
+    class="self-center"
+    src="/portfolio-icon.png"
+    width="50"
+    height="50"
+    alt=""
+  />
+  <h2
+    class="title-font text-4xl self-center sm:text-4xl md:text-4xl lg:text-4xl mb-1 pt-5 font-bold text-(--color-brand-secundary)"
+  >
+    Portafolio
+    <!-- <span class="gradiente-title">Portafolio</span> -->
+  </h2>
+  <h3
+    class="gradiente-title title-font text-3xl self-center text-center sm:text-4xl md:text-4xl lg:text-4xl mb-1 pt-5 pb-3 font-bold !text-(--color-brand-secundary)"
+  >
+    Sitios web que he desarrollado para algunos de mis clientes
+  </h3>
+  <p
+    class="md:w-[76ch] text-[1.2em] text-gray-400 pb-16 self-center text-center"
+  >
+    Echa un vistazo a cómo hé construido los sitios web de mis clientes:
+    funcionales y listos para crecer.
+  </p>
+
+  <article class="grid-projects">
+    {
+      projects.map((item) => (
+        <section class="flex flex-col pb-12 lg:w-full lg:gap-8 border border-zinc-500/20 backdrop-blur-3xl bg-zinc-500/5 ">
+          <div class="w-full flex justify-center">
+            <Picture
+              src={item.image}
+              alt="testimonial"
+              width={50}
+              height={50}
+              formats={["webp"]}
+              quality={80}
+              loading="lazy"
+              decoding="async"
+              class="w-full object-contain rounded-2xl overflow-hidden h-fit"
+            />
+            {
+              // galeria de imagenes slider en version movil, y pc
+            }
+          </div>
+
+          <div class="w-full text-left flex flex-col justify-center gap-2 pt-1 lg:p-3">
+            <h2 class="text-3xl font-bold text-gray-300 pt-4 lg:text-3xl">
+              {item.name_proyect}
+            </h2>
+            <h3 class="font-bold">{item.sub_title}</h3>
+
+            <p class="text-gray-400">{item.description}</p>
+
+            <div class="flex flex-col-reverse gap-6 pt-3">
+              {item.buttons.map((button) => (
+                <a
+                  href={button.link}
+                  class="btn-project flex justify-center px-4 py-1.5 gap-2 rounded text-lg"
+                >
+                  <span class="flex items-center ">
+                    {<Icon name={button.icon} size={20} class="" />}
+                  </span>
+                  {button.name}
+                </a>
+              ))}
+            </div>
+          </div>
+        </section>
+      ))
+    }
+  </article>
+
+  <style>
+    .btn-project:first-child {
+      background-color: var(--color-brand);
+    }
+
+    .btn-project:nth-child(2) {
+      padding: 0;
+      border-radius: 0;
+      line-height: 2;
+    }
+
+    .btn-project:nth-child(2):hover {
+      box-shadow: 0 1px 0 0 rgb(255, 255, 255);
+    }
+
+    .gradiente-title {
+      --color-gradient: #03cff3;
+      background-image: linear-gradient(
+        to right,
+        #0475ff,
+        var(--color-gradient)
+      );
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .gradiente-title {
+      color: #0090f7;
+      /* fallback */
+    }
+
+    .grid-projects {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 3em;
+
+      & section {
+        /* border: 1px solid var(--color-text-primary); */
+        padding: 1.4em;
+        border-radius: 14px;
+        background-color:;
+      }
+    }
+
+    /* Celulares grandes / Tablets (sm: 640px) */
+    @media (width >= 640px) {
+      /* Tus estilos aquí */
+    }
+
+    /* Tablets en horizontal (md: 768px) */
+    @media (width >= 768px) {
+      /* Tus estilos aquí */
+    }
+
+    /* Laptops / Pantallas de escritorio (lg: 1024px) */
+    @media (width >= 1024px) {
+      /* Tus estilos aquí */
+    }
+
+    /* Escritorios grandes (xl: 1280px) */
+    @media (width >= 1280px) {
+      /* Tus estilos aquí */
+    }
+
+    /* Pantallas gigantes / Monitores (2xl: 1536px) */
+    @media (width >= 1536px) {
+      /* Tus estilos aquí */
+    }
+  </style>
+</picture>

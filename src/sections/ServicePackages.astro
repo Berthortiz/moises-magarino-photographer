@@ -1,0 +1,136 @@
+---
+import { Icon } from "astro-icon/components";
+import ButtonPrimary from "../components/ButtonPrimary.astro";
+import serviceImg from "../assets/img/service-img/IMG1SERVICE1.jpg";
+
+// icon = string ""
+const services = [
+  {
+    title: "Manejo de riesgos en espacios confinados",
+    description: `Diseñamos sitios web responsivos y optimizados que reflejan la esencia de tu marca.`,
+    urlImage: serviceImg,
+  },
+  {
+    title: "Mantenimiento para sitios seguros y actualizados",
+    description: `Nos encargamos de mantener tu web protegida, y lista para crecer junto a tu negocio.`,
+    urlImage: serviceImg,
+  },
+  {
+    title: "Proyectos web a medida según tus objetivos",
+    description: `Creamos soluciones personalizadas que se adaptan a tus necesidades y potencian tu estrategia digital.`,
+
+    urlImage: serviceImg,
+  },
+  {
+    title: "Marketing digital estratégico para atraer clientes reales",
+    description: `Campañas de SEO, redes sociales y publicidad online diseñadas para aumentar tu visibilidad y generar tráfico cualificado.`,
+    urlImage: serviceImg,
+  },
+  {
+    title: "Marketing digital estratégico para atraer clientes reales",
+    description: `Campañas de SEO, redes sociales y publicidad online diseñadas para aumentar tu visibilidad y generar tráfico cualificado.
+`,
+    urlImage: serviceImg,
+  },
+  {
+    title: "Marketing digital estratégico para atraer clientes reales",
+    description: `Campañas de SEO, redes sociales y publicidad online diseñadas para aumentar tu visibilidad y generar tráfico cualificado.
+`,
+    urlImage: serviceImg,
+  },
+];
+---
+
+<section
+  class="lg:max-w-7xl h-fit mx-auto flex flex-col md:items-center relative text-gray-600 body-font"
+>
+  <div
+    class=`w-full flex flex-col justify-center md:flex-row md:gap-20  mx-auto pt-10 px-6 md:px-14 items-center relative z-10`
+  >
+    <div
+      class="md:w-full flex flex-col md:justify-center md:items-center md:text-left md:mb-0 items-start text-start"
+    >
+      <span class="text-[1em] bg-indigo-100 px-3 py-1 rounded-2xl font-medium"
+        >Consectetur adipiscing</span
+      >
+      <h2
+        class="title-font text-(--color-brand-secundary) sm:text-4xl lg:text-5xl md:text-4xl text-3xl mb-4 pt-5 font-medium"
+      >
+        Nuestros cursos
+
+        <!-- <span class="text-(--color-brand)">Paquetes </span>para cubrir
+                todas las necesidades digitales de tu negocio -->
+      </h2>
+    </div>
+  </div>
+  <!-- ---- services --- -->
+  <div
+    class="w-full grid md:grid-cols-3 grid-cols-1 gap-5 md:gap-8 py-10 px-6 md:px-14
+    lg:gap-5
+    xl:gap-8"
+  >
+    {
+      services.map((service) => {
+        return (
+          <section
+            style={`background-image: url(${service.urlImage.src}) ;`}
+            class=" raep-service min-h-130 relative bg-cover bg-center flex flex-col justify-end gap-2 p-6  
+            rounded-2xl 
+            md:p-10
+            lg:min-h-120 
+            xl:min-h-130 "
+          >
+            <div class="relative z-10  text-white  flex flex-col gap-3 ">
+              <h2
+                class=" leading-7 text-[1.5em] font-black capitalize
+              md:font-black md:text-[1.2em] md:leading-6
+              lg:text-[1.2em] 
+              xl:text-[1.5em] xl:leading-7
+
+              
+              "
+              >
+                {service.title}
+              </h2>
+              <p
+                class=" leading-4.5 
+              text-amber-50
+              "
+              >
+                {service.description}
+              </p>
+
+              <ButtonPrimary
+                title="Ver Más"
+                link="#"
+                bg="var(--color-brand-secundary)"
+              />
+              {/* <a class="w-fit text-white bg-(--color-brand) border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg">
+                                Contact
+                            </a> */}
+            </div>
+          </section>
+        );
+      })
+    }
+  </div>
+</section>
+
+<style>
+  .raep-service {
+    overflow: hidden;
+  }
+  .raep-service::before {
+    content: "";
+    /* border: 1px solid red; */
+    inset: 0;
+
+    background-image: linear-gradient(
+      to right,
+      rgba(0, 0, 0, 0.7),
+      rgba(0, 0, 0, 0.7)
+    );
+    position: absolute;
+    z-index: 1;
+  }
+</style>

@@ -1,0 +1,135 @@
+---
+import ButtonPrimary from "../components/ButtonPrimary.astro";
+import bg2 from "../assets/img/bg-2.png";
+import Picture from "astro/components/Picture.astro";
+---
+
+<section
+    class="hero w-full min-h-120 md:items-center relative text-gray-600 body-font"
+    style={`background-image: linear-gradient(-45deg, rgba(0, 0, 0, 0.1) 30%, rgba(0,0,0,0.78) 70%), url(${bg2.src})`}
+>
+    <!-- Fondo con imagen y overlay -->
+    <!-- <div class="absolute left-0 right-0">
+        <img src={bgHeroImg.src} alt="Fondo hero" class="w-full" />
+        </div> -->
+
+    <div id="overlay" class="absolute inset-0 indent-5"></div>
+
+    <!-- Contenido parincipal -->
+    <div
+        class="flex lg:max-w-7xl mx-auto px-4 md:px-14 py-14 md:flex-row flex-col items-center relative z-10"
+    >
+        <div
+            class="md:w-3/5 md:pr-16 flex flex-col md:justify-center md:items-start md:text-left mb-16 md:mb-0 items-center text-center"
+        >
+            <!-- <div id="container-logo-bg" class="ml-[25%] relative">
+                <img
+                    id="logo-bg"
+                    class="w-72"
+                    src="/images/logo-raep-border.svg"
+                    alt="logo"
+                />
+            </div> -->
+
+            <h1
+                class="title-font
+                leading-10 lg:leading-14
+                capitalize
+                font-bold
+                text-3xl sm:text-4xl md:text-4xl lg:text-5xl
+                mb-4
+                text-gray-100"
+            >
+                Capacitador en <br />
+                <span class="gradiente-title-hero"> seguridad industrial </span>
+            </h1>
+            <p class="mb-8 leading-relaxed text-gray-200 md:text-[.9em]">
+                En RAEP Protegemos tu negocio con conocimientos prácticos y
+                avalados por instituciones líderes. Nuestros cursos te preparan
+                para enfrentar riesgos reales y demostrar tu compromiso con la
+                seguridad empresarial.
+            </p>
+            <div class="flex justify-center lg:items-center">
+                <ButtonPrimary
+                    title="Contacto"
+                    link="#"
+                    additionalClass="px-2 py-2"
+                />
+
+                <a
+                    class="ml-4 inline-flex text-gray-700 bg-gray-100 border-0 py-2 px-6 focus:outline-none hover:bg-gray-200 rounded text-lg"
+                    >Button</a
+                >
+            </div>
+        </div>
+        <div class="md:w-2/5 w-5/6">
+            <!-- <Picture
+                src="/public/images/img-hero.png"
+                alt="testimonial"
+                width={50}
+                height={50}
+                formats={["webp"]}
+                quality={80}
+                loading="lazy"
+                decoding="async"
+                class="w-full object-contain"
+            /> -->
+        </div>
+    </div>
+</section>
+
+<style>
+    #overlay {
+        /* backdrop-filter: blur(5px); */
+        padding: 20px;
+        border-radius: 8px;
+    }
+
+    #logo-bg {
+        opacity: 0.7;
+        position: relative;
+        /* border: 1px solid red; */
+        padding: 40px;
+    }
+
+    #container-logo-bg::before {
+        content: "";
+        /* border: 1px solid red; */
+
+        backdrop-filter: blur(5px);
+
+        color: aqua;
+        position: absolute;
+        z-index: 10;
+    }
+
+    .hero {
+        --bg-transparent: 0.78;
+        /* background-image moved inline to the section to allow Astro asset imports */
+        background-attachment: fixed;
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: right;
+        height: fit-content;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: black;
+    }
+
+    .gradiente-title-hero {
+        --color-gradient: #f34503;
+        background-image: linear-gradient(
+            to right,
+            var(--color-brand-secundary),
+            var(--color-gradient)
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .gradiente-title-hero {
+        color: #0090f7;
+        /* fallback */
+    }
+</style>

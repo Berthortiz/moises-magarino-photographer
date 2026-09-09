@@ -1,0 +1,258 @@
+---
+import { Icon } from "astro-icon/components";
+import ButtonPrimary from "./ButtonPrimary.astro";
+
+const logo = "/logo-moises.png";
+
+const links = [
+    { href: "/", label: "Inicio" },
+    { href: "#proyects", label: "Portafolio" },
+    { href: "#AboutSecticon", label: "Sobre Mi" },
+    {
+        href: "https://www.paypal.com/ncp/payment/R2QJS8AAF58S2",
+        label: "PayPal",
+    },
+];
+---
+
+<header class="header-position black top-0 lg:max-w-7xl m-auto px-0 py-4 z-20">
+    <div class="relative flex justify-between px-6 md:w-full items-center">
+        <div>
+            <a href="/" class="font-bold">
+                <img class="w-40" src="/logo-moises.png" alt="logo" />
+            </a>
+        </div>
+
+        <nav
+            class="hidden md:flex gap-6 items-center text-blue-50"
+            role="navigation"
+            aria-label="Principal"
+        >
+            {
+                links.map((link) => (
+                    <a
+                        class="text-[1.1em] hover:text-white transition-colors"
+                        href={link.href}
+                    >
+                        {link.label}
+                    </a>
+                ))
+            }
+        </nav>
+
+        <ButtonPrimary
+            title="Contacto"
+            link="https://wa.link/bqgy6d"
+            additionalClass="hidden md:block px-4 py-1 text-(--color-secundary)"
+        />
+
+        <button
+            id="icon-nav"
+            type="button"
+            class="md:hidden p-2 flex items-center z-20"
+            title="Abrir menú"
+        >
+            <svg
+                id="icon-open"
+                width="40"
+                height="40"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                class="text-white"
+            >
+                <path
+                    d="M4 6h16M4 12h16M4 18h16"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"></path>
+            </svg>
+        </button>
+    </div>
+
+    <nav
+        id="mobile-menu"
+        class="w-full h-dvh flex fixed inset-0 bg-slate-900/80 backdrop-blur-2xl flex-col p-6 gap-6 z-50 overflow-y-auto"
+        role="navigation"
+        aria-label="Menú móvil"
+    >
+        <div class="flex justify-between items-center w-full">
+            <a href="/" class="font-bold">
+                <img class="w-10" src="/logo-moises.png" alt="logo" />
+            </a>
+
+            <button
+                id="btn-close"
+                type="button"
+                class="p-2 flex items-center focus:outline-none"
+                title="Cerrar menú"
+            >
+                <svg
+                    id="icon-close"
+                    width="40"
+                    height="40"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="text-white"
+                >
+                    <path
+                        d="M6 6l12 12M6 18L18 6"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"></path>
+                </svg>
+            </button>
+        </div>
+
+        <div class="flex flex-col items-center gap-6 text-center mt-8 text-xl">
+            {
+                links.map((link) => (
+                    <a
+                        class="text-blue-50 w-full block py-3 border-b border-slate-800/60"
+                        href={link.href}
+                    >
+                        {link.label}
+                    </a>
+                ))
+            }
+
+            <ButtonPrimary
+                title="Contacto"
+                link="https://wa.link/bqgy6d"
+                additionalClass="px-3 py-2 text-(--color-secundary) text-center block mt-4"
+            />
+            <div
+                class="text-white font-bold flex flex-wrap justify-center gap-4.5"
+            >
+                <p class="w-full">Redes Sociales</p>
+
+                <a
+                    href="https://youtube.com/@berthortiz?si=BBZQJ3pbdA6iKWga"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Canal de YouTube de Berth Ortiz"
+                    title="Ir al canal de YouTube - Berth Ortiz"
+                    class="-mt-0.5"
+                >
+                    <Icon name="icon-youtube" size={36} />
+                </a>
+
+                <a
+                    href="https://www.instagram.com/berth_ortiz/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Perfil de Instagram de Berth Ortiz"
+                    title="Ir al perfil de Instagram - Berth Ortiz"
+                    class=""
+                >
+                    <Icon name="icon-instagram" size={30} />
+                </a>
+
+                <a
+                    href="https://wa.link/bqgy6d"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Perfil de Instagram de Berth Ortiz"
+                    title="Ir al perfil de Instagram - Berth Ortiz"
+                >
+                    <Icon
+                        name="whatsapp-solid"
+                        size={30}
+                        class="-mt-0.4 -ml-0.5"
+                    />
+                </a>
+
+                <!--  -->
+            </div>
+        </div>
+    </nav>
+
+    <script>
+        const btnOpen = document.getElementById("icon-nav");
+        const btnClose = document.getElementById("btn-close");
+        const menu = document.getElementById("mobile-menu");
+
+        const scrollbarWidth = () => {
+            const scrollWidth =
+                window.innerWidth - document.documentElement.clientWidth;
+
+            document.documentElement.style.setProperty(
+                "--scrollbar-width",
+                `${scrollWidth}px`,
+            );
+
+            console.log(scrollWidth);
+        };
+
+        scrollbarWidth();
+        if (btnOpen && btnClose && menu) {
+            const setMenu = (open: boolean | undefined) => {
+                const $body = document.body;
+                menu.classList.toggle("open", open);
+
+                if (menu.classList.contains("open")) {
+                    $body?.classList.add("no-scrolling");
+                }
+                if (!menu.classList.contains("open")) {
+                    $body?.classList.remove("no-scrolling");
+                }
+
+                // document.body.style.overflow = open ? "hidden" : "";
+            };
+
+            btnOpen.addEventListener("click", () => setMenu(true));
+
+            btnClose.addEventListener("click", () => setMenu(false));
+
+            menu.querySelectorAll("a").forEach((a) =>
+                a.addEventListener("click", () => setMenu(false)),
+            );
+
+            document.addEventListener("keydown", (e) => {
+                if (e.key === "Escape") setMenu(false);
+            });
+
+            document.addEventListener("click", (e) => {
+                if (!menu.classList.contains("open")) return;
+                const target = e.target as Node;
+
+                if (!menu.contains(target) && !btnOpen.contains(target)) {
+                    setMenu(false);
+                }
+            });
+
+            window.addEventListener("resize", () => {
+                if (
+                    window.innerWidth >= 768 &&
+                    menu.classList.contains("open")
+                ) {
+                    setMenu(false);
+                }
+            });
+        }
+    </script>
+
+    <style>
+        .header-position {
+            position: relative;
+        }
+    </style>
+    <style is:global>
+        .no-scrolling {
+            /* scrollbar-gutter: stable; */
+            overflow: hidden;
+            padding-right: var(--scrollbar-width);
+        }
+        #mobile-menu {
+            transform: translateX(-100%);
+            transition: all 0.4s ease-out;
+        }
+        .open {
+            transform: translateX(0) !important;
+            overflow: visible;
+        }
+    </style>
+</header>

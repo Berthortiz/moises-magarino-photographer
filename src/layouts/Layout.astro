@@ -1,0 +1,90 @@
+---
+import Header from "../components/Header.astro";
+import logo from "../assets/img/logo-berth.svg";
+import Footer from "../sections/Footer.astro";
+import "../css/style.css";
+
+interface Props {
+	title: string;
+	description?: string;
+	// canonical?: string;
+	// robots?: string;
+}
+
+const {
+	title = "Moises magariño",
+	description = "Fotografo profecional en Florida | Moises magariño ",
+	// canonical,
+	// robots,
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href={logo.src} />
+		<meta name="generator" content={Astro.generator} />
+		<meta name="description" content={description} />
+		<title>{title}</title>
+	</head>
+	<body>
+		<Header />
+		<slot />
+		<Footer />
+	</body>
+</html>
+
+<script></script>
+<style is:global>
+	:root {
+		--color-brand: #0051ff; /* color principal de la marca */
+		--color-brand-two: #03cff3;
+		--color-brand-secundary: #f3f4f6; /* tarjetas, secciones */
+		--color-text-primary: #99a1af; /* texto principal */
+		--color-secundary: #f3f4f6;
+		--color-text-black: #0d0f13;
+
+		--color-highlight: #f59e0b; /* para resaltar botones o links */
+		--color-bg: #0d0f13; /* fondo */
+
+		--color-error: #dc2626; /* mensajes de error */
+		--color-success: #16a34a; /* mensajes de éxito */
+	}
+
+	html,
+	body {
+		margin: 0;
+		width: 100%;
+		background-color: var(--color-bg);
+		/* min-height: 200vh; */
+		font-family: "Segoe UI";
+		transition: width 1s ease;
+
+		/* scrollbar-gutter: stable; */
+		/* overflow: hidden; */
+	}
+	h1,
+	h2,
+	h3,
+	h4 {
+		color: #ffffff;
+	}
+
+	.gradiente-title-g {
+		--color-gradient: #03cff3;
+		background-image: linear-gradient(
+			to right,
+			var(--color-brand),
+			var(--color-gradient)
+		);
+		-webkit-background-clip: text;
+		-webkit-text-fill-color: transparent;
+	}
+
+	.gradiente-title-g {
+		color: #0090f7;
+		/* fallback */
+	}
+</style>

@@ -1,0 +1,124 @@
+---
+import { Icon } from "astro-icon/components";
+import ButtonPrimary from "../components/ButtonPrimary.astro";
+
+const services = [
+  {
+    icon: "web-two",
+    title: "Desarrollo Web",
+    description: `Construcción de sitios web dinámicos y adaptables (responsive), hechos a la medida de los objetivos y requisitos únicos de tu negocio.`,
+  },
+  {
+    icon: "date",
+    title: "Copywriting (Textos Persuasivos)",
+    description: `Creación de textos que comunica eficazmente tu mensaje y genera interacción.`,
+  },
+  {
+    icon: "shield",
+    title: "Protección Blindada",
+    description: `Implementamos protocolos de seguridad avanzados para proteger tus datos y los de tus clientes, generando confianza en cada transacción.`,
+  },
+  {
+    icon: "tools",
+    title: "Soporte y Mantenimiento",
+    description: `"No te dejamos solo. Nos encargamos de que tu sitio esté siempre actualizado, seguro y funcionando al 100% mientras tú te concentras en tu negocio.`,
+  },
+
+  {
+    icon: "brush-3",
+    title: "Identidad y Branding",
+    description: `Creación de identidades de marca distintivas que conectan con tu audiencia y dejan una impresión duradera.`,
+  },
+
+  {
+    icon: "up-arrow",
+    title: "SEO y Marketing",
+    description: `Atracción de tráfico cualificado a tu sitio web mediante tácticas estratégicas de marketing y posicionamiento en buscadores.`,
+  },
+];
+---
+
+<section
+  class="w-full h-fit flex md:items-center relative text-gray-600 body-font md:py-20"
+>
+  <div
+    class=`flex flex-col md:flex-row md:gap-10 lg:max-w-7xl xl:gap-2  mx-auto py-10 px-6 md:px-14 items-center relative z-10 `
+  >
+    <!-- col-1 -->
+    <div
+      class="self-start md:sticky top-15 xl:top-40 flex flex-col md:w-2/4 md:justify-start md:items-start md:text-left mb-16 md:mb-0 items-start text-start"
+    >
+      <span
+        class="btn-item-service text-[.8em]
+         px-3 py-1
+         rounded-2xl
+         
+         border-[0.1rem]
+         font-light"
+      >
+        • Puedo ayudarte con
+      </span>
+      <h2
+        class="title-font text-3xl sm:text-4xl md:text-4xl lg:text-4xl mb-4 pt-5 font-bold text-(--color-brand-secundary)"
+      >
+        <span class="gradiente-title-g">Servicios</span> de Páginas web: Diseñadas
+        para Vender
+      </h2>
+
+      <!-- bg-(--color-brand-secundary) -->
+      <p
+        class="md:max-w-[58ch] mb-8 leading-relaxed font-normal text-[1em] text-gray-500"
+      >
+        Transformamos tu visión en una estrategia digital diseñada para dominar
+        el mercado. Potenciamos tu presencia online con sitios web de alto
+        rendimiento y contenido persuasivo que convierte clics en clientes
+        reales.
+      </p>
+      <ul class="flex flex-col gap-4 text-[1.1em]"></ul>
+
+      <div class="flex justify-center">
+        <ButtonPrimary
+          title="Ayudame a crear mi Página"
+          link="https://wa.link/bqgy6d"
+          additionalClass="px-4 py-1.5 text-white"
+        />
+      </div>
+    </div>
+    <!-- col-2-->
+    <div class="md:w-2/4 grid md:grid-cols-1 grid-cols-1 gap-10">
+      {
+        services.map((service) => {
+          return (
+            <section class="flex flex-col gap-2 bg-[#D5D9DA10] text-(--color-brand-secundary) p-8 rounded-2xl">
+              <span class="text-4xl w-13 lg:w-10 xl:w-14 ">
+                <Icon
+                  name={service.icon === "" ? "star" : `${service.icon}`}
+                  size={50}
+                  class="text-(--color-brand-secundary) w-full h-auto"
+                />
+              </span>
+              <h2 class="text-2xl font-medium lg:text-lg xl:text-2xl ">
+                {service.title}
+              </h2>
+              <p class="text-(--color-text-primary) text-base lg:text-sm">
+                {service.description}
+              </p>
+            </section>
+          );
+        })
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .btn-item-service {
+    color: var(--color-text-primary);
+    border: 1px solid
+      color-mix(
+        in oklab,
+        var(--color-gray-900) 50%,
+        var(--color-brand-secundary)
+      );
+  }
+</style>

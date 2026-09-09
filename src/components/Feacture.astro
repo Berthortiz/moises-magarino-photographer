@@ -1,0 +1,94 @@
+---
+import IconCheck from "../components/Icons/IconCheck.astro";
+import Picture from "astro/components/Picture.astro";
+import defaultBg from "../assets/img/sectionFeacture1.png";
+
+interface Props {
+    flexRowRevers?: boolean;
+    bgImg?: string;
+}
+
+const { flexRowRevers = false, bgImg = defaultBg } = Astro.props;
+---
+
+<section
+    class="w-full h-fit flex md:items-center relative text-gray-600 body-font"
+>
+    <div
+        class:list={[
+            {
+                "md:flex-row-reverse": flexRowRevers,
+                "md:flex-row": !flexRowRevers,
+            },
+        ]}
+        class=`flex flex-col md:gap-20 lg:max-w-7xl mx-auto py-10 px-6 md:px-14 items-center relative z-10`
+    >
+        <div
+            class="md:w-1/2 flex flex-col md:justify-center md:items-start md:text-left mb-16 md:mb-0 items-start text-start"
+        >
+            <span
+                class="text-[1em] bg-indigo-100 px-3 py-1 rounded-2xl font-medium"
+                >Consectetur adipiscing</span
+            >
+            <h2
+                class="title-font sm:text-4xl lg:text-5xl md:text-4xl text-3xl mb-4 pt-5 font-medium text-(--color-secundary)"
+            >
+                Duis sagittis ipsum. <br />
+                <span class="text-(--color-brand)"> Praesent</span> mauris.
+            </h2>
+            <p
+                class="md:max-w-[55ch] mb-8 leading-relaxed font-normal text-[1.1em] text-gray-700"
+            >
+                Mauris massa. Vestibulum lacinia arcu eget nulla. Class aptent
+                taciti sociosqu ad litora torquent.
+            </p>
+            <ul class="flex flex-col gap-4 text-[1.1em]">
+                <li class="flex gap-3">
+                    <span class="fill-current text-(--color-brand) mt-1">
+                        <IconCheck size={22} />
+                    </span>
+                    <div>
+                        <h3 class="font-bold">Sed do eiusmod tempor"</h3>
+                        <p>
+                            Curabitur pretium tincidunt lacus. Nulla gravida
+                            orci a odio.
+                        </p>
+                    </div>
+                </li>
+                <li class="flex gap-3">
+                    <span class="fill-current text-(--color-brand) mt-1">
+                        <IconCheck size={22} />
+                    </span>
+                    <div>
+                        <h3 class="font-bold">
+                            Estrategi qui officia deserunt"
+                        </h3>
+                        <p>Quas, molestiae aperiam incidunt repudiandae</p>
+                    </div>
+                </li>
+            </ul>
+
+            <div class="flex justify-center">
+                <!-- <a
+                    class="inline-flex text-white bg-(--color-brand) border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg"
+                    >Button</a
+                > -->
+            </div>
+        </div>
+        <div class="md:w-1/2">
+            <Picture
+                src={bgImg.src}
+                alt="testimonial"
+                width={50}
+                height={50}
+                formats={["webp"]}
+                quality={80}
+                loading="lazy"
+                decoding="async"
+                class="w-full object-contain"
+            />
+        </div>
+    </div>
+</section>
+
+<style></style>
