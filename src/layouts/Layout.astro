@@ -1,8 +1,9 @@
 ---
 import Header from "../components/Header.astro";
-import logo from "../assets/img/logo-berth.svg";
 import Footer from "../sections/Footer.astro";
 import "../css/style.css";
+
+const logo = "/logo-moises.png";
 
 interface Props {
 	title: string;
@@ -24,7 +25,7 @@ const {
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href={logo.src} />
+		<link rel="icon" type="image/png" href={logo} />
 		<meta name="generator" content={Astro.generator} />
 		<meta name="description" content={description} />
 		<title>{title}</title>
@@ -46,11 +47,16 @@ const {
 		--color-secundary: #f3f4f6;
 		--color-text-black: #0d0f13;
 
+		--grey-titanio: #a7adb4;
+
 		--color-highlight: #f59e0b; /* para resaltar botones o links */
 		--color-bg: #0d0f13; /* fondo */
 
 		--color-error: #dc2626; /* mensajes de error */
 		--color-success: #16a34a; /* mensajes de éxito */
+
+
+		--padding-all-web:50px;
 	}
 
 	html,

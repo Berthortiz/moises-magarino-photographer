@@ -1,0 +1,144 @@
+---
+// bodas
+import modaImg from "../assets/img/galleryFilter/bodas/pexels-luisbecerrafotografo-5824565.jpg";
+
+// Conciertos
+import conciertosImg1 from "../assets/img/galleryFilter/conciertos/pexels-thibault-trillet-44912-167491.jpg";
+import conciertosImg2 from "../assets/img/galleryFilter/conciertos/pexels-alexandreeliasfotografia-elias-2159734286-36257830.jpg";
+
+// realestate
+import realestate1 from "../assets/img/galleryFilter/realestate/pexels-bluerhinomedia-3665354.jpg";
+
+const Gallery = [
+    {
+        category: "bodas",
+        pictures: [modaImg],
+    },
+    {
+        category: "conciertos",
+        pictures: [conciertosImg1, conciertosImg2],
+    },
+    {
+        category: "realestate",
+        pictures: [realestate1],
+    },
+];
+---
+
+<!-- PhotoSwipe CSS desde CDN -->
+<head>
+    <link
+        rel="stylesheet"
+        href="https://unpkg.com/photoswipe@5/dist/photoswipe.css"
+    />
+</head>
+<section class="text-white px-6 lg:px-(--padding-all-web)">
+    <div class="max-w-6xl mx-auto py-8">
+        <!-- Pestañas de Filtrado -->
+        <h1
+            class="title-font leading-10 md:leading-10 font-bold text-center text-4xl
+        sm:text-4xl md:text-4xl lg:text-4xl mb-4 text-gray-100"
+        >
+            <span class="gradiente-title-hero">
+                Gallery
+                <!-- Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra. -->
+            </span>
+        </h1>
+        <div
+            class="flex flex-wrap justify-center gap-6 mb-8 text-sm font-bold tracking-widest"
+        >
+            <button
+                class="tab-btn cursor-pointer text-amber-500 border-b-2 border-amber-500 pb-1"
+                data-category="all">All</button
+            >
+            <button
+                class="tab-btn cursor-pointer text-gray-400 hover:text-white pb-1"
+                data-category="bodas">Bodas</button
+            >
+            <button
+                class="tab-btn cursor-pointer text-gray-400 hover:text-white pb-1"
+                data-category="conciertos">Conciertos</button
+            >
+            <button
+                class="tab-btn cursor-pointer text-gray-400 hover:text-white pb-1"
+                data-category="realestate">Real Estate</button
+            >
+        </div>
+
+        <!-- Rejilla de Imágenes -->
+        <div id="gallery" class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {
+                Gallery?.map((item) => {
+                    return item.pictures?.map((pic) => {
+                        return (
+                            <a
+                                href={pic.src}
+                                data-pswp-width="1600"
+                                data-pswp-height="1067"
+                                data-category={item.category}
+                                target="_blank"
+                                class="gallery-item group block overflow-hidden rounded-lg aspect-4/3 bg-neutral-900"
+                            >
+                                <img
+                                    src={pic.src}
+                                    alt={item.category}
+                                    class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                                />
+                            </a>
+                        );
+                    });
+                })
+            }
+        </div>
+    </div>
+
+    <script type="module">
+        import PhotoSwipeLightbox from "https://unpkg.com/photoswipe@5/dist/photoswipe-lightbox.esm.js";
+
+        const lightbox = new PhotoSwipeLightbox({
+            gallery: "#gallery",
+            children: "a.gallery-item:not(.hidden)",
+            pswpModule: () =>
+                import("https://unpkg.com/photoswipe@5/dist/photoswipe.esm.js"),
+        });
+        lightbox.init();
+
+        //  Filtrado por Pestañas
+        const buttons = document.querySelectorAll(".tab-btn");
+        const items = document.querySelectorAll(".gallery-item");
+
+        buttons.forEach((button) => {
+            button.addEventListener("click", () => {
+                const selectedCategory = button.getAttribute("data-category");
+
+                // pestañas
+                buttons.forEach((b) => {
+                    b.classList.remove(
+                        "text-amber-500",
+                        "border-b-2",
+                        "border-amber-500",
+                    );
+                    b.classList.add("text-gray-400");
+                });
+                button.classList.remove("text-gray-400");
+                button.classList.add(
+                    "text-amber-500",
+                    "border-b-2",
+                    "border-amber-500",
+                );
+
+                items.forEach((item) => {
+                    const itemCategory = item.getAttribute("data-category");
+                    if (
+                        selectedCategory === "all" ||
+                        itemCategory === selectedCategory
+                    ) {
+                        item.classList.remove("hidden");
+                    } else {
+                        item.classList.add("hidden");
+                    }
+                });
+            });
+        });
+    </script>
+</section>

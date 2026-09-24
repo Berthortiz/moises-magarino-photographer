@@ -5,7 +5,7 @@ import Picture from "astro/components/Picture.astro";
 
 ---
 
-<section class="hero w-full md:items-center flex flex-col justify-between relative text-gray-600 body-font">
+<section class="w-full h-[85vh]  relative text-gray-600 body-font">
     <!-- Fondo con imagen y overlay -->
     <!-- <div class="absolute left-0 right-0">
         <img src={bgHeroImg.src} alt="Fondo hero" class="w-full" />
@@ -13,51 +13,50 @@ import Picture from "astro/components/Picture.astro";
 
     <!-- <div id="overlay" class="absolute inset-0 indent-5"></div> -->
 
-    <!-- t -->
     <div
-        class="flex lg:max-w-7xl mx-auto md:px-14 pt-1 md:pt-14 items-center justify-center relative z-10"
+        class="lg:max-w-7xl h-full flex mx-auto pt-1 md:px-(--padding-all-web) md:justify-between gap-7 relative z-10"
     >
         <div
-            class="md:w-4/5 flex md:pt-1 flex-col justify-center items-center md:text-left mb-0 md:mb-0 p-6"
+            class="md:w-1/2 flex flex-col justify-center items-start md:text-left mb-0 md:mb-0 p-6 lg:px-0"
         >
           
 
             <h1
                 class="title-font
-                leading-10 md:leading-10
-            
+                leading-10 md:leading-14
                 font-bold
-                text-center
-                text-4xl sm:text-4xl md:text-4xl lg:text-4xl
+                text-4xl sm:text-4xl md:text-4xl lg:text-6xl
                 mb-4
                 text-gray-100"
             >
-                Creamos la 
-                <span class="gradiente-title-hero"> Donec eu
-<!-- Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra. -->
- </span>  libero sit amet quam egestas semper
+                
+                <span class="gradiente-title-hero"> Black & white Moments</span> 
+ 
             </h1>
-            <p class="mb-8 leading-relaxed text-gray-200 md:text-[1em] lg:w-[70ch] text-center">
+            <p class="mb-8 leading-relaxed text-gray-200 md:text-[1em] ">
               "Aenean ultricies mi vitae est. Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra."
             </p>
-            <div class="w-full flex flex-col md:flex-row justify-center gap-4 lg:items-center border-amber-50 ">
+            <div class="w-full flex flex-col md:flex-row justify-center gap-4 md:justify-start border-amber-50 ">
            
 
-  <ButtonPrimary  title="quam egestas"
+  <!-- <ButtonPrimary  title="quam egestas"
                     link="https://wa.link/bqgy6d"
                     additionalClass="w-full md:w-fit px-4 py-2 text-white justify-center items-center text-[1.2em] border-2 border-[color:var(--color-brand)]"
                 > <Icon name="whatsapp-solid" slot="before-icon" size={20} class="" /> </ButtonPrimary>
-                
+                 -->
 
  <ButtonPrimary
                     title="Ver Portafolio"
                     class:list=""
                     link="#proyects"
-                    additionalClass="w-full md:w-fit items-center justify-center text-[1.2em] px-5 py-2 border-2 border-[color:var(--color-text-primary)] text-(--color-text-primary) hover:border-[color:var(--color-brand-secundary)] hover:text-(--color-brand-secundary)"
+                    additionalClass="w-full md:w-fit items-center justify-center text-[1em] px-4 py-2 border-2 border-[color:var(--color-text-primary)] text-(--color-text-primary) hover:border-[color:var(--color-brand-secundary)] hover:text-(--color-brand-secundary)"
                     bg="transparent"
                 /> 
                 
             </div>
+        </div>
+        <div class="md:w-1/2 flex justify-center items-center text-white">
+            col-2
         </div>
        
     </div>
@@ -124,17 +123,16 @@ import Picture from "astro/components/Picture.astro";
         background-position: center;
         height: 85vh;
         display: flex;
-        align-items: center;
+        /* align-items: center; */
         justify-content: center;
         color: black;
     }
 
     .gradiente-title-hero {
-        --color-gradient: #03cff3;
         background-image: linear-gradient(
-            to right,
-            var(--color-brand),
-            var(--color-gradient)
+            to left,
+            #ffffff,
+            var(--grey-titanio)
         );
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
