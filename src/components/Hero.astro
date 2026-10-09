@@ -1,142 +1,75 @@
 ---
-import { Icon } from "astro-icon/components";
+import { Image } from "astro:assets";
 import ButtonPrimary from "./ButtonPrimary.astro";
-import Picture from "astro/components/Picture.astro";
-
+import heroImage from "../assets/img/hero-photographer-unsplash.jpg";
 ---
 
-<section class="w-full h-[85vh]  relative text-gray-600 body-font">
-    <!-- Fondo con imagen y overlay -->
-    <!-- <div class="absolute left-0 right-0">
-        <img src={bgHeroImg.src} alt="Fondo hero" class="w-full" />
-        </div> -->
-
-    <!-- <div id="overlay" class="absolute inset-0 indent-5"></div> -->
-
+<section class="hero w-full">
     <div
-        class="lg:max-w-7xl h-full flex mx-auto pt-1 md:px-(--padding-all-web) md:justify-between gap-7 relative z-10"
+        class="hero-content mx-auto grid min-h-[85svh] max-w-7xl items-center gap-12 px-6 py-14 md:px-[var(--padding-all-web)] lg:grid-cols-2 lg:gap-16"
     >
-        <div
-            class="md:w-1/2 flex flex-col justify-center items-start md:text-left mb-0 md:mb-0 p-6 lg:px-0"
-        >
-          
-
+        <div class="hero-copy flex flex-col items-start">
             <h1
-                class="title-font
-                leading-10 md:leading-14
-                font-bold
-                text-4xl sm:text-4xl md:text-4xl lg:text-6xl
-                mb-4
-                text-gray-100"
+                class="mb-6 max-w-xl font-serif text-5xl font-normal leading-[1.02] text-white sm:text-6xl lg:text-7xl"
             >
-                
-                <span class="gradiente-title-hero"> Black & white Moments</span> 
- 
+                Black &amp; white Moments
             </h1>
-            <p class="mb-8 leading-relaxed text-gray-200 md:text-[1em] ">
-              "Aenean ultricies mi vitae est. Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra."
+            <p
+                class="mb-9 max-w-md text-base leading-7 text-gray-300 sm:text-lg"
+            >
+                &quot;Aenean ultricies mi vitae est. Mauris placerat eleifend
+                leo. Quisque sit amet est et sapien ullamcorper pharetra.&quot;
             </p>
-            <div class="w-full flex flex-col md:flex-row justify-center gap-4 md:justify-start border-amber-50 ">
-           
-
-  <!-- <ButtonPrimary  title="quam egestas"
-                    link="https://wa.link/bqgy6d"
-                    additionalClass="w-full md:w-fit px-4 py-2 text-white justify-center items-center text-[1.2em] border-2 border-[color:var(--color-brand)]"
-                > <Icon name="whatsapp-solid" slot="before-icon" size={20} class="" /> </ButtonPrimary>
-                 -->
-
- <ButtonPrimary
-                    title="Ver Portafolio"
-                    class:list=""
-                    link="#proyects"
-                    additionalClass="w-full md:w-fit items-center justify-center text-[1em] px-4 py-2 border-2 border-[color:var(--color-text-primary)] text-(--color-text-primary) hover:border-[color:var(--color-brand-secundary)] hover:text-(--color-brand-secundary)"
-                    bg="transparent"
-                /> 
-                
-            </div>
+            <ButtonPrimary
+                title="Ver Portafolio"
+                link="#proyects"
+                additionalClass="w-full items-center justify-center border border-white/50 px-5 py-3 text-sm text-white transition-colors hover:border-white hover:bg-white hover:text-(--color-text-black) sm:w-fit"
+                bg="transparent"
+            />
         </div>
-        <div class="md:w-1/2 flex justify-center items-center text-white">
-            col-2
+
+        <div
+            class="hero-photo relative mx-auto w-full max-w-[34rem] overflow-hidden border border-white/10"
+        >
+            <Image
+                src={heroImage}
+                alt="Fotógrafa sosteniendo su cámara durante una sesión"
+                class="h-full w-full object-cover object-[63%_center]"
+                widths={[480, 720, 960]}
+                sizes="(min-width: 1024px) 42vw, 90vw"
+                loading="eager"
+            />
         </div>
-       
     </div>
-
-
-
 </section>
 
 <style>
-
-#arrow-down-id::before {
-    
-    content: "Ver Portafolio";
-    text-align: center;
-    color:rgb(200, 200, 200);
-    position: absolute;
-    z-index: 3;
-    width: 200px;
-    /* height: 30px; */
-    /* background-color: red; */
-    transform: translateX( calc(-50% + 20px  ) );
-    top: 0px;
-    left: 0;
-
-
-    }
-    #arrow-down-id {
-        margin-top: 30px;
-        position:relative;
-    }
-
-    #overlay {
-        backdrop-filter: blur(5px);
-        padding: 20px;
-        border-radius: 8px;
-    }
-
-    #logo-bg {
-        opacity: 0.7;
-        position: relative;
-        /* border: 1px solid red; */
-        padding: 40px;
-    }
-
-    #container-logo-bg::before {
-        content: "";
-        /* border: 1px solid red; */
-
-        backdrop-filter: blur(5px);
-
-        color: aqua;
-        position: absolute;
-        z-index: 10;
-    }
-
     .hero {
-        --bg-transparent: 0.78;
-        background-image:
-            linear-gradient(
-                rgba(0, 0, 0, var(--bg-transparent)),
-                rgba(0, 0, 0, var(--bg-transparent))
-            )
-        background-size: cover;
-        background-position: center;
-        height: 85vh;
-        display: flex;
-        /* align-items: center; */
-        justify-content: center;
-        color: black;
+        background:
+            radial-gradient(
+                ellipse at 78% 48%,
+                rgba(255, 255, 255, 0.055),
+                transparent 42%
+            ),
+            var(--color-bg);
     }
 
-    .gradiente-title-hero {
-        background-image: linear-gradient(
-            to left,
-            #ffffff,
-            var(--grey-titanio)
-        );
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
+    .hero-photo {
+        aspect-ratio: 4 / 5;
+        max-height: 680px;
     }
 
-  
+    .hero-photo::after {
+        position: absolute;
+        inset: 45% 0 0;
+        background: linear-gradient(transparent, rgba(0, 0, 0, 0.58));
+        content: "";
+        pointer-events: none;
+    }
+
+    @media (max-width: 640px) {
+        .hero-photo {
+            aspect-ratio: 4 / 3;
+        }
+    }
 </style>

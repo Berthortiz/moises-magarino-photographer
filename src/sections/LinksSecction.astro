@@ -1,0 +1,351 @@
+---
+// Interfaces para el tipado (opcional si usas TypeScript)
+interface LinkItem {
+    title: string;
+    handle?: string;
+    description: string;
+    url: string;
+    metaText: string;
+    isStar?: boolean;
+    isExternal?: boolean;
+}
+
+// Props que el componente puede recibir (con valores por defecto)
+interface Props {
+    sectionNumber?: string;
+    sectionTagline?: string;
+    sectionTitle?: string;
+    sectionDescription?: string;
+}
+
+const {
+    sectionNumber = "01",
+    sectionTagline = "Photographer & Videographer",
+    sectionTitle = "Moisés Magariño",
+    sectionDescription = "Concerts | Podcasts | Content Creation · Sony Alpha Creator",
+} = Astro.props;
+
+// Lista de enlaces dinámica
+const links: LinkItem[] = [
+    {
+        title: "YouTube",
+        handle: "@moisesmagarino",
+        description: "Conciertos, podcasts y proyectos audiovisuales",
+        url: "https://www.youtube.com/user/moisesmagarino",
+        metaText: "Videos y proyectos",
+        isStar: true,
+        isExternal: true,
+    },
+    {
+        title: "Instagram",
+        handle: "@moises_magarino",
+        description: "Fotografía, videografía y detrás de cámaras",
+        url: "https://www.instagram.com/moises_magarino/",
+        metaText: "Sígueme en Instagram",
+        isStar: true,
+        isExternal: true,
+    },
+    {
+        title: "Conciertos",
+        description:
+            "Fotografía y video en vivo con toda la energía del escenario",
+        url: "#",
+        metaText: "Cobertura en vivo",
+    },
+    {
+        title: "Podcasts",
+        description: "Producción y contenido audiovisual para podcasts",
+        url: "#",
+        metaText: "Producción audiovisual",
+    },
+    {
+        title: "Creación de contenido",
+        description: "Contenido visual para artistas, marcas y proyectos",
+        url: "#",
+        metaText: "Foto + video",
+    },
+    {
+        title: "Sony Alpha Creator",
+        description: "Creación de imágenes con el sistema Sony Alpha",
+        url: "#",
+        metaText: "Sony Alpha",
+    },
+];
+---
+
+<section class="links-section max-w-6xl">
+    <div class="section-header">
+        <span class="section-number">{sectionNumber}</span>
+        <p class="section-tagline">{sectionTagline}</p>
+        <h2 class="section-title">{sectionTitle}</h2>
+        <p class="section-description">{sectionDescription}</p>
+    </div>
+
+    <ul class="links-list">
+        {
+            links.map((link) => (
+                <li class="link-item">
+                    <a
+                        href={link.url}
+                        target={link.isExternal ? "_blank" : undefined}
+                        rel={
+                            link.isExternal ? "noopener noreferrer" : undefined
+                        }
+                        class="link-card"
+                    >
+                        <div class="link-info">
+                            <h3 class="link-title">
+                                {link.title}
+                                {link.handle && (
+                                    <span class="link-handle">
+                                        {link.handle}
+                                    </span>
+                                )}
+                                {link.isStar && (
+                                    <span class="star-icon">✦</span>
+                                )}
+                            </h3>
+                            <p class="link-description">{link.description}</p>
+                        </div>
+                        <div class="link-meta">
+                            <span class="meta-text">{link.metaText}</span>
+                            <span class="arrow-icon">↗</span>
+                        </div>
+                    </a>
+                </li>
+            ))
+        }
+    </ul>
+</section>
+
+<style>
+    /* Reset y Animaciones de Entrada */
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* Contenedor Principal de la Sección */
+    .links-section {
+        width: 100%;
+        /* max-width: 980px; */
+        margin: 0 auto;
+        padding: 48px 20px 72px;
+        animation: fadeInUp 0.8s ease-out forwards;
+        font-family:
+            system-ui,
+            -apple-system,
+            BlinkMacSystemFont,
+            "Segoe UI",
+            Roboto,
+            Oxygen,
+            Ubuntu,
+            Cantarell,
+            sans-serif;
+        color: #e5e7e9;
+        background:
+            radial-gradient(
+                ellipse at 50% 0%,
+                rgba(218, 223, 228, 0.2),
+                transparent 48%
+            ),
+            linear-gradient(135deg, #191a1c 0%, #292b2e 52%, #171819 100%);
+        box-shadow:
+            0 24px 80px rgba(0, 0, 0, 0.28),
+            inset 0 1px 0 rgba(235, 238, 240, 0.08);
+    }
+
+    .section-header {
+        margin-bottom: 30px;
+        padding-left: 4px;
+    }
+
+    .section-number {
+        font-size: 0.8rem;
+        color: #c8cdd2;
+        font-weight: 700;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        margin-bottom: 8px;
+        display: block;
+    }
+
+    .section-tagline {
+        font-size: 0.74rem;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: #aeb3b8;
+        margin-bottom: 10px;
+    }
+
+    .section-title {
+        font-family: "Georgia", serif;
+        font-size: clamp(2.2rem, 5vw, 3.2rem);
+        font-weight: 500;
+        line-height: 1.03;
+        color: #f0f1f2;
+        letter-spacing: -0.04em;
+    }
+
+    .section-description {
+        max-width: 44rem;
+        color: #bec3c8;
+        line-height: 1.7;
+    }
+
+    /* Lista de Enlaces */
+    .links-list {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        padding: 0;
+        margin: 0;
+    }
+
+    .link-item {
+        border-top: 1px solid rgba(220, 224, 228, 0.14);
+        opacity: 0;
+        animation: fadeInUp 0.6s ease-out forwards;
+    }
+
+    .link-item:last-child {
+        border-bottom: 1px solid rgba(220, 224, 228, 0.14);
+    }
+
+    /* Delays escalonados para la entrada de cada ítem */
+    .link-item:nth-child(1) {
+        animation-delay: 0.2s;
+    }
+    .link-item:nth-child(2) {
+        animation-delay: 0.3s;
+    }
+    .link-item:nth-child(3) {
+        animation-delay: 0.4s;
+    }
+    .link-item:nth-child(4) {
+        animation-delay: 0.5s;
+    }
+    .link-item:nth-child(5) {
+        animation-delay: 0.6s;
+    }
+    .link-item:nth-child(6) {
+        animation-delay: 0.7s;
+    }
+
+    /* Estilos del Enlace y Transiciones */
+    .link-card {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 24px 16px;
+        text-decoration: none;
+        color: inherit;
+        transition:
+            background-color 0.25s ease,
+            transform 0.25s ease,
+            padding-left 0.25s ease,
+            padding-right 0.25s ease,
+            box-shadow 0.25s ease,
+            border-color 0.25s ease;
+        border-radius: 14px;
+        border: 1px solid transparent;
+    }
+
+    .link-card:hover {
+        background-color: rgba(225, 230, 234, 0.055);
+        padding-left: 22px;
+        padding-right: 22px;
+        transform: translateY(-1px);
+        box-shadow: 0 16px 30px rgba(0, 0, 0, 0.18);
+        border-color: rgba(215, 221, 226, 0.24);
+    }
+
+    .link-info {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+    }
+
+    .link-title {
+        font-family: "Georgia", serif;
+        font-size: clamp(1.4rem, 2vw, 1.8rem);
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        color: #eff1f2;
+    }
+
+    .link-handle {
+        font-family: system-ui, sans-serif;
+        font-size: 0.9rem;
+        color: #c2c7cc;
+        font-weight: 600;
+    }
+
+    .star-icon {
+        font-size: 0.78rem;
+        color: #c2c7cc;
+        transition: transform 0.4s ease;
+    }
+
+    .link-card:hover .star-icon {
+        transform: rotate(90deg);
+    }
+
+    .link-description {
+        font-size: 0.95rem;
+        color: #b9bec3;
+        line-height: 1.5;
+    }
+
+    /* Métricas / Call to Action derecho */
+    .link-meta {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        text-align: right;
+    }
+
+    .meta-text {
+        font-size: 0.76rem;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: #dfe2e5;
+    }
+
+    .arrow-icon {
+        font-size: 1.1rem;
+        transition:
+            transform 0.3s ease,
+            color 0.3s ease;
+        color: #c2c7cc;
+    }
+
+    .link-card:hover .arrow-icon {
+        transform: translate(4px, -4px);
+        color: #f0f1f2;
+    }
+
+    /* Responsivo */
+    @media (max-width: 640px) {
+        .link-card {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 12px;
+        }
+        .link-meta {
+            align-self: flex-end;
+        }
+        .section-title {
+            font-size: 2.2rem;
+        }
+    }
+</style>

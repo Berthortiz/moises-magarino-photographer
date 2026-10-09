@@ -1,26 +1,100 @@
 ---
 // bodas
 import modaImg from "../assets/img/galleryFilter/bodas/pexels-luisbecerrafotografo-5824565.jpg";
+import weddingCoupleRiver from "../assets/img/galleryFilter/bodas/wedding-couple-sean-williams.jpg";
+import weddingBrideBouquet from "../assets/img/galleryFilter/bodas/wedding-bride-eugenia-pankiv.jpg";
+import weddingCoupleForest from "../assets/img/galleryFilter/bodas/wedding-couple-forest-eugenia-pankiv.jpg";
+import weddingKiss from "../assets/img/galleryFilter/bodas/wedding-kiss-ak-camz.jpg";
+import weddingWalk from "../assets/img/galleryFilter/bodas/wedding-walk-ak-camz.jpg";
 
 // Conciertos
 import conciertosImg1 from "../assets/img/galleryFilter/conciertos/pexels-thibault-trillet-44912-167491.jpg";
 import conciertosImg2 from "../assets/img/galleryFilter/conciertos/pexels-alexandreeliasfotografia-elias-2159734286-36257830.jpg";
+import concertCrowd from "../assets/img/galleryFilter/conciertos/concert-crowd-sebastian-ervi.jpg";
+import concertAudience from "../assets/img/galleryFilter/conciertos/concert-audience-spencer-davis.jpg";
+import concertPhone from "../assets/img/galleryFilter/conciertos/concert-phone-noiseporn.jpg";
+import concertSilhouette from "../assets/img/galleryFilter/conciertos/concert-crowd-diane-picchiottino.jpg";
 
 // realestate
 import realestate1 from "../assets/img/galleryFilter/realestate/pexels-bluerhinomedia-3665354.jpg";
+import livingRoom from "../assets/img/galleryFilter/realestate/realestate-living-room-huy-nguyen.jpg";
+import redSofaLivingRoom from "../assets/img/galleryFilter/realestate/realestate-living-room-austin-wehrwein.jpg";
+import modernHouse from "../assets/img/galleryFilter/realestate/realestate-house-ibrahim-design.jpg";
+import whiteHouse from "../assets/img/galleryFilter/realestate/realestate-house-felix.jpg";
+import illuminatedHouse from "../assets/img/galleryFilter/realestate/realestate-house-arthur-baudry.jpg";
 
 const Gallery = [
     {
         category: "bodas",
-        pictures: [modaImg],
+        pictures: [
+            { src: modaImg.src, alt: "Detalle de boda" },
+            {
+                src: weddingCoupleRiver.src,
+                alt: "Pareja con atuendo tradicional de boda junto a un río",
+            },
+            {
+                src: weddingBrideBouquet.src,
+                alt: "Novia con vestido blanco y ramo de flores",
+            },
+            {
+                src: weddingCoupleForest.src,
+                alt: "Pareja de recién casados rodeada de árboles",
+            },
+            {
+                src: weddingKiss.src,
+                alt: "Novios besándose durante una sesión de boda en el bosque",
+            },
+            {
+                src: weddingWalk.src,
+                alt: "Novios caminando juntos por un sendero",
+            },
+        ],
     },
     {
         category: "conciertos",
-        pictures: [conciertosImg1, conciertosImg2],
+        pictures: [
+            { src: conciertosImg1.src, alt: "Concierto 1" },
+            { src: conciertosImg2.src, alt: "Concierto 2" },
+            {
+                src: concertCrowd.src,
+                alt: "Siluetas del público frente al escenario de un concierto",
+            },
+            {
+                src: concertAudience.src,
+                alt: "Público disfrutando de un concierto nocturno",
+            },
+            {
+                src: concertPhone.src,
+                alt: "Asistente grabando un concierto con su teléfono",
+            },
+            {
+                src: concertSilhouette.src,
+                alt: "Público con las manos levantadas durante un concierto",
+            },
+        ],
     },
     {
         category: "realestate",
-        pictures: [realestate1],
+        pictures: [
+            { src: realestate1.src, alt: "Propiedad inmobiliaria" },
+            { src: livingRoom.src, alt: "Sala moderna de concepto abierto" },
+            {
+                src: redSofaLivingRoom.src,
+                alt: "Sala de estar con sofá rojo y alfombra gris",
+            },
+            {
+                src: modernHouse.src,
+                alt: "Casa moderna de tres plantas con paneles de madera",
+            },
+            {
+                src: whiteHouse.src,
+                alt: "Fachada de una casa blanca bajo el cielo azul",
+            },
+            {
+                src: illuminatedHouse.src,
+                alt: "Exterior de una casa moderna iluminada por la noche",
+            },
+        ],
     },
 ];
 ---
@@ -81,7 +155,9 @@ const Gallery = [
                             >
                                 <img
                                     src={pic.src}
-                                    alt={item.category}
+                                    alt={pic.alt}
+                                    loading="lazy"
+                                    decoding="async"
                                     class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                                 />
                             </a>
@@ -103,7 +179,7 @@ const Gallery = [
         });
         lightbox.init();
 
-        //  Filtrado por Pestañas
+        //  Filtrado
         const buttons = document.querySelectorAll(".tab-btn");
         const items = document.querySelectorAll(".gallery-item");
 

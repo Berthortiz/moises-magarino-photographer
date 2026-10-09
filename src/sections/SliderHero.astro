@@ -1,0 +1,146 @@
+---
+import weddingImage from "../assets/img/galleryFilter/bodas/wedding-kiss-ak-camz.jpg";
+import concertImage from "../assets/img/galleryFilter/conciertos/concert-crowd-sebastian-ervi.jpg";
+import realEstateImage from "../assets/img/galleryFilter/realestate/realestate-living-room-huy-nguyen.jpg";
+
+const slides = [
+    {
+        title: "Bodas",
+        subtitle: "Historias para volver a sentir",
+        description:
+            "Fotografía y video que conservan la emoción de cada instante.",
+        image: weddingImage,
+        alt: "Pareja de recién casados besándose en el bosque",
+    },
+    {
+        title: "Conciertos",
+        subtitle: "La energía de cada escenario",
+        description:
+            "Imágenes en vivo que capturan la música, el público y el momento.",
+        image: concertImage,
+        alt: "Público frente al escenario durante un concierto",
+    },
+    {
+        title: "Espacios",
+        subtitle: "Cada lugar tiene su propia historia",
+        description:
+            "Fotografía cuidada para interiores, propiedades y arquitectura.",
+        image: realEstateImage,
+        alt: "Sala moderna de concepto abierto",
+    },
+];
+---
+
+<section class="slider-hero-section w-full" aria-label="Portafolio fotográfico">
+    <div class="swiper photography-slider" id="photography-slider">
+        <div class="swiper-wrapper">
+            {
+                slides.map((slide) => (
+                    <div class="swiper-slide relative isolate flex items-center">
+                        <img
+                            src={slide.image.src}
+                            alt={slide.alt}
+                            class="absolute inset-0 -z-20 h-full w-full object-cover"
+                            loading="lazy"
+                            decoding="async"
+                        />
+                        <div class="absolute inset-0 -z-10 bg-gradient-to-r from-black/80 via-black/45 to-black/10" />
+                        <div class="relative z-10 mx-auto w-full max-w-7xl px-6 py-24 md:px-[var(--padding-all-web)]">
+                            <p class="mb-5 text-xs font-semibold uppercase tracking-[0.2em] text-[#d3d7da] sm:text-sm">
+                                Photographer &amp; Videographer
+                            </p>
+                            <h2 class="mb-2 font-serif text-5xl font-normal leading-tight text-white sm:text-6xl lg:text-7xl">
+                                {slide.title}
+                            </h2>
+                            <h3 class="mb-4 text-xl font-medium text-gray-100 sm:text-2xl">
+                                {slide.subtitle}
+                            </h3>
+                            <p class="mb-8 max-w-xl text-base leading-7 text-gray-200 sm:text-lg">
+                                {slide.description}
+                            </p>
+                            <a
+                                href="#gallery"
+                                class="inline-flex items-center border border-white/60 px-5 py-3 text-sm font-medium text-white transition-colors hover:border-white hover:bg-white hover:text-[#111315]"
+                            >
+                                Ver portafolio
+                            </a>
+                        </div>
+                    </div>
+                ))
+            }
+        </div>
+
+        <div class="swiper-pagination"></div>
+        <button
+            type="button"
+            class="swiper-button-prev"
+            aria-label="Foto anterior"></button>
+        <button
+            type="button"
+            class="swiper-button-next"
+            aria-label="Foto siguiente"></button>
+    </div>
+</section>
+
+<script>
+    import Swiper from "swiper";
+    import { Autoplay, Navigation, Pagination } from "swiper/modules";
+    import "swiper/css";
+    import "swiper/css/navigation";
+    import "swiper/css/pagination";
+
+    const slider = document.querySelector<HTMLElement>("#photography-slider");
+
+    if (slider) {
+        new Swiper(slider, {
+            modules: [Navigation, Pagination, Autoplay],
+            loop: true,
+            slidesPerView: 1,
+            speed: 800,
+            autoplay: {
+                delay: 5000,
+                disableOnInteraction: false,
+                pauseOnMouseEnter: true,
+            },
+            navigation: {
+                nextEl: slider.querySelector(".swiper-button-next"),
+                prevEl: slider.querySelector(".swiper-button-prev"),
+            },
+            pagination: {
+                el: slider.querySelector(".swiper-pagination"),
+                clickable: true,
+            },
+        });
+    }
+</script>
+
+<style>
+    .photography-slider {
+        width: 100%;
+        height: min(78svh, 760px);
+        min-height: 540px;
+        background: #0d0f13;
+    }
+
+    .photography-slider :global(.swiper-button-next),
+    .photography-slider :global(.swiper-button-prev) {
+        color: #d3d7da;
+    }
+
+    .photography-slider :global(.swiper-pagination-bullet) {
+        background: #d3d7da;
+        opacity: 0.6;
+    }
+
+    .photography-slider :global(.swiper-pagination-bullet-active) {
+        background: #f3f4f6;
+        opacity: 1;
+    }
+
+    @media (max-width: 640px) {
+        .photography-slider {
+            height: 78svh;
+            min-height: 500px;
+        }
+    }
+</style>

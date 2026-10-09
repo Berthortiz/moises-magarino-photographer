@@ -1,0 +1,61 @@
+---
+const services = [
+    {
+        title: "Bodas y Eventos Románticos",
+        image: "https://images.unsplash.com/photo-1520854221256-17451cc331bf?auto=format&fit=crop&w=900&q=80",
+        description: `Cobertura fotográfica para bodas, engagements y celebraciones íntimas en Miami, Fort Lauderdale, Coral Gables y todo el sur de Florida.`,
+    },
+    {
+        title: "Quinceañeras y Celebraciones Familiares",
+        image: "https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=900&q=80",
+        description: `Sesiones y cobertura para 15 años, cumpleaños, reuniones familiares y momentos que merecen quedarse para siempre.`,
+    },
+    {
+        title: "Real Estate y Listings Inmobiliarios",
+        image: "https://images.unsplash.com/photo-1494526585095-c41746248156?auto=format&fit=crop&w=900&q=80",
+        description: `Fotografía profesional para propiedades, alquileres, vendedores, desarrollos y agentes inmobiliarios con estilo premium.`,
+    },
+    {
+        title: "Conciertos, Festivales y Eventos en Vivo",
+        image: "https://images.unsplash.com/photo-1501386761578-eac5c94b800a?auto=format&fit=crop&w=900&q=80",
+        description: `Captura la energía, emoción y atmósfera de conciertos, fiestas, festivales y eventos de gran escala en Miami.`,
+    },
+    {
+        title: "Retratos y Branding Personal",
+        image: "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=900&q=80",
+        description: `Retratos corporativos, lifestyle, headshots y sesiones personales con una estética elegante y auténtica.`,
+    },
+    {
+        title: "Editorial, Lifestyle y Viajes",
+        image: "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=900&q=80",
+        description: `Imágenes para marcas, editoriales, viajes y contenido visual premium que transmite lujo, estilo y presencia.`,
+    },
+];
+---
+
+<div class="md:w-2/4 grid md:grid-cols-1 grid-cols-1 gap-10">
+    {
+        services.map((service) => {
+            return (
+                <section class="flex flex-col gap-3 overflow-hidden rounded-2xl bg-[#D5D9DA10] p-0 text-(--color-brand-secundary)">
+                    <img
+                        src={service.image}
+                        alt={service.title}
+                        class="h-52 w-full object-cover"
+                        loading="lazy"
+                        decoding="async"
+                    />
+
+                    <div class="flex flex-col gap-2 p-8 pt-5">
+                        <h2 class="text-2xl font-medium lg:text-lg xl:text-2xl ">
+                            {service.title}
+                        </h2>
+                        <p class="text-(--color-text-primary) text-base lg:text-sm">
+                            {service.description}
+                        </p>
+                    </div>
+                </section>
+            );
+        })
+    }
+</div>

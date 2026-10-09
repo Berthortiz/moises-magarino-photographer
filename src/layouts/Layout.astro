@@ -40,23 +40,23 @@ const {
 <script></script>
 <style is:global>
 	:root {
-		--color-brand: #0051ff; /* color principal de la marca */
-		--color-brand-two: #03cff3;
+		--color-brand: #73777b; /* plata grafito */
+		--color-brand-two: #d9dcdf;
 		--color-brand-secundary: #f3f4f6; /* tarjetas, secciones */
-		--color-text-primary: #99a1af; /* texto principal */
-		--color-secundary: #f3f4f6;
+		--color-text-primary: #c3c7ca; /* texto principal */
+		--color-secundary: #e5e7e9;
 		--color-text-black: #0d0f13;
+		--color-gray-100: #f3f4f6;
 
 		--grey-titanio: #a7adb4;
 
-		--color-highlight: #f59e0b; /* para resaltar botones o links */
+		--color-highlight: #c5c9cc; /* para resaltar botones o links */
 		--color-bg: #0d0f13; /* fondo */
 
 		--color-error: #dc2626; /* mensajes de error */
 		--color-success: #16a34a; /* mensajes de éxito */
 
-
-		--padding-all-web:50px;
+		--padding-all-web: 50px;
 	}
 
 	html,
@@ -78,8 +78,12 @@ const {
 		color: #ffffff;
 	}
 
+	.text-gray-100 {
+		color: var(--color-gray-100);
+	}
+
 	.gradiente-title-g {
-		--color-gradient: #03cff3;
+		--color-gradient: var(--color-brand-two);
 		background-image: linear-gradient(
 			to right,
 			var(--color-brand),
@@ -90,7 +94,7 @@ const {
 	}
 
 	.gradiente-title-g {
-		color: #0090f7;
+		color: var(--color-brand);
 		/* fallback */
 	}
 </style>
