@@ -1,7 +1,5 @@
 ---
-import { Image } from "astro:assets";
 import ButtonPrimary from "./ButtonPrimary.astro";
-import heroImage from "../assets/img/hero-photographer-unsplash.jpg";
 ---
 
 <section class="hero w-full">
@@ -12,13 +10,13 @@ import heroImage from "../assets/img/hero-photographer-unsplash.jpg";
             <h1
                 class="mb-6 max-w-xl font-serif text-5xl font-normal leading-[1.02] text-white sm:text-6xl lg:text-7xl"
             >
-                Black &amp; white Moments
+                Moisés Magariño
             </h1>
             <p
                 class="mb-9 max-w-md text-base leading-7 text-gray-300 sm:text-lg"
             >
-                &quot;Aenean ultricies mi vitae est. Mauris placerat eleifend
-                leo. Quisque sit amet est et sapien ullamcorper pharetra.&quot;
+                Aenean ultricies mi vitae est. Mauris placerat eleifend leo.
+                Quisque sit amet est et sapien ullamcorper pharetra.
             </p>
             <ButtonPrimary
                 title="Ver Portafolio"
@@ -28,17 +26,21 @@ import heroImage from "../assets/img/hero-photographer-unsplash.jpg";
             />
         </div>
 
-        <div
-            class="hero-photo relative mx-auto w-full max-w-[34rem] overflow-hidden border border-white/10"
-        >
-            <Image
-                src={heroImage}
-                alt="Fotógrafa sosteniendo su cámara durante una sesión"
-                class="h-full w-full object-cover object-[63%_center]"
-                widths={[480, 720, 960]}
-                sizes="(min-width: 1024px) 42vw, 90vw"
-                loading="eager"
-            />
+        <div class="hero-video relative mx-auto w-full">
+            <video
+                class="absolute inset-0 h-full w-full object-cover"
+                autoplay
+                muted
+                loop
+                playsinline
+                preload="metadata"
+                aria-hidden="true"
+            >
+                <source
+                    src="https://marialerealtor-com-255189.hostingersite.com/wp-content/uploads/2026/10/video_2026-10-10_11-54-48.mp4"
+                    type="video/mp4"
+                />
+            </video>
         </div>
     </div>
 </section>
@@ -54,22 +56,9 @@ import heroImage from "../assets/img/hero-photographer-unsplash.jpg";
             var(--color-bg);
     }
 
-    .hero-photo {
-        aspect-ratio: 4 / 5;
+    .hero-video {
+        aspect-ratio: 9 / 16;
+        max-width: 23.75rem;
         max-height: 680px;
-    }
-
-    .hero-photo::after {
-        position: absolute;
-        inset: 45% 0 0;
-        background: linear-gradient(transparent, rgba(0, 0, 0, 0.58));
-        content: "";
-        pointer-events: none;
-    }
-
-    @media (max-width: 640px) {
-        .hero-photo {
-            aspect-ratio: 4 / 3;
-        }
     }
 </style>
