@@ -1,0 +1,64 @@
+---
+interface Props {
+    href?: string;
+    text?: string;
+    class?: string;
+}
+
+const {
+    href = "#",
+    text = "Contáctame Ahora",
+    class: className = "",
+} = Astro.props;
+---
+
+<a href={href} class={`btn-shine group ${className}`}>
+    <span>{text}</span>
+</a>
+
+<style>
+    /* 
+    Definimos la animación y el pseudo-elemento localmente en el estilo del componente.
+    Mantenemos el overflow-hidden en Tailwind, pero controlamos el pseudo-elemento aquí.
+  */
+    .btn-shine {
+        display: inline-block;
+        border-radius: 10px;
+        position: relative;
+        overflow: hidden;
+        transition: all 0.4s ease-in-out 0.2s;
+    }
+
+    .btn-shine::before {
+        content: "";
+        position: absolute;
+        top: -10px;
+        bottom: -10px;
+        width: 30%;
+        background: linear-gradient(
+            to right,
+            transparent 0%,
+            rgba(180, 180, 180, 0.44) 50%,
+            transparent 100%
+        );
+
+        transform: skew(-30deg) translateX(-190%);
+        transition: all 0.5s ease-in-out;
+    }
+    .btn-shine:hover {
+        background: #06060687;
+    }
+    .btn-shine:hover::before {
+        transform: skew(-30deg) translateX(430%);
+        /* animation: shine 1s ease-in-out infinite normal forwards running; */
+    }
+
+    /* @keyframes shine {
+        0% {
+            transform: skew(-30deg) translateX(-130%);
+        }
+        100% {
+            transform: skew(-30deg) translateX(400%);
+        }
+    } */
+</style>

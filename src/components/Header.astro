@@ -5,9 +5,11 @@ import ButtonPrimary from "./ButtonPrimary.astro";
 const logo = "/logo-moises.png";
 
 const links = [
-    { href: "/", label: "Inicio" },
-    { href: "#proyects", label: "Portafolio" },
-    { href: "#AboutSecticon", label: "Sobre Mi" },
+    { href: "#inicio", label: "Inicio" },
+    { href: "#galeria", label: "Galería" },
+    { href: "#servicios", label: "Servicios" },
+    { href: "#portafolio", label: "Portafolio" },
+    { href: "#testimonios", label: "Testimonios" },
 ];
 ---
 
@@ -47,7 +49,7 @@ const links = [
         <button
             id="icon-nav"
             type="button"
-            class="md:hidden p-2 flex items-center z-20"
+            class="md:hidden p-2 flex items-center rounded-2xl z-20"
             title="Abrir menú"
         >
             <svg
@@ -83,7 +85,7 @@ const links = [
             <button
                 id="btn-close"
                 type="button"
-                class="p-2 flex items-center focus:outline-none"
+                class="p-2 flex items-center rounded-2xl focus:outline-none"
                 title="Cerrar menú"
             >
                 <svg

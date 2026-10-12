@@ -31,7 +31,11 @@ const slides = [
 ];
 ---
 
-<section class="slider-hero-section w-full" aria-label="Portafolio fotográfico">
+<section
+    id="portafolio"
+    class="slider-hero-section w-full"
+    aria-label="Portafolio fotográfico"
+>
     <div class="swiper photography-slider" id="photography-slider">
         <div class="swiper-wrapper">
             {
@@ -73,11 +77,11 @@ const slides = [
         <div class="swiper-pagination"></div>
         <button
             type="button"
-            class="swiper-button-prev"
+            class="swiper-button-prev rounded-2xl"
             aria-label="Foto anterior"></button>
         <button
             type="button"
-            class="swiper-button-next"
+            class="swiper-button-next rounded-2xl"
             aria-label="Foto siguiente"></button>
     </div>
 </section>

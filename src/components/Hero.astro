@@ -1,47 +1,86 @@
 ---
 import ButtonPrimary from "./ButtonPrimary.astro";
+import ButtonShine from "./ButtonShine.astro";
 ---
 
-<section class="hero w-full">
+<section
+    id="inicio"
+    class="hero -mt-22 lg:mt-0 h-screen relative isolate flex items-end-safe w-full overflow-hidden"
+>
+    <video
+        class="pointer-events-none absolute inset-0 z-0 h-full w-full object-cover lg:hidden"
+        autoplay
+        muted
+        loop
+        playsinline
+        preload="metadata"
+        aria-hidden="true"
+    >
+        <source
+            src="https://marialerealtor-com-255189.hostingersite.com/wp-content/uploads/2026/10/video_2026-10-10_11-54-48.mp4"
+            type="video/mp4"
+        />
+    </video>
     <div
-        class="hero-content mx-auto grid min-h-[85svh] max-w-7xl items-center gap-12 px-6 py-14 md:px-[var(--padding-all-web)] lg:grid-cols-2 lg:gap-16"
+        class="pointer-events-none absolute inset-0 z-0 bg-black/50 lg:hidden"
+        aria-hidden="true"
+    >
+    </div>
+    <div
+        class="hero-content relative z-10 mx-auto grid max-w-7xl items-center gap-12 px-6 py-4 md:px-(--padding-all-web) lg:grid-cols-2 lg:gap-16"
     >
         <div class="hero-copy flex flex-col items-start">
+            <h2 class="text-2xl font-extralight">Fotografo Porfecional</h2>
             <h1
-                class="mb-6 max-w-xl font-serif text-5xl font-normal leading-[1.02] text-white sm:text-6xl lg:text-7xl"
+                class="mb-6 max-w-xl font-serif text-5xl font-normal leading-[1.02] text-white sm:text-6xl lg:text-7xl xl:text-8xl"
             >
                 Moisés Magariño
             </h1>
-            <p
-                class="mb-9 max-w-md text-base leading-7 text-gray-300 sm:text-lg"
-            >
-                Aenean ultricies mi vitae est. Mauris placerat eleifend leo.
-                Quisque sit amet est et sapien ullamcorper pharetra.
+            <br />
+            <p class="mb-9 w-full text-base leading-7 text-gray-300 sm:text-lg">
+                Especializado en capturar la energía de conciertos, la esencia
+                de podcasts y contenido visual de alto impacto. Creador Sony
+                Alpha Abierto a colaboraciones y proyectos.
             </p>
-            <ButtonPrimary
-                title="Ver Portafolio"
-                link="#proyects"
-                additionalClass="w-full items-center justify-center border border-white/50 px-5 py-3 text-sm text-white transition-colors hover:border-white hover:bg-white hover:text-(--color-text-black) sm:w-fit"
-                bg="transparent"
-            />
-        </div>
-
-        <div class="hero-video relative mx-auto w-full">
-            <video
-                class="absolute inset-0 h-full w-full object-cover"
-                autoplay
-                muted
-                loop
-                playsinline
-                preload="metadata"
-                aria-hidden="true"
-            >
-                <source
-                    src="https://marialerealtor-com-255189.hostingersite.com/wp-content/uploads/2026/10/video_2026-10-10_11-54-48.mp4"
-                    type="video/mp4"
+            <div class="flex w-full flex-col gap-3 sm:w-fit sm:flex-row">
+                <ButtonPrimary
+                    title="Ver Portafolio"
+                    link="#portafolio"
+                    additionalClass="w-full items-center justify-center border border-[#d9dde0] px-5 py-3 text-sm font-medium text-[#202427] transition-colors sm:w-fit"
+                    bg="#d9dde0"
                 />
-            </video>
+                <!-- <ButtonPrimary
+                    title="Contactar"
+                    link="https://wa.link/bqgy6d"
+                    additionalClass=""
+                    bg="transparent"
+                /> -->
+                <ButtonShine
+                    href="#"
+                    class="w-full items-center justify-center border border-[#d9dde0]/70 px-5 py-3 text-sm font-medium text-[#e3e6e8] sm:w-fit"
+                    text="Contactar"
+                />
+            </div>
         </div>
+    </div>
+
+    <div
+        class="hero-video relative mx-auto lg:aspect-9/12 xl:aspect-9/14 hidden lg:flex w-full max-w-95 max-h-170"
+    >
+        <video
+            class="absolute inset-0 h-full w-full object-cover rounded-2xl"
+            autoplay
+            muted
+            loop
+            playsinline
+            preload="metadata"
+            aria-hidden="true"
+        >
+            <source
+                src="https://marialerealtor-com-255189.hostingersite.com/wp-content/uploads/2026/10/video_2026-10-10_11-54-48.mp4"
+                type="video/mp4"
+            />
+        </video>
     </div>
 </section>
 
@@ -50,15 +89,9 @@ import ButtonPrimary from "./ButtonPrimary.astro";
         background:
             radial-gradient(
                 ellipse at 78% 48%,
-                rgba(255, 255, 255, 0.055),
-                transparent 42%
+                rgba(255, 255, 255, 0.095),
+                transparent 52%
             ),
             var(--color-bg);
-    }
-
-    .hero-video {
-        aspect-ratio: 9 / 16;
-        max-width: 23.75rem;
-        max-height: 680px;
     }
 </style>
