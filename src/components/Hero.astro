@@ -5,70 +5,13 @@ import ButtonShine from "./ButtonShine.astro";
 
 <section
     id="inicio"
-    class="hero -mt-22 lg:mt-0 h-screen relative isolate flex items-end-safe w-full overflow-hidden"
+    class="hero -mt-22 lg:mt-0 h-screen lg:min-h-[800] relative isolate w-full overflow-hidden"
 >
-    <video
-        class="pointer-events-none absolute inset-0 z-0 h-full w-full object-cover lg:hidden"
-        autoplay
-        muted
-        loop
-        playsinline
-        preload="metadata"
-        aria-hidden="true"
-    >
-        <source
-            src="https://marialerealtor-com-255189.hostingersite.com/wp-content/uploads/2026/10/video_2026-10-10_11-54-48.mp4"
-            type="video/mp4"
-        />
-    </video>
     <div
-        class="pointer-events-none absolute inset-0 z-0 bg-black/50 lg:hidden"
-        aria-hidden="true"
-    >
-    </div>
-    <div
-        class="hero-content relative z-10 mx-auto grid max-w-7xl items-center gap-12 px-6 py-4 md:px-(--padding-all-web) lg:grid-cols-2 lg:gap-16"
-    >
-        <div class="hero-copy flex flex-col items-start">
-            <h2 class="text-2xl font-extralight">Fotografo Porfecional</h2>
-            <h1
-                class="mb-6 max-w-xl font-serif text-5xl font-normal leading-[1.02] text-white sm:text-6xl lg:text-7xl xl:text-8xl"
-            >
-                Moisés Magariño
-            </h1>
-            <br />
-            <p class="mb-9 w-full text-base leading-7 text-gray-300 sm:text-lg">
-                Especializado en capturar la energía de conciertos, la esencia
-                de podcasts y contenido visual de alto impacto. Creador Sony
-                Alpha Abierto a colaboraciones y proyectos.
-            </p>
-            <div class="flex w-full flex-col gap-3 sm:w-fit sm:flex-row">
-                <ButtonPrimary
-                    title="Ver Portafolio"
-                    link="#portafolio"
-                    additionalClass="w-full items-center justify-center border border-[#d9dde0] px-5 py-3 text-sm font-medium text-[#202427] transition-colors sm:w-fit"
-                    bg="#d9dde0"
-                />
-                <!-- <ButtonPrimary
-                    title="Contactar"
-                    link="https://wa.link/bqgy6d"
-                    additionalClass=""
-                    bg="transparent"
-                /> -->
-                <ButtonShine
-                    href="#"
-                    class="w-full items-center justify-center border border-[#d9dde0]/70 px-5 py-3 text-sm font-medium text-[#e3e6e8] sm:w-fit"
-                    text="Contactar"
-                />
-            </div>
-        </div>
-    </div>
-
-    <div
-        class="hero-video relative mx-auto lg:aspect-9/12 xl:aspect-9/14 hidden lg:flex w-full max-w-95 max-h-170"
+        class="relative mx-auto flex h-full w-full max-w-7xl flex-col justify-center overflow-hidden lg:flex-row lg:items-center lg:justify-between lg:gap-12"
     >
         <video
-            class="absolute inset-0 h-full w-full object-cover rounded-2xl"
+            class="pointer-events-none absolute inset-0 z-0 h-full w-full object-cover lg:hidden"
             autoplay
             muted
             loop
@@ -81,10 +24,117 @@ import ButtonShine from "./ButtonShine.astro";
                 type="video/mp4"
             />
         </video>
+        <div
+            class="pointer-events-none absolute inset-0 z-0 bg-black/50 lg:hidden"
+            aria-hidden="true"
+        >
+        </div>
+        <div
+            class="hero-content relative z-10 mx-auto flex w-full flex-1 items-end px-6 py-4 md:px-(--padding-all-web) lg:items-center"
+        >
+            <div class="hero-copy flex max-w-2xl flex-col items-start pb-16">
+                <div class="subtitle-border rounded-2xl">
+                    <h2
+                        id="subtitile-animate"
+                        class="w-max whitespace-nowrap rounded-full bg-[#0d0f13] px-2 py-1 text-[.8em] lg:text-2xl font-extralight"
+                    >
+                        Fotografo Profecional
+                    </h2>
+                </div>
+                <h1
+                    class="max-w-xl font-serif text-5xl font-normal leading-[1.02] text-white sm:text-6xl lg:text-7xl xl:text-8xl"
+                >
+                    Moisés Magariño
+                </h1>
+                <br />
+                <p
+                    class="mb-9 w-full text-base leading-7 text-gray-300 sm:text-lg"
+                >
+                    Como fotógrafo, entiendo que un hogar no es solo una
+                    estructura, sino el escenario donde comienzan nuevas
+                    historias. Y que una sesión de estilo de vida no es solo una
+                    pose, sino la expresión natural de quién eres hoy. A través
+                    de mi lente y la luz única de Miami, transformo propiedades
+                    en lugares deseados e instantes cotidianos en imágenes con
+                    <!-- alma. 📸 Fotografía Inmobiliaria & Estilo de Vida | Miami &
+                    South Florida 📩 Contemos tu historia hoy. -->
+                </p>
+                <div class="flex w-full flex-col gap-3 sm:w-fit sm:flex-row">
+                    <ButtonPrimary
+                        title="Ver Portafolio"
+                        link="#portafolio"
+                        additionalClass="invert-colors w-full items-center justify-center border border-[#d9dde0] px-5 py-3 text-sm font-medium text-[#202427] transition-colors sm:w-fit"
+                        bg="#d9dde0"
+                    />
+
+                    <ButtonShine
+                        href="#"
+                        class="w-full items-center justify-center border border-[#d9dde0]/70 px-5 py-3 text-sm font-medium text-[#e3e6e8] sm:w-fit"
+                        text="Contactar"
+                    />
+                </div>
+            </div>
+        </div>
+
+        <div
+            class="hero-video relative hidden max-h-170 w-full max-w-95 self-center lg:flex lg:w-[360px] lg:flex-none lg:aspect-9/12 xl:aspect-9/14"
+        >
+            <video
+                class="absolute inset-0 h-full w-full object-cover rounded-2xl"
+                autoplay
+                muted
+                loop
+                playsinline
+                preload="metadata"
+                aria-hidden="true"
+            >
+                <source
+                    src="https://marialerealtor-com-255189.hostingersite.com/wp-content/uploads/2026/10/video_2026-10-10_11-54-48.mp4"
+                    type="video/mp4"
+                />
+            </video>
+        </div>
     </div>
 </section>
 
 <style>
+    .subtitle-border {
+        position: relative;
+        isolation: isolate;
+        display: inline-flex;
+        width: max-content;
+        max-width: 100%;
+        overflow: hidden;
+        border-radius: 9999px;
+        padding: 1px;
+    }
+
+    .subtitle-border::before {
+        position: absolute;
+        z-index: -1;
+        inset: -100%;
+        background: conic-gradient(
+            transparent 0deg 322deg,
+            rgba(217, 221, 224, 0.55) 334deg,
+            #fff 340deg,
+            transparent 356deg 360deg
+        );
+        content: "";
+        animation: subtitle-border-orbit 3s linear infinite;
+    }
+
+    @keyframes subtitle-border-orbit {
+        to {
+            transform: rotate(1turn);
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .subtitle-border::before {
+            animation: none;
+        }
+    }
+
     .hero {
         background:
             radial-gradient(
