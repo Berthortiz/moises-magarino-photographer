@@ -20,13 +20,21 @@ interface Props {
 
 const {
     sectionNumber = "01",
-    sectionTagline = "Photographer & Videographer",
+    sectionTagline = "Photographer & FilmMaker",
     sectionTitle = "Moisés Magariño",
     sectionDescription = "Concerts | Podcasts | Content Creation · Sony Alpha Creator",
 } = Astro.props;
 
 // Lista de enlaces dinámica
 const links: LinkItem[] = [
+    {
+        title: "WhatsApp",
+        description: "Contáctame para hablar sobre tu próximo proyecto",
+        url: "https://wa.link/c24rca",
+        metaText: "Escríbeme ahora",
+        isStar: true,
+        isExternal: true,
+    },
     {
         title: "YouTube",
         handle: "@moisesmagarino",
@@ -73,50 +81,56 @@ const links: LinkItem[] = [
 ];
 ---
 
-<section class="links-section max-w-6xl">
-    <div class="section-header">
-        <span class="section-number">{sectionNumber}</span>
-        <p class="section-tagline">{sectionTagline}</p>
-        <h2 class="section-title">{sectionTitle}</h2>
-        <p class="section-description">{sectionDescription}</p>
-    </div>
+<div class="w-full flex justify-center lg:p-20">
+    <section class="links-section max-w-7xl p-10 mx-auto w-full rounded-2xl">
+        <div class="section-header">
+            <span class="section-number">{sectionNumber}</span>
+            <p class="section-tagline">{sectionTagline}</p>
+            <h2 class="section-title">{sectionTitle}</h2>
+            <p class="section-description">{sectionDescription}</p>
+        </div>
 
-    <ul class="links-list">
-        {
-            links.map((link) => (
-                <li class="link-item">
-                    <a
-                        href={link.url}
-                        target={link.isExternal ? "_blank" : undefined}
-                        rel={
-                            link.isExternal ? "noopener noreferrer" : undefined
-                        }
-                        class="link-card"
-                    >
-                        <div class="link-info">
-                            <h3 class="link-title">
-                                {link.title}
-                                {link.handle && (
-                                    <span class="link-handle">
-                                        {link.handle}
-                                    </span>
-                                )}
-                                {link.isStar && (
-                                    <span class="star-icon">✦</span>
-                                )}
-                            </h3>
-                            <p class="link-description">{link.description}</p>
-                        </div>
-                        <div class="link-meta">
-                            <span class="meta-text">{link.metaText}</span>
-                            <span class="arrow-icon">↗</span>
-                        </div>
-                    </a>
-                </li>
-            ))
-        }
-    </ul>
-</section>
+        <ul class="links-list">
+            {
+                links.map((link) => (
+                    <li class="link-item">
+                        <a
+                            href={link.url}
+                            target={link.isExternal ? "_blank" : undefined}
+                            rel={
+                                link.isExternal
+                                    ? "noopener noreferrer"
+                                    : undefined
+                            }
+                            class="link-card"
+                        >
+                            <div class="link-info">
+                                <h3 class="link-title">
+                                    {link.title}
+                                    {link.handle && (
+                                        <span class="link-handle">
+                                            {link.handle}
+                                        </span>
+                                    )}
+                                    {link.isStar && (
+                                        <span class="star-icon">✦</span>
+                                    )}
+                                </h3>
+                                <p class="link-description">
+                                    {link.description}
+                                </p>
+                            </div>
+                            <div class="link-meta">
+                                <span class="meta-text">{link.metaText}</span>
+                                <span class="arrow-icon">↗</span>
+                            </div>
+                        </a>
+                    </li>
+                ))
+            }
+        </ul>
+    </section>
+</div>
 
 <style>
     /* Reset y Animaciones de Entrada */
@@ -136,7 +150,7 @@ const links: LinkItem[] = [
         width: 100%;
         /* max-width: 980px; */
         margin: 0 auto;
-        padding: 48px 20px 72px;
+        padding: 48px 72px;
         animation: fadeInUp 0.8s ease-out forwards;
         font-family:
             system-ui,

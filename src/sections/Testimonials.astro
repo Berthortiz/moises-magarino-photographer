@@ -4,10 +4,11 @@ import { Icon } from "astro-icon/components";
 const testimonials = [
   {
     description:
-      "Capturó cada momento de nuestra boda con naturalidad. Al ver las fotos, volvemos a sentir la emoción de ese día.",
-    name: "Pareja de boda",
-    job: "Fotografía de bodas",
-    srcImg: "/images/avatars/uifaces-human-avatar%20(1).jpg",
+      "Capturó cada momento con naturalidad. Al ver las fotos, volvemos a sentir la emoción de ese día.",
+    name: "Heilyn Carolina",
+    job: "Realtor",
+    srcImg: "/images/avatars/heilyn-carolina.jpg",
+    instagramUrl: "https://www.instagram.com/heilyncarolinarealtor/",
   },
   {
     description:
@@ -15,6 +16,7 @@ const testimonials = [
     name: "Artista musical",
     job: "Conciertos y eventos",
     srcImg: "/images/avatars/uifaces-human-avatar%20(8).jpg",
+    instagramUrl: "#",
   },
   {
     description:
@@ -22,6 +24,7 @@ const testimonials = [
     name: "Creador de podcast",
     job: "Podcasts y creación de contenido",
     srcImg: "/images/avatars/uifaces-human-avatar%20(7).jpg",
+    instagramUrl: "#",
   },
 ];
 ---
@@ -59,41 +62,65 @@ const testimonials = [
         {
           testimonials.map((testimonial) => (
             <div class="swiper-slide">
-              <figure class="testimonial-card flex w-full flex-col gap-4 rounded-2xl border border-white/10 p-8 text-left shadow-sm">
-                <figcaption class="flex flex-col gap-4">
-                  <div class="flex gap-4">
-                    <div class="h-12 w-12 overflow-hidden rounded-full border border-white/20 bg-neutral-700">
-                      <img
-                        src={testimonial.srcImg}
-                        alt={`Avatar de ${testimonial.name}`}
-                        class="h-full w-full object-cover"
-                        loading="lazy"
-                      />
+              <a
+                href={testimonial.instagramUrl}
+                target={
+                  testimonial.instagramUrl.startsWith("https://")
+                    ? "_blank"
+                    : undefined
+                }
+                rel={
+                  testimonial.instagramUrl.startsWith("https://")
+                    ? "noopener noreferrer"
+                    : undefined
+                }
+                aria-label={`Ver Instagram de ${testimonial.name}`}
+                class="block h-full text-inherit no-underline"
+              >
+                <figure class="testimonial-card flex w-full flex-col gap-4 rounded-2xl border border-white/10 p-8 text-left shadow-sm">
+                  <figcaption class="flex flex-col gap-4">
+                    <div class="flex gap-4">
+                      <div class="h-12 w-12 overflow-hidden rounded-full border border-white/20 bg-neutral-700">
+                        <img
+                          src={testimonial.srcImg}
+                          alt={`Avatar de ${testimonial.name}`}
+                          class="h-full w-full object-cover"
+                          loading="lazy"
+                        />
+                      </div>
+                      <div class="flex flex-col">
+                        <div class="flex items-center gap-2">
+                          <cite class="font-bold not-italic text-gray-100">
+                            {testimonial.name}
+                          </cite>
+                          <span
+                            aria-hidden="true"
+                            class="transition-colors hover:text-white"
+                          >
+                            <Icon name="icon-instagram" size={18} />
+                          </span>
+                        </div>
+                        <span class="text-sm text-gray-400">
+                          {testimonial.job}
+                        </span>
+                      </div>
                     </div>
-                    <div class="flex flex-col">
-                      <cite class="font-bold not-italic text-gray-100">
-                        {testimonial.name}
-                      </cite>
-                      <span class="text-sm text-gray-400">
-                        {testimonial.job}
-                      </span>
-                    </div>
-                  </div>
-                  <blockquote class="text-gray-300">
-                    <div
-                      class="flex gap-1 pb-3 text-[#c5c9cc]"
-                      aria-label="5 estrellas"
-                    >
-                      <Icon name="star" size={20} />
-                      <Icon name="star" size={20} />
-                      <Icon name="star" size={20} />
-                      <Icon name="star" size={20} />
-                      <Icon name="star" size={20} />
-                    </div>
-                    <p>"{testimonial.description}"</p>
-                  </blockquote>
-                </figcaption>
-              </figure>
+                    <blockquote class="text-gray-300">
+                      <div
+                        class="flex gap-1 pb-3 text-[#c5c9cc]"
+                        aria-label="5 estrellas"
+                      >
+                        <Icon name="star" size={20} />
+                        <Icon name="star" size={20} />
+                        <Icon name="star" size={20} />
+                        <Icon name="star" size={20} />
+                        <Icon name="star" size={20} />
+                      </div>
+                      <p>"{testimonial.description}"</p>
+                    </blockquote>
+                  </figcaption>
+                </figure>
+              </a>
             </div>
           ))
         }
