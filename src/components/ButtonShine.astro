@@ -13,6 +13,7 @@ const {
 ---
 
 <a href={href} class={`btn-shine group ${className}`}>
+    <slot />
     <span>{text}</span>
 </a>
 
@@ -22,7 +23,7 @@ const {
     Mantenemos el overflow-hidden en Tailwind, pero controlamos el pseudo-elemento aquí.
   */
     .btn-shine {
-        display: inline-block;
+        display: flex;
         border-radius: 10px;
         position: relative;
         overflow: hidden;
@@ -42,15 +43,33 @@ const {
             transparent 100%
         );
 
-        transform: skew(-30deg) translateX(-190%);
+        transform: skew(-30deg) translateX(-260%);
         transition: all 0.5s ease-in-out;
     }
-    .btn-shine:hover {
-        background: #06060687;
+    @media (hover: hover) and (pointer: fine) {
+        .btn-shine:hover {
+            background: #06060687;
+        }
+
+        .btn-shine:hover::before {
+            transform: skew(-30deg) translateX(430%);
+        }
     }
-    .btn-shine:hover::before {
-        transform: skew(-30deg) translateX(430%);
-        /* animation: shine 1s ease-in-out infinite normal forwards running; */
+
+    @media (max-width: 639px) {
+        .btn-shine:hover::before {
+            animation: mobile-shine-sweep 0.8s ease-in-out forwards;
+        }
+
+        @keyframes mobile-shine-sweep {
+            from {
+                transform: skew(-30deg) translateX(-190%);
+            }
+
+            to {
+                transform: skew(-30deg) translateX(430%);
+            }
+        }
     }
 
     /* @keyframes shine {

@@ -1,5 +1,6 @@
 ---
 import ButtonPrimary from "../components/ButtonPrimary.astro";
+import ButtonShine from "../components/ButtonShine.astro";
 
 const services = [
   {
@@ -60,13 +61,12 @@ const services = [
          border-[0.1rem]
          font-light"
       >
-        • Lo que capturo
+        • Instantáneas que perduran para siempre
       </span>
       <h2
-        class="title-font text-3xl sm:text-4xl md:text-4xl lg:text-4xl mb-4 pt-5 font-bold text-(--color-brand-secundary)"
+        class="title-font font-serif text-5xl sm:text-5xl md:text-5xl lg:text-6xl mb-4 pt-5 font-bold text-(--color-brand-secundary)"
       >
-        <span class="gradiente-title-g">Fotografía</span> para momentos que merecen
-        ser recordados en Miami y Florida
+        <span class="gradiente-title- font-serif"></span>Back & white Moments
       </h2>
 
       <p
@@ -79,10 +79,10 @@ const services = [
       <ul class="flex flex-col gap-4 text-[1.1em]"></ul>
 
       <div class="flex justify-center">
-        <ButtonPrimary
-          title="Contactar"
-          link="#"
-          additionalClass="px-4 py-1.5 text-white"
+        <ButtonShine
+          href="#"
+          class="w-full items-center justify-center border border-[#d9dde0]/70 px-5 py-3 text-sm font-medium text-[#e3e6e8] sm:w-fit"
+          text="Contactar"
         />
       </div>
     </div>
