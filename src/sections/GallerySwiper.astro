@@ -163,13 +163,14 @@ const imagenesLoop = [...imagenes, ...imagenes];
     const swiper = new Swiper("#gallery-swiper", {
         modules: [Navigation, Autoplay],
         loop: true,
+        loopPreventsSliding: false,
         speed: 12000,
         slidesPerView: "auto",
         spaceBetween: 20,
-        // navigation: {
-        //     nextEl: "#gallery-swiper .swiper-button-next",
-        //     prevEl: "#gallery-swiper .swiper-button-prev",
-        // },
+        navigation: {
+            nextEl: "#gallery-swiper .swiper-button-next",
+            prevEl: "#gallery-swiper .swiper-button-prev",
+        },
         autoplay: {
             delay: 0,
             disableOnInteraction: false,

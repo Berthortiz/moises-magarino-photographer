@@ -54,7 +54,7 @@ const testimonials = [
       </p>
     </header>
 
-    <div class="swiper mySwiper w-full relative h-fit">
+    <div id="testimonials-swiper" class="swiper mySwiper w-full relative h-fit">
       <div class="swiper-wrapper">
         {
           testimonials.map((testimonial) => (
@@ -129,12 +129,12 @@ const testimonials = [
         disableOnInteraction: false,
       },
       pagination: {
-        el: ".swiper-pagination",
+        el: "#testimonials-swiper .swiper-pagination",
         clickable: true,
       },
       navigation: {
-        nextEl: ".swiper-button-next",
-        prevEl: ".swiper-button-prev",
+        nextEl: "#testimonials-swiper .swiper-button-next",
+        prevEl: "#testimonials-swiper .swiper-button-prev",
       },
       breakpoints: {
         640: { slidesPerView: 2 },
