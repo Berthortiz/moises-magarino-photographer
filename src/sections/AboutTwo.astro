@@ -1,0 +1,82 @@
+---
+import { Icon } from "astro-icon/components";
+import aboutImage from "../assets/img/moises-magarino-2 (1).jpg";
+import ButtonPrimary from "../components/ButtonPrimary.astro";
+---
+
+<section
+    class="relative h-[90vh] min-h-[36rem] w-full overflow-hidden bg-[#0d0f13] text-white sm:min-h-[48rem]"
+>
+    <img
+        id="moises-magarino-about"
+        src={aboutImage.src}
+        alt="Moisés Magariño junto al agua"
+        class="about-two-image absolute inset-0 h-full w-full object-cover object-top"
+    />
+</section>
+
+<style>
+    .about-two-image {
+        -webkit-mask-image: linear-gradient(
+            to bottom,
+            transparent 0%,
+            rgba(0, 0, 0, 0.45) 12%,
+            #000 30%,
+            #000 48%,
+            rgba(0, 0, 0, 0.8) 66%,
+            rgba(0, 0, 0, 0.45) 84%,
+            transparent 100%
+        );
+        mask-image: linear-gradient(
+            to bottom,
+            transparent 0%,
+            rgba(0, 0, 0, 0.45) 12%,
+            #000 30%,
+            #000 48%,
+            rgba(0, 0, 0, 0.8) 66%,
+            rgba(0, 0, 0, 0.45) 84%,
+            transparent 100%
+        );
+    }
+</style>
+
+<div class="mx-auto max-w-7xl px-5 sm:px-6">
+    <header
+        class="mb-10 flex flex-col items-center gap-3 text-center sm:gap-5 lg:mb-12"
+    >
+        <div class="flex flex-col items-center text-center">
+            <p
+                id="title-filmmaker"
+                class="mb-3 border border-white/20 px-6 py-3 text-3xl font-extralight lg:text-3xl uppercase text-gray-100 sm:mb-5"
+            >
+                FILMMAKER
+            </p>
+            <h2
+                class="max-w-3xl px-2 font-serif text-3xl font-normal leading-tight text-white sm:px-0 sm:text-5xl lg:text-6xl"
+            >
+                Cinematic Storytelling & Visual Production
+            </h2>
+        </div>
+        <p
+            class="max-w-2xl px-2 text-sm leading-6 text-gray-300 sm:px-0 sm:text-lg sm:leading-7"
+        >
+            Filmmaker apasionado por crear contenido visual envolvente.
+            Combinando composición cuidadosa, colorización precisa y narrativa
+            estratégica para dar vida a proyectos únicos.
+        </p>
+        <ButtonPrimary
+            title="Ver Portafolio"
+            link="#portafolio"
+            additionalClass="invert-colors w-full items-center justify-center border border-[#d9dde0] px-5 py-3 text-sm font-medium text-[#202427] transition-colors sm:w-fit"
+            bg="#d9dde0"
+        >
+            <Icon name="camera-icon" size={20} />
+        </ButtonPrimary>
+    </header>
+</div>
+
+<style>
+    #title-filmmaker {
+        transform: translateY(-30px);
+    }
+</style>

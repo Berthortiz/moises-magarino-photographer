@@ -13,10 +13,10 @@ const testimonials = [
   {
     description:
       "La cobertura transmitió la energía del escenario y del público. El material quedó listo para compartir el evento.",
-    name: "Artista musical",
-    job: "Conciertos y eventos",
-    srcImg: "/images/avatars/uifaces-human-avatar%20(8).jpg",
-    instagramUrl: "#",
+    name: "Edwin Guevara",
+    job: "Consultor migratorio",
+    srcImg: "/images/avatars/edwing.png",
+    instagramUrl: "https://www.instagram.com/fgcusa1/",
   },
   {
     description:
@@ -75,9 +75,9 @@ const testimonials = [
                     : undefined
                 }
                 aria-label={`Ver Instagram de ${testimonial.name}`}
-                class="block h-full text-inherit no-underline"
+                class="block h-full w-full text-inherit no-underline"
               >
-                <figure class="testimonial-card flex w-full flex-col gap-4 rounded-2xl border border-white/10 p-8 text-left shadow-sm">
+                <figure class="testimonial-card flex h-full w-full flex-col gap-4 rounded-2xl border border-white/10 p-8 text-left shadow-sm">
                   <figcaption class="flex flex-col gap-4">
                     <div class="flex gap-4">
                       <div class="h-12 w-12 overflow-hidden rounded-full border border-white/20 bg-neutral-700">
@@ -97,7 +97,7 @@ const testimonials = [
                             aria-hidden="true"
                             class="transition-colors hover:text-white"
                           >
-                            <Icon name="icon-instagram" size={18} />
+                            <Icon name="icon-instagram" size={15} />
                           </span>
                         </div>
                         <span class="text-sm text-gray-400">
@@ -198,6 +198,10 @@ const testimonials = [
   .swiper-slide {
     display: flex;
     height: auto;
+  }
+
+  :global(#testimonials-swiper .swiper-wrapper) {
+    align-items: stretch;
   }
 
   .testimonial-card {
