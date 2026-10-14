@@ -1,139 +1,190 @@
 ---
-import { Icon } from "astro-icon/components";
-import ButtonPrimary from "../components/ButtonPrimary.astro";
-import Picture from "astro/components/Picture.astro";
-import ImgAbout from "../assets/img/pexels-arina-krasnikova-5950092.jpg";
+// Puedes definir props si quieres que la imagen o los textos sean dinámicos
+import moisesAbout from "../assets/img/moises-about.jpg";
+
+interface Props {
+    imageSrc?: string;
+    imageAlt?: string;
+    title?: string;
+}
+
+const {
+    imageSrc = moisesAbout.src,
+    imageAlt = "Retrato fotográfico",
+    title = "Hola, soy Moisés",
+} = Astro.props;
 ---
 
-<section
-    id="AboutSecticon"
-    class="hero w-full min-h-120 md:items-center relative text-gray-600 body-font"
->
-    <!-- Fondo con imagen y overlay -->
-    <!-- <div class="absolute left-0 right-0">
-        <img src={bgHeroImg.src} alt="Fondo hero" class="w-full" />
-        </div> -->
-
-    <div id="overlay" class="absolute inset-0 indent-5"></div>
-
-    <!-- Contenido parincipal -->
-    <div
-        class="flex lg:max-w-7xl mx-auto px-4 md:px-14 py-14 md:flex-row lg:flex-row-reverse flex-col items-center gap-10 relative z-10"
-    >
-        <div
-            class="md:w-3/5 md:pr-16 flex flex-col md:justify-center md:items-start md:text-left mb-0 md:mb-0 items-center text-center"
-        >
-            <h2
-                class="title-font
-                leading-10 lg:leading-10 xl:leading-14
-                capitalize
-                font-bold
-                text-3xl sm:text-4xl md:text-4xl lg:text-4xl xl:text-5xl
-                mb-4
-                text-(--color-secundary)"
-            >
-                <p
-                    class="title-font
-                leading-5 lg:leading-6
-                
-                font-normal
-                text-3xl sm:text-4xl md:text-4xl lg:text-2xl
-                mb-4
-                text-(--color-brand-secundary)"
-                >
-                    Hola, soy Berth Ortiz.
-                </p>
-
-                <span class="gradiente-title-g"> Desarrollos </span> web moderno y
-                optimizado. <br />
-            </h2>
-
-            <p
-                class="mb-8 leading-relaxed text-(--color-text-primary) md:text-[.9em]"
-            >
-                Para mí, construir una página web es mucho más que escribir
-                código; es un proceso de luthería digital. Al igual que al
-                tallar la madera para un instrumento, cada píxel y cada función
-                deben estar en el lugar exacto para que el resultado final sea
-                armonioso y eficiente. <br /><br /> Me especializo en crear ecosistemas
-                web modernos utilizando tecnologías de alto rendimiento como Astro,
-                React y Tailwind CSS. Mi enfoque no es solo que tu sitio se vea bien,
-                sino que vuele. En un mundo donde cada segundo de carga cuenta, me
-                dedico a entregar plataformas optimizadas, limpias y diseñadas para
-                ofrecer una experiencia de usuario impecable.
-            </p>
+<section class="about-section">
+    <div class="about-container">
+        <!-- Columna de la imagen -->
+        <div class="about-image-wrapper">
+            <img src={imageSrc} alt={imageAlt} />
         </div>
-        <div class="md:w-2/5 w-5/6">
-            <Picture
-                src={ImgAbout}
-                alt="testimonial"
-                width={50}
-                height={50}
-                formats={["webp"]}
-                quality={80}
-                loading="lazy"
-                decoding="async"
-                class="w-full object-contain rounded-2xl"
-            />
+
+        <!-- Columna de contenido -->
+        <div class="about-content">
+            <div class="about-tag">
+                <!-- <span class="number">02</span> -->
+                <span class="label">SOBRE MÍ</span>
+            </div>
+
+            <h2>{title}</h2>
+
+            <p>
+                Soy Moisés Magariño, fotógrafo y creador audiovisual. Me gusta
+                descubrir lo que hace única a cada historia: la emoción de una
+                celebración, la energía de un concierto o la personalidad de un
+                espacio.
+            </p>
+
+            <p>
+                Trabajo con personas, marcas y proyectos alrededor del mundo,
+                creando fotografías y videos con intención, atención a la luz y
+                cuidado por cada detalle. Quiero que cada imagen no solo
+                documente lo que pasó, sino que te ayude a volver a sentirlo.
+            </p>
+
+            <div class="about-signature">Moisés Magariño</div>
         </div>
     </div>
 </section>
 
 <style>
-    #overlay {
-        /* backdrop-filter: blur(5px); */
-        padding: 20px;
-        border-radius: 8px;
-    }
-
-    #logo-bg {
-        opacity: 0.7;
-        position: relative;
-        /* border: 1px solid red; */
-        padding: 40px;
-    }
-
-    #container-logo-bg::before {
-        content: "";
-        /* border: 1px solid red; */
-
-        backdrop-filter: blur(5px);
-
-        color: aqua;
-        position: absolute;
-        z-index: 10;
-    }
-
-    /* .hero {
-        background-image:
-            linear-gradient(
-                45deg,
-                rgba(255, 255, 255, 0.8) 30%,
-                rgba(0, 0, 0, 0.1) 70%
+    /* Estilos generales de la sección */
+    .about-section {
+        background:
+            radial-gradient(
+                ellipse 24% 30% at 78% 48%,
+                rgba(255, 255, 255, 0.095) 0%,
+                rgba(255, 255, 255, 0.045) 38%,
+                transparent 100%
             ),
-            url("/images/bg-2.png");
-        background-size: cover;
-        background-position: center;
-        height: fit-content;
+            radial-gradient(
+                ellipse 22% 28% at 22% 68%,
+                rgba(143, 165, 178, 0.08) 0%,
+                rgba(143, 165, 178, 0.035) 38%,
+                transparent 100%
+            ),
+            var(--color-bg);
+        background-size:
+            130% 130%,
+            130% 130%,
+            auto;
+        background-repeat: no-repeat, no-repeat;
+        background-position:
+            0% 0%,
+            100% 100%,
+            0 0;
+        animation: about-gradient-drift 6s ease-in-out infinite alternate;
+        padding: 80px 20px;
+        font-family:
+            -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        color: #fff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    @keyframes about-gradient-drift {
+        from {
+            background-position:
+                0% 0%,
+                100% 100%,
+                0 0;
+        }
+        to {
+            background-position:
+                100% 100%,
+                0% 0%,
+                0 0;
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .about-section {
+            animation: none;
+        }
+    }
+
+    .about-container {
+        max-width: 1100px;
+        width: 100%;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 60px;
+        align-items: center;
+    }
+
+    /* Imagen con esquinas redondeadas estilo moderno */
+    .about-image-wrapper img {
+        width: 100%;
+        height: 500px;
+        object-fit: cover;
+        transform: scaleX(-1);
+        border-radius: 20px;
+        display: block;
+    }
+
+    /* Textos y tipografía */
+    .about-content {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .about-tag {
         display: flex;
         align-items: center;
-        justify-content: center;
-        color: black;
-    } */
-
-    .gradiente-title-hero {
-        --color-gradient: #f34503;
-        background-image: linear-gradient(
-            to right,
-            var(--color-brand-secundary),
-            var(--color-gradient)
-        );
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
+        gap: 12px;
+        font-size: 12px;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: #fff;
     }
 
-    .gradiente-title-hero {
-        color: #0090f7;
-        /* fallback */
+    .about-tag .number {
+        background-color: #e3ded8;
+        padding: 4px 8px;
+        color: black;
+        font-weight: 600;
+    }
+
+    .about-content h2 {
+        font-family: "Playfair Display", Georgia, serif;
+        font-size: 2.5rem;
+        font-weight: 400;
+        margin: 0;
+        color: #fff;
+    }
+
+    .about-content p {
+        font-size: 1rem;
+        line-height: 1.6;
+        color: #ffffff90;
+        margin: 0;
+    }
+
+    .about-signature {
+        font-family: "Brush Script MT", cursive, sans-serif;
+        font-size: 1.8rem;
+        /* color: ; */
+        margin-top: 10px;
+    }
+
+    /* Responsivo para móviles */
+    @media (max-width: 768px) {
+        .about-container {
+            grid-template-columns: 1fr;
+            gap: 30px;
+        }
+
+        .about-image-wrapper img {
+            height: 400px;
+        }
+
+        .about-content h2 {
+            font-size: 2rem;
+        }
     }
 </style>

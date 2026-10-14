@@ -19,7 +19,7 @@ interface Props {
 }
 
 const {
-    sectionNumber = "01",
+    sectionNumber = "Contacto",
     sectionTagline = "Photographer & FilmMaker",
     sectionTitle = "Moisés Magariño",
     sectionDescription = "Concerts | Podcasts | Content Creation · Sony Alpha Creator",
@@ -28,13 +28,15 @@ const {
 // Lista de enlaces dinámica
 const links: LinkItem[] = [
     {
-        title: "WhatsApp",
-        description: "Contáctame para hablar sobre tu próximo proyecto",
-        url: "https://wa.link/c24rca",
-        metaText: "Escríbeme ahora",
+        title: "Instagram",
+        handle: "@moises_magarino",
+        description: "Fotografía, videografía y detrás de cámaras",
+        url: "https://www.instagram.com/moises_magarino/",
+        metaText: "Sígueme en Instagram",
         isStar: true,
         isExternal: true,
     },
+
     {
         title: "YouTube",
         handle: "@moisesmagarino",
@@ -45,14 +47,22 @@ const links: LinkItem[] = [
         isExternal: true,
     },
     {
-        title: "Instagram",
-        handle: "@moises_magarino",
-        description: "Fotografía, videografía y detrás de cámaras",
-        url: "https://www.instagram.com/moises_magarino/",
-        metaText: "Sígueme en Instagram",
+        title: "WhatsApp",
+        description: "Contáctame para hablar sobre tu próximo proyecto",
+        url: "https://wa.link/c24rca",
+        metaText: "Escríbeme ahora",
         isStar: true,
         isExternal: true,
     },
+    {
+        title: "Teléfono",
+        handle: "+1 (407) 590-6377",
+        description: "Contacto directo por llamada",
+        url: "tel:+14075906377",
+        metaText: "Llamar ahora",
+        isStar: true,
+    },
+
     {
         title: "Conciertos",
         description:
@@ -82,7 +92,7 @@ const links: LinkItem[] = [
 ---
 
 <div class="w-full flex justify-center lg:p-20">
-    <section class="links-section max-w-7xl p-10 mx-auto w-full rounded-2xl">
+    <section class="links-section max-w-7xl p-10 mx-auto w-full lg:rounded-2xl">
         <div class="section-header">
             <span class="section-number">{sectionNumber}</span>
             <p class="section-tagline">{sectionTagline}</p>
@@ -181,9 +191,9 @@ const links: LinkItem[] = [
     }
 
     .section-number {
-        font-size: 0.8rem;
+        font-size: 1rem;
         color: #c8cdd2;
-        font-weight: 700;
+        font-weight: 0;
         letter-spacing: 0.18em;
         text-transform: uppercase;
         margin-bottom: 8px;
@@ -350,13 +360,34 @@ const links: LinkItem[] = [
 
     /* Responsivo */
     @media (max-width: 640px) {
+        .links-section {
+            padding: 28px 18px;
+        }
+
+        .section-header {
+            margin-bottom: 24px;
+            padding-left: 0;
+        }
+
         .link-card {
             flex-direction: column;
             align-items: flex-start;
-            gap: 12px;
+            gap: 10px;
+            padding: 18px 12px;
+        }
+        .link-title {
+            flex-wrap: wrap;
+            gap: 4px 8px;
+            font-size: 1.35rem;
+            line-height: 1.2;
+        }
+        .link-info {
+            width: 100%;
         }
         .link-meta {
-            align-self: flex-end;
+            align-self: flex-start;
+            gap: 8px;
+            text-align: left;
         }
         .section-title {
             font-size: 2.2rem;

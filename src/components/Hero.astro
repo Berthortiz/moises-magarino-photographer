@@ -6,10 +6,10 @@ import ButtonShine from "./ButtonShine.astro";
 
 <section
     id="inicio"
-    class="hero -mt-22 lg:mt-0 h-screen lg:min-h-[800] relative isolate w-full overflow-hidden"
+    class="mask-gradient hero -mt-22 lg:mt-0 h-screen lg:min-h-[800] relative isolate w-full overflow-hidden"
 >
     <div
-        class="relative mx-auto flex h-full w-full max-w-7xl flex-col justify-center overflow-hidden lg:flex-row lg:items-center lg:justify-between lg:gap-10 p-5"
+        class="relative mx-auto flex h-full w-full max-w-7xl flex-col justify-center overflow-hidden lg:flex-row lg:items-center lg:justify-between lg:gap-10"
     >
         <video
             class="pointer-events-none absolute inset-0 z-0 h-full w-full object-cover lg:hidden"
@@ -53,10 +53,9 @@ import ButtonShine from "./ButtonShine.astro";
                 >
                     Como fotógrafo, entiendo que un hogar no es solo una
                     estructura, sino el escenario donde comienzan nuevas
-                    historias. Y que una sesión de estilo de vida no es solo una
-                    pose, sino la expresión natural de quién eres hoy. A través
-                    de mi lente y la luz única de Miami, transformo propiedades
-                    en lugares deseados e instantes cotidianos en imágenes con
+                    historias. A través de mi lente y la luz única de Miami,
+                    transformo propiedades en lugares deseados e instantes
+                    cotidianos en imágenes con
                     <!-- alma. 📸 Fotografía Inmobiliaria & Estilo de Vida | Miami &
                     South Florida 📩 Contemos tu historia hoy. -->
                 </p>
@@ -100,6 +99,23 @@ import ButtonShine from "./ButtonShine.astro";
             </div>
         </div>
     </div>
+
+    <style is:global>
+        .mask-gradien {
+            -webkit-mask-image: linear-gradient(
+                to bottom,
+                #000 0%,
+                #000 90%,
+                transparent 100%
+            );
+            mask-image: linear-gradient(
+                to bottom,
+                #000 0%,
+                #000 90%,
+                transparent 100%
+            );
+        }
+    </style>
 
     <style>
         .subtitle-border {
