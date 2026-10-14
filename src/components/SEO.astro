@@ -1,0 +1,53 @@
+---
+interface Props {
+    title: string;
+    description: string;
+    canonical?: string;
+    robots?: string;
+    ogImage?: string;
+    ogImageAlt?: string;
+    ogUrl?: string;
+    ogType?: "website" | "article" | "profile";
+    twitterCard?: "summary" | "summary_large_image";
+}
+
+const {
+    title,
+    description,
+    canonical,
+    robots,
+    ogImage = "/logo-moises.png",
+    ogImageAlt,
+    ogUrl,
+    ogType = "website",
+    twitterCard = "summary_large_image",
+} = Astro.props;
+
+const origin = Astro.site?.origin ?? Astro.url.origin;
+const canonicalUrl =
+    canonical || Astro.site
+        ? new URL(canonical ?? Astro.url.pathname, origin).href
+        : undefined;
+const socialUrl = new URL(ogUrl ?? canonicalUrl ?? Astro.url.pathname, origin)
+    .href;
+const imageUrl = new URL(ogImage, origin).href;
+---
+
+<title>{title}</title>
+<meta name="description" content={description} />
+{canonicalUrl && <link rel="canonical" href={canonicalUrl} />}
+{robots && <meta name="robots" content={robots} />}
+
+<meta property="og:type" content={ogType} />
+<meta property="og:url" content={socialUrl} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:image" content={imageUrl} />
+{ogImageAlt && <meta property="og:image:alt" content={ogImageAlt} />}
+
+<meta name="twitter:card" content={twitterCard} />
+<meta name="twitter:url" content={socialUrl} />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={imageUrl} />
+{ogImageAlt && <meta name="twitter:image:alt" content={ogImageAlt} />}

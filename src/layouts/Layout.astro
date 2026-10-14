@@ -1,5 +1,6 @@
 ---
 import Header from "../components/Header.astro";
+import SEO from "../components/SEO.astro";
 import Footer from "../sections/Footer.astro";
 import "../css/style.css";
 
@@ -7,31 +8,52 @@ const logo = "/logo-moises.png";
 
 interface Props {
 	title: string;
-	description?: string;
-	// canonical?: string;
-	// robots?: string;
+	description: string;
+	canonical?: string;
+	robots?: string;
+	ogImage?: string;
+	ogImageAlt?: string;
+	ogUrl?: string;
+	ogType?: "website" | "article" | "profile";
+	twitterCard?: "summary" | "summary_large_image";
+	showHeader?: boolean;
 }
 
 const {
-	title = "Moises magariño",
-	description = "Fotografo profecional en Florida | Moises magariño ",
-	// canonical,
-	// robots,
+	title,
+	description,
+	canonical,
+	robots,
+	ogImage,
+	ogImageAlt,
+	ogUrl,
+	ogType,
+	twitterCard,
+	showHeader = true,
 } = Astro.props;
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="es">
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width" />
 		<link rel="icon" type="image/png" href={logo} />
 		<meta name="generator" content={Astro.generator} />
-		<meta name="description" content={description} />
-		<title>{title}</title>
+		<SEO
+			title={title}
+			description={description}
+			canonical={canonical}
+			robots={robots}
+			ogImage={ogImage}
+			ogImageAlt={ogImageAlt}
+			ogUrl={ogUrl}
+			ogType={ogType}
+			twitterCard={twitterCard}
+		/>
 	</head>
 	<body>
-		<Header />
+		{showHeader && <Header />}
 		<slot />
 		<Footer />
 	</body>

@@ -23,11 +23,17 @@ import LinksSecction from "../sections/LinksSecction.astro";
 import Section3Alert from "../sections/Section3Alert.astro";
 import SliderHero from "../sections/SliderHero.astro";
 
-const title = "Fotografo Profecional en florida | Moisés Magariño";
-const description = "Plasmamos tus recuerdo para siempre.";
+const title = "Fotógrafo profesional & Filmmaker | Moisés Magariño";
+const description =
+	"Fotografía profesional de bodas, conciertos y bienes raíces. Moisés Magariño captura historias y espacios con imágenes cuidadas.";
 ---
 
-<Layout title={title} description={description}>
+<Layout
+	title={title}
+	description={description}
+	ogImage="/logo-moises.png"
+	ogImageAlt="Logo de Moisés Magariño, fotógrafo y filmmaker en Florida"
+>
 	<Hero />
 	<GalleryFilter />
 	<GallerySwiper />
