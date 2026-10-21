@@ -12,6 +12,7 @@
     "@tailwindcss/vite": "^4.1.18",
     "astro": "^5.16.6",
     "astro-icon": "^1.1.5",
+    "gsap": "^3.15.0",
     "photoswipe": "^5.4.4",
     "swiper": "^12.1.2",
     "tailwindcss": "^4.1.18"

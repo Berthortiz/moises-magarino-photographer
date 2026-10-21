@@ -1,0 +1,211 @@
+---
+/**
+ * StickyCardsScroll — Astro del efecto "StickyCard_002"
+ *
+ *
+ * Cómo funciona:
+ * - `.sticky-cards` es un contenedor alto (scroll distance) generado con CSS.
+ * - `.sticky-viewport` se queda "pegado" con position: sticky, sin pin de GSAP,
+ *   lo que permite integrarlo dentro de grillas/secciones existentes.
+ * - ScrollTrigger (scrub) anima el apilado: la tarjeta actual escala y rota
+ *   mientras la siguiente sube desde abajo.
+ * - Es un componente aislado: puedes usarlo varias veces por página y recibe
+ *   las imágenes como prop.
+ */
+
+interface CardData {
+    src: string;
+    alt?: string;
+}
+
+interface Props {
+    cards?: CardData[];
+    alt?: string;
+}
+
+import img14 from "../assets/img/slider-about-scroll/img14.jpg";
+import img15 from "../assets/img/slider-about-scroll/img15.jpg";
+import img21 from "../assets/img/slider-about-scroll/img21.jpg";
+import img27 from "../assets/img/slider-about-scroll/img27.jpg";
+import img29 from "../assets/img/slider-about-scroll/img29.jpg";
+
+const { cards, alt = "Fotografía de Moisés Magariño" } = Astro.props;
+
+const defaultCards: CardData[] = [
+    { src: img14.src, alt: `${alt} — foto 1` },
+    { src: img15.src, alt: `${alt} — foto 2` },
+    { src: img29.src, alt: `${alt} — foto 3` },
+    { src: img21.src, alt: `${alt} — foto 4` },
+    { src: img27.src, alt: `${alt} — foto 5` },
+];
+
+const items = cards?.length ? cards : defaultCards;
+const total = items.length;
+---
+
+<div
+    class="sticky-cards"
+    data-sticky-cards
+    style={`--sc-n: ${total};`}
+    aria-label="Galería de fotos con scroll"
+>
+    <div class="sticky-viewport">
+        <div class="sticky-stack">
+            {
+                items.map((card, i) => (
+                    <img
+                        data-card
+                        src={card.src}
+                        alt={card.alt || alt}
+                        loading={i === 0 ? "eager" : "lazy"}
+                        decoding="async"
+                        draggable="false"
+                    />
+                ))
+            }
+        </div>
+    </div>
+</div>
+
+<style>
+    .sticky-cards {
+        --sc-sticky-top: 14vh; /* coincide con start: "top 14%" del script */
+        --sc-dist-factor: 0.8; /* vh de scroll por transición */
+        --sc-card-height: 500px;
+
+        position: relative;
+        width: 100%;
+        /* barra de rodar: alto de la pila + (n - 1) transiciones */
+        height: calc(
+            var(--sc-card-height) + 100svh * var(--sc-dist-factor) *
+                (var(--sc-n) - 1)
+        );
+    }
+
+    .sticky-viewport {
+        position: sticky;
+        top: var(--sc-sticky-top);
+        height: var(--sc-card-height);
+    }
+
+    .sticky-stack {
+        position: relative;
+        height: 100%;
+        width: 100%;
+        overflow: hidden;
+        border-radius: 20px;
+        /* evita bordes redondeados rotos al animar */
+        transform: translateZ(0);
+    }
+
+    .sticky-stack img {
+        position: absolute;
+        inset: 0;
+        border-radius: 20px;
+
+        height: 100%;
+        width: 100%;
+        object-fit: cover;
+        object-position: top center;
+        will-change: transform;
+    }
+
+    @media (max-width: 768px) {
+        .sticky-cards {
+            --sc-card-height: 400px;
+            --sc-dist-factor: 0.55;
+            --sc-sticky-top: 10vh;
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .sticky-cards {
+            height: var(--sc-card-height);
+        }
+
+        .sticky-viewport {
+            position: static;
+        }
+
+        .sticky-stack img:not(:first-of-type) {
+            display: none;
+        }
+    }
+</style>
+
+<script>
+    import gsap from "gsap";
+    import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+    gsap.registerPlugin(ScrollTrigger);
+
+    const reduceMotion = window.matchMedia(
+        "(prefers-reduced-motion: reduce)",
+    ).matches;
+
+    // Soporta varias instancias del componente en la misma página
+    document
+        .querySelectorAll<HTMLElement>("[data-sticky-cards]")
+        .forEach((root) => {
+            const cards = Array.from(
+                root.querySelectorAll<HTMLElement>("[data-card]"),
+            );
+            const total = cards.length;
+
+            if (total < 2) return;
+
+            // Estado inicial: primera visible, resto ocultas abajo
+            gsap.set(cards[0], { y: "0%", scale: 1, rotation: 0 });
+            for (let i = 1; i < total; i++) {
+                gsap.set(cards[i], { y: "100%", scale: 1, rotation: 0 });
+            }
+
+            if (reduceMotion) {
+                for (let i = 1; i < total; i++) {
+                    gsap.set(cards[i], { autoAlpha: 0 });
+                }
+                return;
+            }
+
+            const timeline = gsap.timeline({
+                scrollTrigger: {
+                    trigger: root,
+                    start: "top 14%",
+                    end: "bottom bottom",
+                    scrub: 0.5,
+                    invalidateOnRefresh: true,
+                },
+            });
+
+            for (let i = 0; i < total - 1; i++) {
+                const position = i;
+
+                timeline.to(
+                    cards[i],
+                    {
+                        scale: 0.7,
+                        rotation: 5,
+                        duration: 1,
+                        ease: "none",
+                    },
+                    position,
+                );
+
+                timeline.to(
+                    cards[i + 1],
+                    {
+                        y: "0%",
+                        duration: 1,
+                        ease: "none",
+                    },
+                    position,
+                );
+            }
+
+            // Como el ResizeObserver del original: re-mide si cambia el layout
+            const resizeObserver = new ResizeObserver(() => {
+                ScrollTrigger.refresh();
+            });
+            resizeObserver.observe(root);
+        });
+</script>

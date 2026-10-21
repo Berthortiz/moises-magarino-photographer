@@ -1,0 +1,132 @@
+---
+interface SlideData {
+    src: string;
+    alt?: string;
+}
+
+interface Props {
+    slides?: SlideData[];
+    alt?: string;
+    autoplayDelay?: number;
+    fadeSpeed?: number;
+}
+
+import img1 from "../assets/img/slider-about-scroll/1.jpg";
+import img2 from "../assets/img/slider-about-scroll/2.jpg";
+import img3 from "../assets/img/slider-about-scroll/3.jpg";
+
+const {
+    slides,
+    alt = "Fotografía de Moisés Magariño",
+    autoplayDelay = 3000,
+    fadeSpeed = 1000,
+} = Astro.props;
+
+const defaultSlides: SlideData[] = [
+    { src: img1.src, alt: `${alt} — 1` },
+    { src: img2.src, alt: `${alt} — 2` },
+    { src: img3.src, alt: `${alt} — 3` },
+];
+
+const items = slides?.length ? slides : defaultSlides;
+---
+
+<div
+    class="swiper fade-slider"
+    data-fade-slider
+    data-fade-delay={autoplayDelay}
+    data-fade-speed={fadeSpeed}
+    aria-label="Galería automática de fotos"
+>
+    <div class="swiper-wrapper">
+        {
+            items.map((slide, i) => (
+                <div
+                    class={`swiper-slide${i === 0 ? " swiper-slide-active" : ""}`}
+                >
+                    <img
+                        src={slide.src}
+                        alt={slide.alt || alt}
+                        loading={i === 0 ? "eager" : "lazy"}
+                        decoding="async"
+                        draggable="false"
+                    />
+                </div>
+            ))
+        }
+    </div>
+</div>
+
+<style>
+    /* El slider ocupa el 100% del contenedor padre (.about-image-wrapper) */
+    .fade-slider {
+        box-sizing: border-box;
+        width: 100%;
+        max-width: 100%;
+        min-width: 0;
+        height: 100%;
+        border-radius: 20px;
+        overflow: hidden;
+    }
+
+    /* Efecto fade + blur: las slides se superponen y funden entre sí.
+       Swiper anima la opacidad inline; ampliamos su transición para que
+       el blur salga y entre sincronizado con el fundido. */
+    .fade-slider .swiper-slide {
+        filter: blur(14px);
+        transition-property: opacity, filter;
+    }
+
+    .fade-slider .swiper-slide-active {
+        filter: blur(0);
+    }
+
+    .fade-slider .swiper-slide img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        user-select: none;
+    }
+</style>
+
+<script>
+    import Swiper from "swiper";
+    import { EffectFade, Autoplay } from "swiper/modules";
+    import "swiper/css";
+    import "swiper/css/effect-fade";
+
+    const reduceMotion = window.matchMedia(
+        "(prefers-reduced-motion: reduce)",
+    ).matches;
+
+    document
+        .querySelectorAll<HTMLElement>("[data-fade-slider]")
+        .forEach((el) => {
+            const slides = el.querySelectorAll(".swiper-slide").length;
+            const delay = Number(el.dataset.fadeDelay) || 1000;
+            const speed = Number(el.dataset.fadeSpeed) || 500;
+
+            if (slides < 2) return;
+
+            if (reduceMotion) return; // Sin navegación: se queda en la primera imagen
+
+            new Swiper(el, {
+                modules: [EffectFade, Autoplay],
+                effect: "fade",
+                fadeEffect: {
+                    crossFade: true,
+                },
+                speed,
+                loop: true,
+                autoplay: {
+                    delay,
+                    disableOnInteraction: false,
+                },
+                // Sin flechas, paginación ni gesto de arrastre
+                noSwiping: true,
+                allowTouchMove: false,
+                simulateTouch: false,
+            });
+        });
+</script>

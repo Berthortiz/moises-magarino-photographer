@@ -1,6 +1,7 @@
 ---
 // Puedes definir props si quieres que la imagen o los textos sean dinámicos
 import moisesAbout from "../assets/img/moises-about.jpg";
+import FadeSwiperSlider from "../components/FadeSwiperSlider.astro";
 
 interface Props {
     imageSrc?: string;
@@ -19,7 +20,7 @@ const {
     <div class="about-container">
         <!-- Columna de la imagen -->
         <div class="about-image-wrapper">
-            <img src={imageSrc} alt={imageAlt} />
+            <FadeSwiperSlider />
         </div>
 
         <!-- Columna de contenido -->
@@ -111,19 +112,17 @@ const {
         max-width: 1100px;
         width: 100%;
         display: grid;
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: 60px;
         align-items: center;
     }
 
-    /* Imagen con esquinas redondeadas estilo moderno */
-    .about-image-wrapper img {
+    /* Contenedor del slider con efecto fade */
+    .about-image-wrapper {
         width: 100%;
+        min-width: 0;
         height: 500px;
-        object-fit: cover;
-        transform: scaleX(-1);
-        border-radius: 20px;
-        display: block;
+        overflow: hidden;
     }
 
     /* Textos y tipografía */
@@ -179,7 +178,7 @@ const {
             gap: 30px;
         }
 
-        .about-image-wrapper img {
+        .about-image-wrapper {
             height: 400px;
         }
 

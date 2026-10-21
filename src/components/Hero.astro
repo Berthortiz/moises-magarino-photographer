@@ -2,28 +2,27 @@
 import { Icon } from "astro-icon/components";
 import ButtonPrimary from "./ButtonPrimary.astro";
 import ButtonShine from "./ButtonShine.astro";
+import videoPoster from "../assets/img/moises-poster.jpg";
+import iphoneFrame from "../assets/img/iphone1.png";
 ---
 
 <section
     id="inicio"
-    class="mask-gradient hero -mt-22 lg:mt-0 h-screen lg:min-h-[800] relative isolate w-full overflow-hidden"
+    class="mask-gradient hero -mt-22 lg:mt-0 h-screen lg:min-h-[900px] relative isolate w-full overflow-hidden"
 >
     <div
-        class="relative mx-auto flex h-full w-full max-w-7xl flex-col justify-center overflow-hidden lg:flex-row lg:items-center lg:justify-between lg:gap-10"
+        class="relative mx-auto flex h-full w-full max-w-7xl flex-col justify-center overflow-hidden lg:flex-row lg:items-center lg:justify-between lg:gap-18"
     >
         <video
+            id="video-hero-moises-movil"
             class="pointer-events-none absolute inset-0 z-0 h-full w-full object-cover lg:hidden"
-            autoplay
+            poster={videoPoster.src}
             muted
             loop
             playsinline
-            preload="metadata"
+            preload="none"
             aria-hidden="true"
         >
-            <source
-                src="https://marialerealtor-com-255189.hostingersite.com/wp-content/uploads/2026/10/video_2026-10-10_11-54-48.mp4"
-                type="video/mp4"
-            />
         </video>
         <div
             class="pointer-events-none absolute inset-0 z-0 bg-black/50 lg:hidden"
@@ -31,7 +30,7 @@ import ButtonShine from "./ButtonShine.astro";
         >
         </div>
         <div
-            class="hero-content relative z-10 mx-auto flex w-full flex-1 items-end px-6 py-4 lg:gap-16 lg:items-center"
+            class="hero-content relative z-10 mx-auto flex w-full flex-1 items-end px-6 py-4 lg:gap-20 lg:items-center"
         >
             <div class="hero-copy flex max-w-2xl flex-col items-start pb-16">
                 <div class="subtitle-border rounded-2xl">
@@ -39,7 +38,7 @@ import ButtonShine from "./ButtonShine.astro";
                         id="subtitile-animate"
                         class="w-max whitespace-nowrap rounded-full bg-[#0d0f13] px-2 py-1 text-[.8em] lg:text-2xl font-extralight"
                     >
-                        Fotografo Profecional
+                        Fotógrafo Profesional
                     </h2>
                 </div>
                 <h1
@@ -80,25 +79,62 @@ import ButtonShine from "./ButtonShine.astro";
             </div>
 
             <div
-                class="hero-video relative hidden max-h-170 w-full max-w-95 self-center lg:flex lg:w-[360px] lg:flex-none lg:aspect-9/12 xl:aspect-9/14"
+                id="video-hero-moises-pc"
+                class="hero-video relative hidden w-full max-w-95
+                self-center lg:flex lg:w-[360px] lg:flex-none lg:aspect-6/12
+                xl:aspect-6/12"
+                style={`--iphone-img: url("${iphoneFrame.src}")`}
             >
                 <video
+                    id="video-hero-moises-pc-video"
                     class="absolute inset-0 h-full w-full object-cover rounded-2xl"
-                    autoplay
+                    poster={videoPoster.src}
                     muted
                     loop
                     playsinline
-                    preload="metadata"
+                    preload="none"
                     aria-hidden="true"
                 >
-                    <source
-                        src="https://marialerealtor-com-255189.hostingersite.com/wp-content/uploads/2026/10/video_2026-10-10_11-54-48.mp4"
-                        type="video/mp4"
-                    />
                 </video>
             </div>
         </div>
     </div>
+
+    <script>
+        const VIDEO_URL =
+            "https://marialerealtor-com-255189.hostingersite.com/wp-content/uploads/2026/10/video_2026-10-10_11-54-48.mp4";
+
+        const videoMovil = document.getElementById(
+            "video-hero-moises-movil",
+        ) as HTMLVideoElement | null;
+        const videoPc = document.getElementById(
+            "video-hero-moises-pc-video",
+        ) as HTMLVideoElement | null;
+
+        const esEscritorio = window.matchMedia("(min-width: 1024px)");
+
+        function sincronizarVideoHero() {
+            if (!videoMovil || !videoPc) return;
+
+            const activo = esEscritorio.matches ? videoPc : videoMovil;
+            const inactivo = esEscritorio.matches ? videoMovil : videoPc;
+
+            if (activo.paused) {
+                if (!activo.getAttribute("src")) {
+                    activo.src = VIDEO_URL;
+                    activo.load();
+                }
+                activo.play().catch(() => {});
+            }
+
+            if (!inactivo.paused) {
+                inactivo.pause();
+            }
+        }
+
+        sincronizarVideoHero();
+        esEscritorio.addEventListener("change", sincronizarVideoHero);
+    </script>
 
     <style is:global>
         .mask-gradien {
@@ -118,6 +154,25 @@ import ButtonShine from "./ButtonShine.astro";
     </style>
 
     <style>
+        #video-hero-moises-pc {
+            transform: scale(0.9);
+        }
+        #video-hero-moises-pc::after {
+            content: "";
+            background-image: var(--iphone-img);
+            background-size: contain;
+            position: absolute;
+            background-repeat: no-repeat;
+            scale: 1.15;
+            /* background-color: red; */
+            /* left: 0; */
+            inset: 0;
+            top: -10px;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
         .subtitle-border {
             position: relative;
             isolation: isolate;
