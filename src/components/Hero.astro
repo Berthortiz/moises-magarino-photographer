@@ -8,7 +8,7 @@ import iphoneFrame from "../assets/img/iphone1.png";
 
 <section
     id="inicio"
-    class="mask-gradient hero -mt-22 lg:mt-0 h-screen lg:min-h-[900px] relative isolate w-full overflow-hidden"
+    class="mask-gradient hero lg:-mt-10 h-screen lg:px-10 lg:min-h-[900px] relative isolate w-full overflow-hidden"
 >
     <div
         class="relative mx-auto flex h-full w-full max-w-7xl flex-col justify-center overflow-hidden lg:flex-row lg:items-center lg:justify-between lg:gap-18"
@@ -30,7 +30,7 @@ import iphoneFrame from "../assets/img/iphone1.png";
         >
         </div>
         <div
-            class="hero-content relative z-10 mx-auto flex w-full flex-1 items-end px-6 py-4 lg:gap-20 lg:items-center"
+            class="hero-content -mt-10 relative z-10 mx-auto flex w-full flex-1 items-end px-6 py-4 lg:gap-20 lg:items-center"
         >
             <div class="hero-copy flex max-w-2xl flex-col items-start pb-16">
                 <div class="subtitle-border rounded-2xl">
@@ -134,6 +134,103 @@ import iphoneFrame from "../assets/img/iphone1.png";
 
         sincronizarVideoHero();
         esEscritorio.addEventListener("change", sincronizarVideoHero);
+
+        import gsap from "gsap";
+        import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+        gsap.registerPlugin(ScrollTrigger);
+
+        /* ========= Disolución del hero con blur al hacer scroll =========
+         * - Progreso de scroll (scrub) → disolución progresiva y fluida.
+         *   `scrub: 1` hace que el efecto "persiga" al scroll con un segundo
+         *   de suavizado: nunca es brusco ni depende de la velocidad.
+         * - Velocidad del scroll → solo un impulso extra de blur muy sutil,
+         *   con entrada corta y salida lenta, para dar sensación de inercia.
+         */
+        const hero = document.querySelector(".hero");
+        const heroContent = document.querySelector(".hero-content");
+        const heroCopy = document.querySelector(".hero-copy");
+        const heroVideo = document.querySelector("#video-hero-moises-pc");
+        const respetaReduceMovimiento = window.matchMedia(
+            "(prefers-reduced-motion: reduce)",
+        ).matches;
+
+        if (hero && heroContent && heroCopy && !respetaReduceMovimiento) {
+            // 1) Disolución progresiva ligada al progreso del scroll.
+            gsap.timeline({
+                scrollTrigger: {
+                    trigger: hero,
+                    markers: true,
+                    // el dissolve empieza 200px después de bajar:
+                    // así el hero queda legible (botones incluidos) al inicio
+                    start: "top+=200 top",
+                    // la disolución se completa justo cuando el hero
+                    // termina de salir de pantalla
+                    end: "bottom top",
+                    scrub: 1, // ← clave del suavizado fluido
+                },
+            }).to(
+                heroCopy,
+                { filter: "blur(14px)", opacity: 0, y: -50, ease: "none" },
+                0,
+            );
+
+            if (heroVideo) {
+                // el video se difumina menos y se queda unos ms más visible
+                gsap.to(heroVideo, {
+                    scrollTrigger: {
+                        trigger: hero,
+                        start: "top+=200 top",
+                        end: "bottom top",
+                        scrub: 1,
+                    },
+                    filter: "blur(8px)",
+                    opacity: 0.1,
+                    scale: 0.85,
+                    ease: "none",
+                });
+            }
+
+            // 2) Impulso sutil de blur según la velocidad del scroll.
+            const estadoBlur = { valor: 0 };
+
+            const aplicarBlur = () => {
+                heroContent.style.filter =
+                    estadoBlur.valor < 0.05
+                        ? ""
+                        : `blur(${estadoBlur.valor.toFixed(2)}px)`;
+            };
+
+            const animarBlur = (objetivo: number, duracion: number) => {
+                gsap.to(estadoBlur, {
+                    valor: objetivo,
+                    duration: duracion,
+                    ease: "power2.out",
+                    overwrite: "auto",
+                    onUpdate: aplicarBlur,
+                });
+            };
+
+            // al frenar el scroll, el blur relajado vuelve a 0 lentamente
+            const volverACero = gsap
+                .delayedCall(0.12, () => animarBlur(0, 0.8))
+                .pause();
+
+            ScrollTrigger.create({
+                trigger: hero,
+                start: "top+=200 top",
+                end: "bottom top",
+                onUpdate: (self) => {
+                    // divisor alto + tope bajo = efecto sutil, nunca agresivo
+                    const impulso = Math.min(
+                        Math.abs(self.getVelocity()) / 400,
+                        4,
+                    );
+                    animarBlur(impulso, 0.3);
+                    volverACero.restart(true);
+                },
+            });
+        }
     </script>
 
     <style is:global>
@@ -154,8 +251,14 @@ import iphoneFrame from "../assets/img/iphone1.png";
     </style>
 
     <style>
+        .hero-content,
+        .hero-copy {
+            will-change: transform, opacity, filter;
+        }
+
         #video-hero-moises-pc {
             transform: scale(0.9);
+            will-change: transform, opacity, filter;
         }
         #video-hero-moises-pc::after {
             content: "";
