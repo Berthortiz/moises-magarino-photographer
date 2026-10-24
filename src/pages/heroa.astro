@@ -1,0 +1,321 @@
+---
+// import Welcome from "../components/Welcome.astro";
+import Layout from "../layouts/Layout.astro";
+import { Icon } from "astro-icon/components";
+import ButtonPrimary from "../components/ButtonPrimary.astro";
+import ButtonShine from "../components/ButtonShine.astro";
+import videoPoster from "../assets/img/moises-poster.jpg";
+import iphoneFrame from "../assets/img/iphone1.png";
+import moisesImg from "../assets/moises-b-and-w.jpg";
+import moisesImg2 from "../assets/moises-b-and-.jpg";
+import moisesImg3 from "../assets/moises-3.jpg";
+
+const title = "Fotógrafo profesional & Filmmaker | Moisés Magariño";
+const description =
+    "Fotografía profesional de bodas, conciertos y bienes raíces. Moisés Magariño captura historias y espacios con imágenes cuidadas.";
+---
+
+<Layout title={title} description={description}>
+    <section
+        id="inicio"
+        class="-mt-23 lg:-mt-20 hero h-screen lg:px-10 lg:min-h-[900px] relative isolate w-full overflow-hidden"
+    >
+        <div
+            id="video-hero-moises-pc"
+            class="hero-video pointer-events-none absolute inset-y-0 right-0 z-0 hidden w-1/2 overflow-hidden p-0 lg:block"
+            style={`--iphone-img: url("${iphoneFrame.src}")`}
+            aria-hidden="true"
+        >
+            <img
+                src={moisesImg2.src}
+                class="h-full w-full object-cover"
+                width="100"
+                height="100"
+                alt=""
+            />
+        </div>
+        <div
+            class="relative mx-auto flex h-full w-full max-w-7xl flex-col justify-center overflow-hidden lg:flex-row lg:items-stretch lg:justify-between lg:gap-18"
+        >
+            <video
+                id="video-hero-moises-movil"
+                class="pointer-events-none absolute inset-0 z-0 h-full w-full object-cover lg:hidden"
+                poster={videoPoster.src}
+                muted
+                loop
+                playsinline
+                preload="none"
+                aria-hidden="true"
+            >
+            </video>
+            <div
+                class="pointer-events-none absolute inset-0 z-0 bg-black/50 lg:hidden"
+                aria-hidden="true"
+            >
+            </div>
+            <div
+                class="hero-content relative z-10 mx-auto flex h-full w-full flex-1 items-end px-6 pt-0 lg:items-center lg:self-stretch lg:pt-0"
+            >
+                <div
+                    class="hero-copy flex max-w-2xl flex-col items-start pb-16"
+                >
+                    <div class="subtitle-border rounded-2xl">
+                        <h2
+                            id="subtitile-animate"
+                            class="w-max whitespace-nowrap rounded-full bg-[#0d0f13] px-2 py-1 text-[.8em] lg:text-2xl font-extralight"
+                        >
+                            Fotógrafo & Filmmaker
+                        </h2>
+                    </div>
+                    <h1
+                        class="max-w-xl font-serif text-5xl font-normal leading-[1.02] text-white sm:text-6xl lg:text-7xl xl:text-6xl"
+                    >
+                        Moisés Magariño
+                    </h1>
+                    <br />
+                    <p
+                        class="mb-9 w-full lg:w-[80%] text-base leading-7 text-gray-300 sm:text-lg"
+                    >
+                        Que una propiedad se alquile, que una boda se recuerde,
+                        que un concierto vuelva a sentirse: todo empieza con una
+                        imagen que emocione. Yo me encargo de que la tuya cuente
+                        la historia que merece.
+                    </p>
+                    <div
+                        class="flex w-full flex-col gap-3 sm:w-fit sm:flex-row"
+                    >
+                        <ButtonPrimary
+                            title="Ver Portafolio"
+                            link="#portafolio"
+                            additionalClass="invert-colors w-full items-center justify-center border border-[#d9dde0] px-5 py-3 text-sm font-medium text-[#202427] transition-colors sm:w-fit"
+                            bg="#d9dde0"
+                        >
+                            <Icon name="camera-icon" size={20} />
+                        </ButtonPrimary>
+
+                        <ButtonShine
+                            href="https://wa.link/c24rca"
+                            class="w-full flex items-center justify-center border border-[#d9dde0]/70 px-5 py-3 text-sm font-medium text-[#e3e6e8] sm:w-fit"
+                            text="Hablemos"
+                        >
+                            <Icon name="whatsapp-solid" size={19} />
+                        </ButtonShine>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            const VIDEO_URL =
+                "https://marialerealtor-com-255189.hostingersite.com/wp-content/uploads/2026/10/video_2026-10-10_11-54-48.mp4";
+
+            const videoMovil = document.getElementById(
+                "video-hero-moises-movil",
+            ) as HTMLVideoElement | null;
+
+            const esEscritorio = window.matchMedia("(min-width: 1024px)");
+
+            function sincronizarVideoHero() {
+                // Solo el video de móviles: la versión escritorio ahora es
+                // una imagen estática, no hay <video> para sincronizar.
+                if (!videoMovil) return;
+
+                if (esEscritorio.matches) {
+                    if (!videoMovil.paused) videoMovil.pause();
+                    return;
+                }
+
+                if (videoMovil.paused) {
+                    if (!videoMovil.getAttribute("src")) {
+                        videoMovil.src = VIDEO_URL;
+                        videoMovil.load();
+                    }
+                    videoMovil.play().catch(() => {});
+                }
+            }
+
+            sincronizarVideoHero();
+            esEscritorio.addEventListener("change", sincronizarVideoHero);
+
+            import gsap from "gsap";
+            import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+            gsap.registerPlugin(ScrollTrigger);
+
+            /* ========= Disolución del hero con blur al hacer scroll =========
+             * - Progreso de scroll (scrub) → disolución progresiva y fluida.
+             *   `scrub: 1` hace que el efecto "persiga" al scroll con un segundo
+             *   de suavizado: nunca es brusco ni depende de la velocidad.
+             * - Velocidad del scroll → solo un impulso extra de blur muy sutil,
+             *   con entrada corta y salida lenta, para dar sensación de inercia.
+             */
+            const hero = document.querySelector(".hero");
+            const heroContent = document.querySelector(".hero-content");
+            const heroCopy = document.querySelector(".hero-copy");
+            const heroVideo = document.querySelector("#video-hero-moises-pc");
+            const respetaReduceMovimiento = window.matchMedia(
+                "(prefers-reduced-motion: reduce)",
+            ).matches;
+
+            if (hero && heroContent && heroCopy && !respetaReduceMovimiento) {
+                // 1) Disolución progresiva ligada al progreso del scroll.
+                gsap.timeline({
+                    scrollTrigger: {
+                        trigger: hero,
+                        // el dissolve empieza 200px después de bajar:
+                        // así el hero queda legible (botones incluidos) al inicio
+                        start: "top+=200 top",
+                        // la disolución se completa justo cuando el hero
+                        // termina de salir de pantalla
+                        end: "bottom top",
+                        scrub: 1, // ← clave del suavizado fluido
+                    },
+                }).to(
+                    heroCopy,
+                    { filter: "blur(14px)", opacity: 0, y: -50, ease: "none" },
+                    0,
+                );
+
+                if (heroVideo) {
+                    // el video se difumina menos y se queda unos ms más visible
+                    gsap.to(heroVideo, {
+                        scrollTrigger: {
+                            trigger: hero,
+                            start: "top+=200 top",
+                            end: "bottom top",
+                            scrub: 1,
+                        },
+                        filter: "blur(8px)",
+                        opacity: 0.1,
+                        scale: 0.85,
+                        ease: "none",
+                    });
+                }
+
+                // 2) Impulso sutil de blur según la velocidad del scroll.
+                const estadoBlur = { valor: 0 };
+
+                const aplicarBlur = () => {
+                    heroContent.style.filter =
+                        estadoBlur.valor < 0.05
+                            ? ""
+                            : `blur(${estadoBlur.valor.toFixed(2)}px)`;
+                };
+
+                const animarBlur = (objetivo: number, duracion: number) => {
+                    gsap.to(estadoBlur, {
+                        valor: objetivo,
+                        duration: duracion,
+                        ease: "power2.out",
+                        overwrite: "auto",
+                        onUpdate: aplicarBlur,
+                    });
+                };
+
+                // al frenar el scroll, el blur relajado vuelve a 0 lentamente
+                const volverACero = gsap
+                    .delayedCall(0.12, () => animarBlur(0, 0.8))
+                    .pause();
+
+                ScrollTrigger.create({
+                    trigger: hero,
+                    start: "top+=200 top",
+                    end: "bottom top",
+                    onUpdate: (self) => {
+                        // divisor alto + tope bajo = efecto sutil, nunca agresivo
+                        const impulso = Math.min(
+                            Math.abs(self.getVelocity()) / 400,
+                            4,
+                        );
+                        animarBlur(impulso, 0.3);
+                        volverACero.restart(true);
+                    },
+                });
+            }
+        </script>
+
+        <style is:global>
+            /* .mask-gradien {
+                -webkit-mask-image: linear-gradient(
+                    to bottom,
+                    #000 0%,
+                    #000 90%,
+                    transparent 100%
+                );
+                mask-image: linear-gradient(
+                    to bottom,
+                    #000 0%,
+                    #000 90%,
+                    transparent 100%
+                );
+            } */
+        </style>
+
+        <style>
+            .hero-content,
+            .hero-copy {
+                will-change: transform, opacity, filter;
+            }
+
+            #video-hero-moises-pc {
+                will-change: transform, opacity, filter;
+            }
+
+            .subtitle-border {
+                position: relative;
+                isolation: isolate;
+                display: inline-flex;
+                width: max-content;
+                max-width: 100%;
+                overflow: hidden;
+                border-radius: 9999px;
+                padding: 1px;
+            }
+
+            /*
+            .subtitle-border::before {
+                position: absolute;
+                z-index: -1;
+                inset: -100%;
+                background: conic-gradient(
+                    transparent 0deg 322deg,
+                    rgba(217, 221, 224, 0.55) 334deg,
+                    #fff 340deg,
+                    transparent 356deg 360deg
+                );
+                content: "";
+                animation: subtitle-border-orbit 3s linear infinite;
+            }
+
+            @keyframes subtitle-border-orbit {
+                to {
+                    transform: rotate(1turn);
+                }
+            }
+
+            @media (prefers-reduced-motion: reduce) {
+                .subtitle-border::before {
+                    animation: none;
+                }
+            }
+            */
+
+            .hero {
+                /*
+                background:
+                    radial-gradient(
+                        ellipse at 78% 48%,
+                        rgba(255, 255, 255, 0.095),
+                        transparent 52%
+                    ),
+                    var(--color-bg);
+                */
+                background: var(--color-bg);
+            }
+        </style>
+    </section>|
+
+    <!-- Extras--->
+
+    <style></style>
+</Layout>

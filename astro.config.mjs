@@ -1,5 +1,6 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
+import sitemap from '@astrojs/sitemap';
 import tailwindcss from "@tailwindcss/vite";
 import icon from "astro-icon";
 import { imagetools } from "vite-imagetools";
@@ -12,5 +13,5 @@ export default defineConfig({
     plugins: [tailwindcss(), imagetools()],
   },
 
-  integrations: [icon()],
+  integrations: [icon(), sitemap()],
 });

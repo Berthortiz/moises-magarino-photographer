@@ -2,33 +2,30 @@
 import Header from "../components/Header.astro";
 import SEO from "../components/SEO.astro";
 import Footer from "../sections/Footer.astro";
+import { SITE_CONFIG } from "../consts/site-config";
 import "../css/style.css";
 
 const logo = "/logo-moises.png";
 
 interface Props {
-	title: string;
-	description: string;
+	title?: string;
+	description?: string;
 	canonical?: string;
 	robots?: string;
 	ogImage?: string;
 	ogImageAlt?: string;
-	ogUrl?: string;
 	ogType?: "website" | "article" | "profile";
-	twitterCard?: "summary" | "summary_large_image";
 	showHeader?: boolean;
 }
 
 const {
-	title,
-	description,
+	title = SITE_CONFIG.title,
+	description = SITE_CONFIG.description,
 	canonical,
 	robots,
 	ogImage,
 	ogImageAlt,
-	ogUrl,
 	ogType,
-	twitterCard,
 	showHeader = true,
 } = Astro.props;
 ---
@@ -37,9 +34,23 @@ const {
 <html lang="es">
 	<head>
 		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		{
+			/* Color de fondo crítico inline: la hoja completa llega tarde al
+			    <head> y sin esto se ve un flash blanco en el primer paint. */
+		}
+		<style is:inline>
+			html,
+			body {
+				background: #0d0f13;
+			}
+		</style>
 		<link rel="icon" type="image/png" href={logo} />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="apple-touch-icon" href="/portfolio-icon.png" />
 		<meta name="generator" content={Astro.generator} />
+		<meta name="theme-color" content={SITE_CONFIG.themeColor} />
+		<meta name="author" content={SITE_CONFIG.author} />
 		<SEO
 			title={title}
 			description={description}
@@ -47,19 +58,24 @@ const {
 			robots={robots}
 			ogImage={ogImage}
 			ogImageAlt={ogImageAlt}
-			ogUrl={ogUrl}
 			ogType={ogType}
-			twitterCard={twitterCard}
 		/>
 	</head>
 	<body>
+		<a
+			href="#main-content"
+			class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded focus:bg-white focus:px-4 focus:py-2 focus:text-black focus:outline-none"
+		>
+			Saltar al contenido principal
+		</a>
 		{showHeader && <Header />}
-		<slot />
+		<main id="main-content">
+			<slot />
+		</main>
 		<Footer />
 	</body>
 </html>
 
-<script></script>
 <style is:global>
 	:root {
 		--color-brand: #73777b; /* plata grafito */

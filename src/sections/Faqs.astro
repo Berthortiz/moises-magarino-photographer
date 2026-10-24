@@ -1,35 +1,53 @@
 ---
 import SectionTitle from "../components/SectionTitle.astro";
+import { serializeJsonLd } from "../utils/serialize-json-ld";
 
 const faqs = [
     {
-        question: "",
-        answer: "",
+        question: "¿Qué tipo de fotografía y video ofreces?",
+        answer: "Cubro bodas, conciertos y propiedades inmobiliarias, tanto en foto como en video. Cada formato se adapta a lo que necesitas: desde reportaje de evento completo hasta sesiones puntuales para destacar un espacio o un momento.",
     },
     {
-        question: "",
-        answer: "",
+        question: "¿Dónde trabajas y si viajas para otras ciudades?",
+        answer: "Con base en Florida y disponible para viajar. Si tu evento o propiedad está fuera de la zona habitual, indícalo al momento de cotizar para incluir con claridad los costos de traslado.",
     },
     {
-        question: "",
-        answer: "",
+        question: "¿Cómo reservo una fecha en tu agenda?",
+        answer: "Escríbeme por WhatsApp o desde el formulario de contacto con la fecha, el lugar y el tipo de sesión. Te respondo con disponibilidad y propuesta; para bloquear la fecha se deja una señal de reserva.",
     },
     {
-        question: "",
-        answer: "",
+        question: "¿En cuánto tiempo recibo las fotos editadas?",
+        answer: "Depende del tipo de sesión: las sesiones cortas suelen entregarse en días, y los eventos completos como bodas o conciertos en semanas. Antes de reservar te comento el tiempo de entrega exacto para tu proyecto.",
     },
     {
-        question: "",
-        answer: "",
+        question: "¿Necesito contratar la foto y el video por separado?",
+        answer: "No necesariamente. Puedo cubrir fotografía, video o ambos en el mismo evento. Si combinas los dos servicios, la propuesta se integra para que el enfoque de imagen y video quede coherente de principio a fin.",
     },
 ];
+
+// Solo se emiten las FAQs completas: Google exige que lo marcado con
+// FAQPage coincida exactamente con lo visible en la página.
+const visibleFaqs = faqs.filter((faq) => faq.question && faq.answer);
+
+const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: visibleFaqs.map((faq) => ({
+        "@type": "Question",
+        name: faq.question,
+        acceptedAnswer: {
+            "@type": "Answer",
+            text: faq.answer,
+        },
+    })),
+};
 ---
 
 <section class="max-w-4xl rounded-2xl px-5 py-36 md:mx-auto">
     <SectionTitle title="Preguntas Frecuentes" class="mb-10" />
     <ul>
         {
-            faqs.map((faq) => (
+            visibleFaqs.map((faq) => (
                 <li class="mb-4">
                     <details class="group rounded-xl border border-transparent bg-zinc-800/50 transition-all duration-300 hover:border-[#00d7c9] hover:shadow-xl">
                         <summary class="focus-visible:ring-[#00d7c9]-400 duration-600 flex cursor-pointer select-none items-center gap-3 px-6 py-4 text-sm font-bold text-[red] outline-none transition-all focus-visible:ring-2 group-open:text-pink-300 lg:text-lg">
@@ -53,6 +71,11 @@ const faqs = [
             ))
         }
     </ul>
+    <script
+        type="application/ld+json"
+        is:inline
+        set:html={serializeJsonLd(faqSchema)}
+    />
     {/* Animació*/}
     <style>
         @keyframes fadeInFaq {

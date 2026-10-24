@@ -7,6 +7,8 @@ import boda2 from "../assets/img/galleryFilter/bodas/pexels-luisbecerrafotografo
 import boda3 from "../assets/img/galleryFilter/bodas/pexels-saplak-19571937.jpg";
 import concierto1 from "../assets/img/galleryFilter/conciertos/pexels-alexandreeliasfotografia-elias-2159734286-36257830.jpg";
 import realEstate1 from "../assets/img/galleryFilter/realestate/pexels-bluerhinomedia-3665354.jpg";
+import ButtonShine from "../components/ButtonShine.astro";
+import { Icon } from "astro-icon/components";
 
 const imagenes = [
     {
@@ -72,9 +74,17 @@ const imagenesLoop = [...imagenes, ...imagenes];
             <p
                 class="max-w-2xl text-center text-base leading-7 text-gray-300 sm:text-lg"
             >
-                Una mirada cuidada a las historias, la energía y los lugares que
-                merecen quedarse contigo.
+                Fotografía profesional de bodas, eventos y espacios. Convierte
+                cada momento en imágenes con alma que hacen volver a sentir cada
+                instante.
             </p>
+            <ButtonShine
+                href="https://wa.link/c24rca"
+                class="w-full flex items-center justify-center border border-[#d9dde0]/70 px-5 py-3 text-sm font-medium text-[#e3e6e8] sm:w-fit"
+                text="Contactar"
+            >
+                <Icon name="whatsapp-solid" size={19} />
+            </ButtonShine>
         </header>
 
         <div class="swiper relative mx-auto px-4" id="gallery-swiper">

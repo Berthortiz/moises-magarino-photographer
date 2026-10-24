@@ -1,53 +1,93 @@
 ---
+import { SITE_CONFIG, PERSON_SCHEMA } from "../consts/site-config";
+import { serializeJsonLd } from "../utils/serialize-json-ld";
+
 interface Props {
-    title: string;
-    description: string;
-    canonical?: string;
-    robots?: string;
-    ogImage?: string;
-    ogImageAlt?: string;
-    ogUrl?: string;
-    ogType?: "website" | "article" | "profile";
-    twitterCard?: "summary" | "summary_large_image";
+	title: string;
+	description: string;
+	canonical?: string;
+	robots?: string;
+	ogImage?: string;
+	ogImageAlt?: string;
+	ogType?: "website" | "article" | "profile";
 }
 
 const {
-    title,
-    description,
-    canonical,
-    robots,
-    ogImage = "/src/assets/img/moises.png",
-    ogImageAlt,
-    ogUrl,
-    ogType = "website",
-    twitterCard = "summary_large_image",
+	title,
+	description,
+	canonical,
+	robots = "index, follow",
+	ogImage = SITE_CONFIG.ogImage,
+	ogImageAlt = SITE_CONFIG.ogImageAlt,
+	ogType = "website",
 } = Astro.props;
 
-const origin = Astro.site?.origin ?? Astro.url.origin;
-const canonicalUrl =
-    canonical || Astro.site
-        ? new URL(canonical ?? Astro.url.pathname, origin).href
-        : undefined;
-const socialUrl = new URL(ogUrl ?? canonicalUrl ?? Astro.url.pathname, origin)
-    .href;
-const imageUrl = new URL(ogImage, origin).href;
+const siteUrl = Astro.site ?? new URL(SITE_CONFIG.siteUrl);
+
+// Canonical limpio: sin barra final en rutas que no sean la home.
+const pathname =
+	Astro.url.pathname === "/" ? "/" : Astro.url.pathname.replace(/\/$/, "");
+const canonicalUrl = canonical
+	? new URL(canonical, siteUrl).href
+	: new URL(pathname, siteUrl).href;
+const ogImageUrl = new URL(ogImage, siteUrl).href;
+const websiteUrl = new URL("/", siteUrl).href;
+
+// Nodos schema.org enlazados por @id (el patrón que Google entiende mejor).
+const websiteId = `${websiteUrl}#website`;
+const personId = `${websiteUrl}#person`;
+
+const structuredData = {
+	"@context": "https://schema.org",
+	"@graph": [
+		{
+			"@type": "WebSite",
+			"@id": websiteId,
+			url: websiteUrl,
+			name: SITE_CONFIG.name,
+			description: SITE_CONFIG.description,
+			inLanguage: "es",
+			publisher: { "@id": personId },
+		},
+		{
+			"@type": "Person",
+			"@id": personId,
+			name: PERSON_SCHEMA.name,
+			jobTitle: PERSON_SCHEMA.jobTitle,
+			description: PERSON_SCHEMA.description,
+			url: websiteUrl,
+			image: ogImageUrl,
+			sameAs: PERSON_SCHEMA.sameAs,
+		},
+	],
+};
 ---
 
 <title>{title}</title>
 <meta name="description" content={description} />
-{canonicalUrl && <link rel="canonical" href={canonicalUrl} />}
-{robots && <meta name="robots" content={robots} />}
+<link rel="canonical" href={canonicalUrl} />
+<meta name="robots" content={robots} />
 
-<meta property="og:type" content={ogType} />
-<meta property="og:url" content={socialUrl} />
 <meta property="og:title" content={title} />
 <meta property="og:description" content={description} />
-<meta property="og:image" content={imageUrl} />
-{ogImageAlt && <meta property="og:image:alt" content={ogImageAlt} />}
+<meta property="og:type" content={ogType} />
+<meta property="og:url" content={canonicalUrl} />
+<meta property="og:image" content={ogImageUrl} />
+<meta property="og:image:width" content={String(SITE_CONFIG.ogImageWidth)} />
+<meta property="og:image:height" content={String(SITE_CONFIG.ogImageHeight)} />
+<meta property="og:image:alt" content={ogImageAlt} />
+<meta property="og:locale" content={SITE_CONFIG.ogLocale} />
+{SITE_CONFIG.ogLocaleAlternates.map((locale) => <meta property="og:locale:alternate" content={locale} />)}
 
-<meta name="twitter:card" content={twitterCard} />
-<meta name="twitter:url" content={socialUrl} />
+<meta name="twitter:card" content="summary_large_image" />
+{SITE_CONFIG.twitterHandle && <meta name="twitter:site" content={SITE_CONFIG.twitterHandle} />}
 <meta name="twitter:title" content={title} />
 <meta name="twitter:description" content={description} />
-<meta name="twitter:image" content={imageUrl} />
-{ogImageAlt && <meta name="twitter:image:alt" content={ogImageAlt} />}
+<meta name="twitter:image" content={ogImageUrl} />
+<meta name="twitter:image:alt" content={ogImageAlt} />
+
+<script
+	type="application/ld+json"
+	is:inline
+	set:html={serializeJsonLd(structuredData)}
+/>
