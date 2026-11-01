@@ -4,11 +4,21 @@ import Layout from "../layouts/Layout.astro";
 import { Icon } from "astro-icon/components";
 import ButtonPrimary from "../components/ButtonPrimary.astro";
 import ButtonShine from "../components/ButtonShine.astro";
+import SkiperParallax from "../components/SkiperParallax.astro";
+import AccordionGallery from "../components/AccordionGallery.astro";
+import GalleryFilter from "../sections/GalleryFilter.astro";
+import GallerySwiper from "../sections/GallerySwiper.astro";
+import AboutTwo from "../sections/AboutTwo.astro";
+import ServicesSticky from "../sections/ServicesSticky.astro";
+import Testimonials from "../sections/Testimonials.astro";
+import LinksSecction from "../sections/LinksSecction.astro";
+import About from "../sections/About.astro";
+import SliderHero from "../sections/SliderHero.astro";
 import videoPoster from "../assets/img/moises-poster.jpg";
 import iphoneFrame from "../assets/img/iphone1.png";
-import moisesImg from "../assets/moises-b-and-w.jpg";
-import moisesImg2 from "../assets/moises-b-and-.jpg";
-import moisesImg3 from "../assets/moises-3.jpg";
+import moisesHero1 from "../assets/moi-heroa/moises-b-and-.jpg";
+import moisesHero2 from "../assets/moi-heroa/moi-2 (1).jpg";
+import moisesHero3 from "../assets/moi-heroa/moi-3.jpg";
 
 const title = "Fotógrafo profesional & Filmmaker | Moisés Magariño";
 const description =
@@ -26,13 +36,48 @@ const description =
             style={`--iphone-img: url("${iphoneFrame.src}")`}
             aria-hidden="true"
         >
-            <img
-                src={moisesImg2.src}
-                class="h-full w-full object-cover"
-                width="100"
-                height="100"
-                alt=""
-            />
+            <div id="fade-hero" class="h-full w-full">
+                <div
+                    class="swiper fade-hero-swiper"
+                    data-fade-hero
+                    data-fade-delay={3000}
+                    data-fade-speed={1000}
+                    aria-label="Galería automática de fotos"
+                >
+                    <div class="swiper-wrapper h-full">
+                        <div class="swiper-slide fade-hero-slide">
+                            <img
+                                src={moisesHero1.src}
+                                class="h-full w-full object-cover"
+                                alt="Moisés Magariño"
+                                loading="eager"
+                                decoding="async"
+                                draggable="false"
+                            />
+                        </div>
+                        <div class="swiper-slide fade-hero-slide">
+                            <img
+                                src={moisesHero2.src}
+                                class="h-full w-full object-cover"
+                                alt="Moisés Magariño"
+                                loading="lazy"
+                                decoding="async"
+                                draggable="false"
+                            />
+                        </div>
+                        <div class="swiper-slide fade-hero-slide">
+                            <img
+                                src={moisesHero3.src}
+                                class="h-full w-full object-cover"
+                                alt="Moisés Magariño"
+                                loading="lazy"
+                                decoding="async"
+                                draggable="false"
+                            />
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         <div
             class="relative mx-auto flex h-full w-full max-w-7xl flex-col justify-center overflow-hidden lg:flex-row lg:items-stretch lg:justify-between lg:gap-18"
@@ -62,7 +107,7 @@ const description =
                     <div class="subtitle-border rounded-2xl">
                         <h2
                             id="subtitile-animate"
-                            class="w-max whitespace-nowrap rounded-full bg-[#0d0f13] px-2 py-1 text-[.8em] lg:text-2xl font-extralight"
+                            class="w-max whitespace-nowrap rounded-full bg-[#0d0f13] px-2 py-1 lg:py-3 lg:px-0 text-[.8em] lg:text-2xl font-extralight"
                         >
                             Fotógrafo & Filmmaker
                         </h2>
@@ -104,138 +149,187 @@ const description =
                 </div>
             </div>
         </div>
+    </section>
 
-        <script>
-            const VIDEO_URL =
-                "https://marialerealtor-com-255189.hostingersite.com/wp-content/uploads/2026/10/video_2026-10-10_11-54-48.mp4";
+    <GalleryFilter />
+    <GallerySwiper />
+    <AboutTwo />
+    <ServicesSticky />
+    <!-- <Section3Alert /> -->
+    <Testimonials />
 
-            const videoMovil = document.getElementById(
-                "video-hero-moises-movil",
-            ) as HTMLVideoElement | null;
+    <LinksSecction />
+    <About />
+    <SliderHero />
 
-            const esEscritorio = window.matchMedia("(min-width: 1024px)");
+    <script>
+        const VIDEO_URL =
+            "https://marialerealtor-com-255189.hostingersite.com/wp-content/uploads/2026/10/video_2026-10-10_11-54-48.mp4";
 
-            function sincronizarVideoHero() {
-                // Solo el video de móviles: la versión escritorio ahora es
-                // una imagen estática, no hay <video> para sincronizar.
-                if (!videoMovil) return;
+        const videoMovil = document.getElementById(
+            "video-hero-moises-movil",
+        ) as HTMLVideoElement | null;
 
-                if (esEscritorio.matches) {
-                    if (!videoMovil.paused) videoMovil.pause();
-                    return;
-                }
+        const esEscritorio = window.matchMedia("(min-width: 1024px)");
 
-                if (videoMovil.paused) {
-                    if (!videoMovil.getAttribute("src")) {
-                        videoMovil.src = VIDEO_URL;
-                        videoMovil.load();
-                    }
-                    videoMovil.play().catch(() => {});
-                }
+        function sincronizarVideoHero() {
+            // Solo el video de móviles: la versión escritorio ahora es
+            // una imagen estática, no hay <video> para sincronizar.
+            if (!videoMovil) return;
+
+            if (esEscritorio.matches) {
+                if (!videoMovil.paused) videoMovil.pause();
+                return;
             }
 
-            sincronizarVideoHero();
-            esEscritorio.addEventListener("change", sincronizarVideoHero);
+            if (videoMovil.paused) {
+                if (!videoMovil.getAttribute("src")) {
+                    videoMovil.src = VIDEO_URL;
+                    videoMovil.load();
+                }
+                videoMovil.play().catch(() => {});
+            }
+        }
 
-            import gsap from "gsap";
-            import { ScrollTrigger } from "gsap/ScrollTrigger";
+        sincronizarVideoHero();
+        esEscritorio.addEventListener("change", sincronizarVideoHero);
 
-            gsap.registerPlugin(ScrollTrigger);
+        import Swiper from "swiper";
+        import { EffectFade, Autoplay } from "swiper/modules";
+        import "swiper/css";
+        import "swiper/css/effect-fade";
 
-            /* ========= Disolución del hero con blur al hacer scroll =========
-             * - Progreso de scroll (scrub) → disolución progresiva y fluida.
-             *   `scrub: 1` hace que el efecto "persiga" al scroll con un segundo
-             *   de suavizado: nunca es brusco ni depende de la velocidad.
-             * - Velocidad del scroll → solo un impulso extra de blur muy sutil,
-             *   con entrada corta y salida lenta, para dar sensación de inercia.
-             */
-            const hero = document.querySelector(".hero");
-            const heroContent = document.querySelector(".hero-content");
-            const heroCopy = document.querySelector(".hero-copy");
-            const heroVideo = document.querySelector("#video-hero-moises-pc");
-            const respetaReduceMovimiento = window.matchMedia(
-                "(prefers-reduced-motion: reduce)",
-            ).matches;
+        const reduceMotionFade = window.matchMedia(
+            "(prefers-reduced-motion: reduce)",
+        ).matches;
 
-            if (hero && heroContent && heroCopy && !respetaReduceMovimiento) {
-                // 1) Disolución progresiva ligada al progreso del scroll.
-                gsap.timeline({
+        document
+            .querySelectorAll<HTMLElement>("[data-fade-hero]")
+            .forEach((el) => {
+                const slides = el.querySelectorAll(".swiper-slide").length;
+                const delay = Number(el.dataset.fadeDelay) || 3000;
+                const speed = Number(el.dataset.fadeSpeed) || 1000;
+
+                if (slides < 2) return;
+                if (reduceMotionFade) return;
+
+                new Swiper(el, {
+                    modules: [EffectFade, Autoplay],
+                    effect: "fade",
+                    fadeEffect: {
+                        crossFade: true,
+                    },
+                    speed,
+                    loop: true,
+                    autoplay: {
+                        delay,
+                        disableOnInteraction: false,
+                    },
+                    noSwiping: true,
+                    allowTouchMove: false,
+                    simulateTouch: false,
+                });
+            });
+
+        import gsap from "gsap";
+        import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+        gsap.registerPlugin(ScrollTrigger);
+
+        /* ========= Disolución del hero con blur al hacer scroll =========
+         * - Progreso de scroll (scrub) → disolución progresiva y fluida.
+         *   `scrub: 1` hace que el efecto "persiga" al scroll con un segundo
+         *   de suavizado: nunca es brusco ni depende de la velocidad.
+         * - Velocidad del scroll → solo un impulso extra de blur muy sutil,
+         *   con entrada corta y salida lenta, para dar sensación de inercia.
+         */
+        const hero = document.querySelector(".hero");
+        const heroContent = document.querySelector(".hero-content");
+        const heroCopy = document.querySelector(".hero-copy");
+        const heroVideo = document.querySelector("#video-hero-moises-pc");
+        const respetaReduceMovimiento = window.matchMedia(
+            "(prefers-reduced-motion: reduce)",
+        ).matches;
+
+        if (hero && heroContent && heroCopy && !respetaReduceMovimiento) {
+            // 1) Disolución progresiva ligada al progreso del scroll.
+            gsap.timeline({
+                scrollTrigger: {
+                    trigger: hero,
+                    // el dissolve empieza 200px después de bajar:
+                    // así el hero queda legible (botones incluidos) al inicio
+                    start: "top+=200 top",
+                    // la disolución se completa justo cuando el hero
+                    // termina de salir de pantalla
+                    end: "bottom top",
+                    scrub: 1, // ← clave del suavizado fluido
+                },
+            }).to(
+                heroCopy,
+                { filter: "blur(14px)", opacity: 0, y: -50, ease: "none" },
+                0,
+            );
+
+            if (heroVideo) {
+                // el video se difumina menos y se queda unos ms más visible
+                gsap.to(heroVideo, {
                     scrollTrigger: {
                         trigger: hero,
-                        // el dissolve empieza 200px después de bajar:
-                        // así el hero queda legible (botones incluidos) al inicio
                         start: "top+=200 top",
-                        // la disolución se completa justo cuando el hero
-                        // termina de salir de pantalla
                         end: "bottom top",
-                        scrub: 1, // ← clave del suavizado fluido
+                        scrub: 1,
                     },
-                }).to(
-                    heroCopy,
-                    { filter: "blur(14px)", opacity: 0, y: -50, ease: "none" },
-                    0,
-                );
-
-                if (heroVideo) {
-                    // el video se difumina menos y se queda unos ms más visible
-                    gsap.to(heroVideo, {
-                        scrollTrigger: {
-                            trigger: hero,
-                            start: "top+=200 top",
-                            end: "bottom top",
-                            scrub: 1,
-                        },
-                        filter: "blur(8px)",
-                        opacity: 0.1,
-                        scale: 0.85,
-                        ease: "none",
-                    });
-                }
-
-                // 2) Impulso sutil de blur según la velocidad del scroll.
-                const estadoBlur = { valor: 0 };
-
-                const aplicarBlur = () => {
-                    heroContent.style.filter =
-                        estadoBlur.valor < 0.05
-                            ? ""
-                            : `blur(${estadoBlur.valor.toFixed(2)}px)`;
-                };
-
-                const animarBlur = (objetivo: number, duracion: number) => {
-                    gsap.to(estadoBlur, {
-                        valor: objetivo,
-                        duration: duracion,
-                        ease: "power2.out",
-                        overwrite: "auto",
-                        onUpdate: aplicarBlur,
-                    });
-                };
-
-                // al frenar el scroll, el blur relajado vuelve a 0 lentamente
-                const volverACero = gsap
-                    .delayedCall(0.12, () => animarBlur(0, 0.8))
-                    .pause();
-
-                ScrollTrigger.create({
-                    trigger: hero,
-                    start: "top+=200 top",
-                    end: "bottom top",
-                    onUpdate: (self) => {
-                        // divisor alto + tope bajo = efecto sutil, nunca agresivo
-                        const impulso = Math.min(
-                            Math.abs(self.getVelocity()) / 400,
-                            4,
-                        );
-                        animarBlur(impulso, 0.3);
-                        volverACero.restart(true);
-                    },
+                    filter: "blur(8px)",
+                    opacity: 0.1,
+                    scale: 0.85,
+                    ease: "none",
                 });
             }
-        </script>
 
-        <style is:global>
-            /* .mask-gradien {
+            // 2) Impulso sutil de blur según la velocidad del scroll.
+            const estadoBlur = { valor: 0 };
+
+            const aplicarBlur = () => {
+                heroContent.style.filter =
+                    estadoBlur.valor < 0.05
+                        ? ""
+                        : `blur(${estadoBlur.valor.toFixed(2)}px)`;
+            };
+
+            const animarBlur = (objetivo: number, duracion: number) => {
+                gsap.to(estadoBlur, {
+                    valor: objetivo,
+                    duration: duracion,
+                    ease: "power2.out",
+                    overwrite: "auto",
+                    onUpdate: aplicarBlur,
+                });
+            };
+
+            // al frenar el scroll, el blur relajado vuelve a 0 lentamente
+            const volverACero = gsap
+                .delayedCall(0.12, () => animarBlur(0, 0.8))
+                .pause();
+
+            ScrollTrigger.create({
+                trigger: hero,
+                start: "top+=200 top",
+                end: "bottom top",
+                onUpdate: (self) => {
+                    // divisor alto + tope bajo = efecto sutil, nunca agresivo
+                    const impulso = Math.min(
+                        Math.abs(self.getVelocity()) / 400,
+                        4,
+                    );
+                    animarBlur(impulso, 0.3);
+                    volverACero.restart(true);
+                },
+            });
+        }
+    </script>
+
+    <style is:global>
+        /* .mask-gradien {
                 -webkit-mask-image: linear-gradient(
                     to bottom,
                     #000 0%,
@@ -249,30 +343,56 @@ const description =
                     transparent 100%
                 );
             } */
-        </style>
+    </style>
 
-        <style>
-            .hero-content,
-            .hero-copy {
-                will-change: transform, opacity, filter;
-            }
+    <style>
+        .hero-content,
+        .hero-copy {
+            will-change: transform, opacity, filter;
+        }
 
-            #video-hero-moises-pc {
-                will-change: transform, opacity, filter;
-            }
+        .fade-hero-swiper {
+            box-sizing: border-box;
+            width: 100%;
+            max-width: 100%;
+            min-width: 0;
+            height: 100%;
+            overflow: hidden;
+        }
 
-            .subtitle-border {
-                position: relative;
-                isolation: isolate;
-                display: inline-flex;
-                width: max-content;
-                max-width: 100%;
-                overflow: hidden;
-                border-radius: 9999px;
-                padding: 1px;
-            }
+        .fade-hero-swiper .swiper-slide {
+            filter: blur(14px);
+            transition-property: opacity, filter;
+        }
 
-            /*
+        .fade-hero-swiper .swiper-slide-active {
+            filter: blur(0);
+        }
+
+        .fade-hero-swiper .fade-hero-slide img {
+            display: block;
+            height: 100%;
+            width: 100%;
+            object-fit: cover;
+            user-select: none;
+        }
+
+        #video-hero-moises-pc {
+            will-change: transform, opacity, filter;
+        }
+
+        .subtitle-border {
+            position: relative;
+            isolation: isolate;
+            display: inline-flex;
+            width: max-content;
+            max-width: 100%;
+            overflow: hidden;
+            border-radius: 9999px;
+            padding: 1px;
+        }
+
+        /*
             .subtitle-border::before {
                 position: absolute;
                 z-index: -1;
@@ -300,8 +420,8 @@ const description =
             }
             */
 
-            .hero {
-                /*
+        .hero {
+            /*
                 background:
                     radial-gradient(
                         ellipse at 78% 48%,
@@ -310,12 +430,21 @@ const description =
                     ),
                     var(--color-bg);
                 */
-                background: var(--color-bg);
-            }
-        </style>
-    </section>|
+            background: var(--color-bg);
+        }
+    </style>
 
     <!-- Extras--->
+    <section class="relative">
+        <SkiperParallax />
+    </section>
+
+    <section class="relative">
+        <AccordionGallery />
+    </section>
 
     <style></style>
 </Layout>
+<!-- Extras--->
+
+<style></style>

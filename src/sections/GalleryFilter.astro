@@ -1,123 +1,153 @@
 ---
-// bodas
-import modaImg from "../assets/img/galleryFilter/bodas/pexels-luisbecerrafotografo-5824565.jpg";
-import weddingCoupleRiver from "../assets/img/galleryFilter/bodas/wedding-couple-sean-williams.jpg";
-import weddingBrideBouquet from "../assets/img/galleryFilter/bodas/wedding-bride-eugenia-pankiv.jpg";
-import weddingCoupleForest from "../assets/img/galleryFilter/bodas/wedding-couple-forest-eugenia-pankiv.jpg";
-import weddingKiss from "../assets/img/galleryFilter/bodas/wedding-kiss-ak-camz.jpg";
-import weddingWalk from "../assets/img/galleryFilter/bodas/wedding-walk-ak-camz.jpg";
+// Galería filtrable con carga automática y por lotes de 10.
+//
+// ✅ Escala a cientos de fotos sin tocar código:
+//    Solo suelta las fotos en una subcarpeta de
+//    "src/assets/pagina web fotos y video/<categoria>/" y aparecen solas.
+//
+// ✅ Optimización en el build (sharp, integrado en Astro):
+//    - Miniatura WebP 480px + 960px (retina) → rejilla
+//    - Versión grande WebP min(1920px, ancho real) → visor PhotoSwipe
+//    Nunca se sirve el archivo original.
+//
+// ✅ Carga progresiva: solo las primeras 10 fotos van en el HTML.
+//    El resto viaja como URLs de texto (JSON) y el botón "Ver 10 más"
+//    las inserta bajo demanda: si nadie pulsa, no se descargan.
+//
+// ✅ Sin CDN: PhotoSwipe se empaqueta con el build. Los .MOV/.psd se ignoran.
 
-// Conciertos
-import conciertosImg1 from "../assets/img/galleryFilter/conciertos/pexels-thibault-trillet-44912-167491.jpg";
-import conciertosImg2 from "../assets/img/galleryFilter/conciertos/pexels-alexandreeliasfotografia-elias-2159734286-36257830.jpg";
-import concertCrowd from "../assets/img/galleryFilter/conciertos/concert-crowd-sebastian-ervi.jpg";
-import concertAudience from "../assets/img/galleryFilter/conciertos/concert-audience-spencer-davis.jpg";
-import concertPhone from "../assets/img/galleryFilter/conciertos/concert-phone-noiseporn.jpg";
-import concertSilhouette from "../assets/img/galleryFilter/conciertos/concert-crowd-diane-picchiottino.jpg";
+import { getImage, type ImageMetadata } from "astro:assets";
+import "photoswipe/dist/photoswipe.css";
 
-// realestate
-import realestate1 from "../assets/img/galleryFilter/realestate/pexels-bluerhinomedia-3665354.jpg";
-import livingRoom from "../assets/img/galleryFilter/realestate/realestate-living-room-huy-nguyen.jpg";
-import redSofaLivingRoom from "../assets/img/galleryFilter/realestate/realestate-living-room-austin-wehrwein.jpg";
-import modernHouse from "../assets/img/galleryFilter/realestate/realestate-house-ibrahim-design.jpg";
-import whiteHouse from "../assets/img/galleryFilter/realestate/realestate-house-felix.jpg";
-import illuminatedHouse from "../assets/img/galleryFilter/realestate/realestate-house-arthur-baudry.jpg";
+/** Carpeta → etiqueta visible en las pestañas */
+const CATEGORY_LABELS: Record<string, string> = {
+    "web bodas": "Bodas",
+    "web eventos": "Eventos",
+    "web photoshoot": "Photoshoot",
+    "web producto": "Producto",
+    "web realstate": "Real Estate",
+    "web spa": "Spa",
+    "Web Sport": "Deporte",
+};
 
-const Gallery = [
-    {
-        category: "bodas",
-        pictures: [
-            { src: modaImg.src, alt: "Detalle de boda" },
-            {
-                src: weddingCoupleRiver.src,
-                alt: "Pareja con atuendo tradicional de boda junto a un río",
-            },
-            {
-                src: weddingBrideBouquet.src,
-                alt: "Novia con vestido blanco y ramo de flores",
-            },
-            {
-                src: weddingCoupleForest.src,
-                alt: "Pareja de recién casados rodeada de árboles",
-            },
-            {
-                src: weddingKiss.src,
-                alt: "Novios besándose durante una sesión de boda en el bosque",
-            },
-            {
-                src: weddingWalk.src,
-                alt: "Novios caminando juntos por un sendero",
-            },
-        ],
-    },
-    {
-        category: "conciertos",
-        pictures: [
-            { src: conciertosImg1.src, alt: "Concierto 1" },
-            { src: conciertosImg2.src, alt: "Concierto 2" },
-            {
-                src: concertCrowd.src,
-                alt: "Siluetas del público frente al escenario de un concierto",
-            },
-            {
-                src: concertAudience.src,
-                alt: "Público disfrutando de un concierto nocturno",
-            },
-            {
-                src: concertPhone.src,
-                alt: "Asistente grabando un concierto con su teléfono",
-            },
-            {
-                src: concertSilhouette.src,
-                alt: "Público con las manos levantadas durante un concierto",
-            },
-        ],
-    },
-    {
-        category: "realestate",
-        pictures: [
-            { src: realestate1.src, alt: "Propiedad inmobiliaria" },
-            { src: livingRoom.src, alt: "Sala moderna de concepto abierto" },
-            {
-                src: redSofaLivingRoom.src,
-                alt: "Sala de estar con sofá rojo y alfombra gris",
-            },
-            {
-                src: modernHouse.src,
-                alt: "Casa moderna de tres plantas con paneles de madera",
-            },
-            {
-                src: whiteHouse.src,
-                alt: "Fachada de una casa blanca bajo el cielo azul",
-            },
-            {
-                src: illuminatedHouse.src,
-                alt: "Exterior de una casa moderna iluminada por la noche",
-            },
-        ],
-    },
-];
+/** Deduce la categoría (subcarpeta) de la ruta del archivo */
+function categoryOf(path: string): string {
+    const parts = path.split("/");
+    const i = parts.indexOf("pagina web fotos y video");
+    return i !== -1 ? parts[i + 1]! : "otros";
+}
+
+type Picture = {
+    category: string; // etiqueta visible, ej. "Bodas"
+    thumb: string;
+    srcset: string;
+    large: string;
+    width: number;
+    height: number;
+    alt: string;
+};
+
+// 1. Importa TODAS las fotos de TODAS las subcarpetas
+const files = import.meta.glob<{ default: ImageMetadata }>(
+    "../assets/pagina web fotos y video/**/*.{jpg,jpeg,JPG,JPEG,png,PNG}",
+    { eager: true },
+);
+
+// 2. Genera variantes optimizadas por foto y agrupa por categoría
+const grouped = new Map<string, { meta: ImageMetadata; path: string }[]>();
+
+for (const [path, mod] of Object.entries(files)) {
+    const label = CATEGORY_LABELS[categoryOf(path)] ?? "Fotografías";
+    grouped.set(label, [
+        ...(grouped.get(label) ?? []),
+        { meta: mod.default, path },
+    ]);
+}
+
+const Gallery = [...grouped.entries()]
+    .map(([label, items]) => ({ label, items }))
+    .sort((a, b) => a.label.localeCompare(b.label));
+
+// 3. Genera variantes optimizadas por foto, numeradas DENTRO de su categoría
+const perLabel = new Map<string, Picture[]>();
+
+for (const { label, items } of Gallery) {
+    // Orden estable; {numeric:true} evita "141" antes de "20"
+    items.sort((a, b) =>
+        a.path.localeCompare(b.path, undefined, { numeric: true }),
+    );
+
+    const variants: Picture[] = [];
+    for (const { meta } of items) {
+        // Miniaturas (pantallas normal y retina)
+        const thumb1x = await getImage({
+            src: meta,
+            width: 480,
+            format: "webp",
+            quality: 75,
+        });
+        const thumb2x = await getImage({
+            src: meta,
+            width: 960,
+            format: "webp",
+            quality: 75,
+        });
+        // Versión grande para el visor; nunca agranda si la foto es más chica
+        const large = await getImage({
+            src: meta,
+            width: Math.min(1920, meta.width),
+            format: "webp",
+            quality: 80,
+        });
+
+        variants.push({
+            category: label,
+            thumb: thumb1x.src,
+            srcset: `${thumb1x.src} 480w, ${thumb2x.src} 960w`,
+            large: large.src,
+            width: meta.width,
+            height: meta.height,
+            alt: `Fotografía de ${label} ${variants.length + 1}`,
+        });
+    }
+    perLabel.set(label, variants);
+}
+
+// 4. Mezcla variada para "All": rotación alternando una foto de cada categoría.
+//    Las pestañas de categoría siguen filtrando por su etiqueta sin problema.
+const PICTURES: Picture[] = [];
+const queues = [...perLabel.values()];
+
+while (queues.some((q) => q.length > 0)) {
+    for (const queue of queues) {
+        const pic = queue.shift();
+        if (pic) PICTURES.push(pic);
+    }
+}
+
+// Solo el primer lote se renderiza como HTML; el resto queda como texto
+const INITIAL_COUNT = 15;
+const firstBatch = PICTURES.slice(0, INITIAL_COUNT);
+const SIZES = "(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw";
 ---
 
-<!-- PhotoSwipe CSS desde CDN -->
-<head>
-    <link
-        rel="stylesheet"
-        href="https://unpkg.com/photoswipe@5/dist/photoswipe.css"
-    />
-</head>
 <section id="galeria" class="text-white px-6 py-18">
-    <div class="max-w-6xl mx-auto py-8">
-        <!-- Pestañas de Filtrado -->
+    <div class="max-w-6xl mx-auto py-8 flex flex-col justify-center lg:gap-4">
         <h1
-            class="title-font leading-10 md:leading-10 font-bold text-center text-4xl
-        sm:text-4xl md:text-4xl lg:text-4xl mb-4 text-gray-100"
+            class="title-font font-serif leading-10 md:leading-10 font-bold text-center text-4xl
+        sm:text-4xl md:text-4xl lg:text-6xl mb-4 text-gray-100"
         >
-            <span class="gradiente-title-hero">
-                Gallery
-                <!-- Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra. -->
-            </span>
+            <span class="gradiente-title-hero"> Galeria</span>
         </h1>
+        <p
+            class="mx-auto w-full max-w-[75ch] text-center leading-7 text-gray-300 sm:text-lg"
+        >
+            Fotografía profesional, Convierte cada momento en imágenes con alma
+            que hacen volver a sentir cada instante.
+        </p>
+        <br />
+
+        <!-- Pestañas de Filtrado -->
         <div
             class="flex flex-wrap justify-center gap-6 mb-8 text-sm font-bold tracking-widest"
         >
@@ -125,70 +155,196 @@ const Gallery = [
                 class="tab-btn cursor-pointer text-amber-500 border-b-2 border-amber-500 pb-1"
                 data-category="all">All</button
             >
-            <button
-                class="tab-btn cursor-pointer text-gray-400 hover:text-white pb-1"
-                data-category="bodas">Bodas</button
-            >
-            <button
-                class="tab-btn cursor-pointer text-gray-400 hover:text-white pb-1"
-                data-category="conciertos">Conciertos</button
-            >
-            <button
-                class="tab-btn cursor-pointer text-gray-400 hover:text-white pb-1"
-                data-category="realestate">Real Estate</button
-            >
-        </div>
-
-        <!-- Rejilla de Imágenes -->
-        <div id="gallery" class="grid grid-cols-1 md:grid-cols-3 gap-6">
             {
-                Gallery?.map((item) => {
-                    return item.pictures?.map((pic) => {
-                        return (
-                            <a
-                                href={pic.src}
-                                data-pswp-width="1600"
-                                data-pswp-height="1067"
-                                data-category={item.category}
-                                target="_blank"
-                                class="gallery-item group block overflow-hidden rounded-lg aspect-4/3 bg-neutral-900"
-                            >
-                                <img
-                                    src={pic.src}
-                                    alt={pic.alt}
-                                    loading="lazy"
-                                    decoding="async"
-                                    class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-                                />
-                            </a>
-                        );
-                    });
-                })
+                Gallery.map(({ label }) => (
+                    <button
+                        class="tab-btn cursor-pointer text-gray-400 hover:text-white pb-1"
+                        data-category={label}
+                    >
+                        {label}
+                    </button>
+                ))
             }
         </div>
+
+        <!-- Rejilla Masonry (columnas CSS): solo el primer lote existe en el DOM -->
+        <div id="gallery" class="columns-2 gap-4 md:columns-3">
+            {
+                firstBatch.map((pic) => (
+                    <a
+                        href={pic.large}
+                        data-pswp-src={pic.large}
+                        data-pswp-width={pic.width}
+                        data-pswp-height={pic.height}
+                        data-category={pic.category}
+                        target="_blank"
+                        style={`aspect-ratio: ${pic.width} / ${pic.height}`}
+                        aria-busy="true"
+                        class="gallery-item group relative mb-4 block break-inside-avoid overflow-hidden rounded-lg bg-neutral-900"
+                    >
+                        <img
+                            src={pic.thumb}
+                            srcset={pic.srcset}
+                            sizes="(max-width: 768px) 50vw, 33vw"
+                            alt={pic.alt}
+                            loading="lazy"
+                            decoding="async"
+                            class="w-full h-full object-cover opacity-0 transition-[opacity,transform] duration-300 group-hover:scale-105"
+                        />
+                        <span
+                            class="image-status absolute inset-0 flex items-center justify-center"
+                            aria-hidden="true"
+                        >
+                            <span class="gallery-image-loader"></span>
+                        </span>
+                    </a>
+                ))
+            }
+        </div>
+
+        <!-- Botón de lotes: inserta 10 fotos más solo al pulsarlo -->
+        <div class="flex justify-center pt-6">
+            <button
+                id="gallery-more"
+                class="cursor-pointer text-sm font-bold tracking-widest uppercase rounded-2xl border border-zinc-500/30 px-6 py-2.5 text-gray-300 hover:text-white hover:border-amber-500/60 transition-colors"
+            >
+                Ver 15 más
+            </button>
+        </div>
+
+        <!-- URLs de las fotos restantes, como texto puro (no se descargan) -->
+        <script
+            is:inline
+            type="application/json"
+            id="gallery-data"
+            set:html={JSON.stringify(PICTURES)}
+        />
     </div>
 
-    <script type="module">
-        import PhotoSwipeLightbox from "https://unpkg.com/photoswipe@5/dist/photoswipe-lightbox.esm.js";
+    <script>
+        import PhotoSwipeLightbox from "photoswipe/lightbox";
 
+        const PAGE_SIZE = 15;
+        const SIZES = "(max-width: 768px) 50vw, 33vw";
+
+        const grid = document.getElementById("gallery")!;
+        const moreBtn = document.getElementById("gallery-more")!;
+        const tabs = document.querySelectorAll<HTMLButtonElement>(".tab-btn");
+        const data: PictureJson[] = JSON.parse(
+            document.getElementById("gallery-data")?.textContent ?? "[]",
+        );
+
+        interface PictureJson {
+            category: string;
+            thumb: string;
+            srcset: string;
+            large: string;
+            width: number;
+            height: number;
+            alt: string;
+        }
+
+        /** Visor PhotoSwipe: lee los enlaces del DOM en el momento del clic,
+            así que los lotes agregados funcionan sin reinicializar */
         const lightbox = new PhotoSwipeLightbox({
             gallery: "#gallery",
-            children: "a.gallery-item:not(.hidden)",
-            pswpModule: () =>
-                import("https://unpkg.com/photoswipe@5/dist/photoswipe.esm.js"),
+            children: "a.gallery-item",
+            pswpModule: () => import("photoswipe"),
         });
         lightbox.init();
 
-        //  Filtrado
-        const buttons = document.querySelectorAll(".tab-btn");
-        const items = document.querySelectorAll(".gallery-item");
+        let activeFilter = "all";
+        let visibleCount = PAGE_SIZE;
 
-        buttons.forEach((button) => {
+        function renderItem(pic: PictureJson): HTMLElement {
+            const link = document.createElement("a");
+            link.className =
+                "gallery-item group relative mb-4 block break-inside-avoid overflow-hidden rounded-lg bg-neutral-900";
+            link.style.aspectRatio = `${pic.width} / ${pic.height}`;
+            link.href = pic.large;
+            link.target = "_blank";
+            link.setAttribute("aria-busy", "true");
+            link.dataset.pswpSrc = pic.large;
+            link.dataset.pswpWidth = String(pic.width);
+            link.dataset.pswpHeight = String(pic.height);
+            link.dataset.category = pic.category;
+
+            const img = document.createElement("img");
+            img.className =
+                "w-full h-full object-cover opacity-0 transition-[opacity,transform] duration-300 group-hover:scale-105";
+            img.sizes = SIZES;
+            img.alt = pic.alt;
+            img.loading = "lazy";
+            img.decoding = "async";
+
+            const status = document.createElement("span");
+            status.className =
+                "image-status absolute inset-0 flex items-center justify-center";
+            status.setAttribute("aria-hidden", "true");
+
+            const spinner = document.createElement("span");
+            spinner.className = "gallery-image-loader";
+            status.append(spinner);
+
+            link.append(img, status);
+            watchImage(img, link, status);
+            img.srcset = pic.srcset;
+            img.src = pic.thumb;
+            return link;
+        }
+
+        function watchImage(
+            img: HTMLImageElement,
+            link: HTMLAnchorElement,
+            status: HTMLElement,
+        ) {
+            const loaded = () => {
+                link.setAttribute("aria-busy", "false");
+                img.classList.replace("opacity-0", "opacity-100");
+                status.remove();
+            };
+            const failed = () => {
+                link.setAttribute("aria-busy", "false");
+            };
+
+            img.addEventListener("load", loaded, { once: true });
+            img.addEventListener("error", failed, { once: true });
+
+            if (img.complete) {
+                if (img.naturalWidth > 0) loaded();
+                else failed();
+            }
+        }
+
+        grid.querySelectorAll<HTMLImageElement>("img").forEach((img) => {
+            const link = img.closest<HTMLAnchorElement>("a.gallery-item");
+            const status = link?.querySelector<HTMLElement>(".image-status");
+            if (link && status) watchImage(img, link, status);
+        });
+
+        function render() {
+            const list = data.filter(
+                (pic) =>
+                    activeFilter === "all" || pic.category === activeFilter,
+            );
+            grid.replaceChildren(
+                ...list.slice(0, visibleCount).map(renderItem),
+            );
+            moreBtn.classList.toggle("hidden", visibleCount >= list.length);
+        }
+
+        // Botón "Ver 10 más"
+        moreBtn.addEventListener("click", () => {
+            visibleCount += PAGE_SIZE;
+            render();
+        });
+
+        // Pestañas de filtrado (re-render vuelve a mostrar solo 10)
+        tabs.forEach((button) => {
             button.addEventListener("click", () => {
-                const selectedCategory = button.getAttribute("data-category");
+                const selected = button.getAttribute("data-category");
 
-                // pestañas
-                buttons.forEach((b) => {
+                tabs.forEach((b) => {
                     b.classList.remove(
                         "text-amber-500",
                         "border-b-2",
@@ -203,18 +359,48 @@ const Gallery = [
                     "border-amber-500",
                 );
 
-                items.forEach((item) => {
-                    const itemCategory = item.getAttribute("data-category");
-                    if (
-                        selectedCategory === "all" ||
-                        itemCategory === selectedCategory
-                    ) {
-                        item.classList.remove("hidden");
-                    } else {
-                        item.classList.add("hidden");
-                    }
-                });
+                activeFilter = selected ?? "all";
+                visibleCount = PAGE_SIZE; // reset al cambiar de categoría
+                render();
             });
         });
     </script>
 </section>
+
+<style is:global>
+    .gallery-image-loader {
+        position: relative;
+        display: inline-block;
+        box-sizing: border-box;
+        width: 2rem;
+        height: 2rem;
+        border: 3px solid transparent;
+        border-top-color: #fff;
+        border-right-color: transparent;
+        border-radius: 50%;
+        animation: gallery-loader-rotation 1s linear infinite;
+    }
+
+    .gallery-image-loader::after {
+        position: absolute;
+        inset: -3px;
+        box-sizing: border-box;
+        border: 3px solid transparent;
+        border-bottom-color: #ff3d00;
+        border-left-color: transparent;
+        border-radius: 50%;
+        content: "";
+    }
+
+    @keyframes gallery-loader-rotation {
+        to {
+            transform: rotate(360deg);
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .gallery-image-loader {
+            animation: none;
+        }
+    }
+</style>

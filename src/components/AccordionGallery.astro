@@ -1,0 +1,86 @@
+---
+import img1 from "../assets/img/slider-about-scroll/1.jpg";
+import img2 from "../assets/img/slider-about-scroll/2.jpg";
+import img3 from "../assets/img/slider-about-scroll/3.jpg";
+import moises1 from "../assets/moi-heroa/moi-2 (1).jpg";
+import moises2 from "../assets/moi-heroa/moi-3.jpg";
+import moises3 from "../assets/moi-heroa/moises-b-and-.jpg";
+
+const images = [
+  { src: moises1.src, alt: "Moisés Magariño" },
+  { src: moises2.src, alt: "Moisés Magariño" },
+  { src: moises3.src, alt: "Moisés Magariño" },
+  { src: img1.src, alt: "Moisés Magariño" },
+  { src: img2.src, alt: "Moisés Magariño" },
+];
+---
+
+<section class="accordion-gallery">
+  <div class="container">
+    <h1>Gallery</h1>
+
+    <div class="gallery-wrap">
+      {images.map((image, index) => (
+        <div
+          class={`item item-${index + 1}`}
+          style={`background-image: url('${image.src}');`}
+          aria-label={image.alt}
+        ></div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .accordion-gallery {
+    width: 100%;
+    min-height: 100vh;
+  }
+
+  .accordion-gallery .container {
+    padding: 75px 0;
+    margin: 0 auto;
+    width: 1140px;
+    max-width: 90%;
+  }
+
+  .accordion-gallery h1 {
+    position: relative;
+    margin-bottom: 45px;
+    font-family: "Oswald", sans-serif;
+    font-size: 44px;
+    text-transform: uppercase;
+    color: #424242;
+  }
+
+  .gallery-wrap {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 70vh;
+  }
+
+  .item {
+    flex: 1;
+    height: 100%;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    transition: flex 0.8s ease;
+    cursor: pointer;
+  }
+
+  .item:hover {
+    flex: 7;
+  }
+
+  @media (max-width: 768px) {
+    .accordion-gallery h1 {
+      font-size: 32px;
+    }
+
+    .gallery-wrap {
+      height: 50vh;
+    }
+  }
+</style>

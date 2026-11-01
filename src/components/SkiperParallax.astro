@@ -1,0 +1,169 @@
+---
+import img1 from "../assets/img/slider-about-scroll/1.jpg";
+import img2 from "../assets/img/slider-about-scroll/2.jpg";
+import img3 from "../assets/img/slider-about-scroll/3.jpg";
+import moises1 from "../assets/moi-heroa/moi-2 (1).jpg";
+import moises2 from "../assets/moi-heroa/moi-3.jpg";
+import moises3 from "../assets/moi-heroa/moises-b-and-.jpg";
+import moises4 from "../assets/moises-3.jpg";
+import moises5 from "../assets/moises-b-and-w.jpg";
+
+const column1 = [img1.src, img2.src, img3.src];
+const column2 = [moises1.src, moises2.src, moises3.src];
+const column3 = [moises4.src, moises5.src, img1.src];
+const column4 = [img2.src, moises1.src, moises2.src];
+---
+
+<main class="w-full text-black">
+  <div
+    data-parallax-gallery
+    class="relative box-border flex h-[175vh] gap-[2vw] overflow-hidden p-[2vw]"
+  >
+    <div class="parallax-col parallax-col-1 relative -top-[45%] flex h-full w-1/4 min-w-[250px] flex-col gap-[2vw]">
+      {column1.map((src, i) => (
+        <div class="relative h-full w-full overflow-hidden">
+          <img
+            src={src}
+            alt="Galería parallax"
+            loading="lazy"
+            decoding="async"
+            draggable="false"
+            class="pointer-events-none h-full w-full object-cover"
+          />
+        </div>
+      ))}
+    </div>
+    <div class="parallax-col parallax-col-2 relative -top-[95%] flex h-full w-1/4 min-w-[250px] flex-col gap-[2vw]">
+      {column2.map((src, i) => (
+        <div class="relative h-full w-full overflow-hidden">
+          <img
+            src={src}
+            alt="Galería parallax"
+            loading="lazy"
+            decoding="async"
+            draggable="false"
+            class="pointer-events-none h-full w-full object-cover"
+          />
+        </div>
+      ))}
+    </div>
+    <div class="parallax-col parallax-col-3 relative -top-[45%] flex h-full w-1/4 min-w-[250px] flex-col gap-[2vw]">
+      {column3.map((src, i) => (
+        <div class="relative h-full w-full overflow-hidden">
+          <img
+            src={src}
+            alt="Galería parallax"
+            loading="lazy"
+            decoding="async"
+            draggable="false"
+            class="pointer-events-none h-full w-full object-cover"
+          />
+        </div>
+      ))}
+    </div>
+    <div class="parallax-col parallax-col-4 relative -top-[75%] flex h-full w-1/4 min-w-[250px] flex-col gap-[2vw]">
+      {column4.map((src, i) => (
+        <div class="relative h-full w-full overflow-hidden">
+          <img
+            src={src}
+            alt="Galería parallax"
+            loading="lazy"
+            decoding="async"
+            draggable="false"
+            class="pointer-events-none h-full w-full object-cover"
+          />
+        </div>
+      ))}
+    </div>
+  </div>
+</main>
+
+<script>
+  import gsap from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  function initializeParallaxGallery() {
+    const reduceMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+    if (reduceMotion) return;
+
+    const gallery = document.querySelector<HTMLElement>(
+      "[data-parallax-gallery]",
+    );
+    if (!gallery) return;
+
+    const col1 = gallery.querySelector<HTMLElement>(".parallax-col-1");
+    const col2 = gallery.querySelector<HTMLElement>(".parallax-col-2");
+    const col3 = gallery.querySelector<HTMLElement>(".parallax-col-3");
+    const col4 = gallery.querySelector<HTMLElement>(".parallax-col-4");
+
+    const speed = 2;
+
+    if (col1) {
+      gsap.to(col1, {
+        y: () => window.innerHeight * speed,
+        ease: "none",
+        scrollTrigger: {
+          trigger: gallery,
+          start: "top bottom",
+          end: "bottom top",
+          scrub: true,
+        },
+      });
+    }
+
+    if (col2) {
+      gsap.to(col2, {
+        y: () => window.innerHeight * (speed + 1.3),
+        ease: "none",
+        scrollTrigger: {
+          trigger: gallery,
+          start: "top bottom",
+          end: "bottom top",
+          scrub: true,
+        },
+      });
+    }
+
+    if (col3) {
+      gsap.to(col3, {
+        y: () => window.innerHeight * (speed + 0.25),
+        ease: "none",
+        scrollTrigger: {
+          trigger: gallery,
+          start: "top bottom",
+          end: "bottom top",
+          scrub: true,
+        },
+      });
+    }
+
+    if (col4) {
+      gsap.to(col4, {
+        y: () => window.innerHeight * (speed + 1.0),
+        ease: "none",
+        scrollTrigger: {
+          trigger: gallery,
+          start: "top bottom",
+          end: "bottom top",
+          scrub: true,
+        },
+      });
+    }
+
+    window.addEventListener("resize", () => {
+      ScrollTrigger.refresh();
+    });
+  }
+
+  initializeParallaxGallery();
+</script>
+
+<style>
+  .parallax-col {
+    will-change: transform;
+  }
+</style>
