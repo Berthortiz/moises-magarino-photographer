@@ -16,114 +16,8 @@
 //
 // ✅ Sin CDN: PhotoSwipe se empaqueta con el build. Los .MOV/.psd se ignoran.
 
-import { getImage, type ImageMetadata } from "astro:assets";
+import { GALLERY as Gallery, PICTURES } from "../data/gallery";
 import "photoswipe/dist/photoswipe.css";
-
-/** Carpeta → etiqueta visible en las pestañas */
-const CATEGORY_LABELS: Record<string, string> = {
-    "web bodas": "Bodas",
-    "web eventos": "Eventos",
-    "web photoshoot": "Photoshoot",
-    "web producto": "Producto",
-    "web realstate": "Real Estate",
-    "web spa": "Spa",
-    "Web Sport": "Deporte",
-};
-
-/** Deduce la categoría (subcarpeta) de la ruta del archivo */
-function categoryOf(path: string): string {
-    const parts = path.split("/");
-    const i = parts.indexOf("pagina web fotos y video");
-    return i !== -1 ? parts[i + 1]! : "otros";
-}
-
-type Picture = {
-    category: string; // etiqueta visible, ej. "Bodas"
-    thumb: string;
-    srcset: string;
-    large: string;
-    width: number;
-    height: number;
-    alt: string;
-};
-
-// 1. Importa TODAS las fotos de TODAS las subcarpetas
-const files = import.meta.glob<{ default: ImageMetadata }>(
-    "../assets/pagina web fotos y video/**/*.{jpg,jpeg,JPG,JPEG,png,PNG}",
-    { eager: true },
-);
-
-// 2. Genera variantes optimizadas por foto y agrupa por categoría
-const grouped = new Map<string, { meta: ImageMetadata; path: string }[]>();
-
-for (const [path, mod] of Object.entries(files)) {
-    const label = CATEGORY_LABELS[categoryOf(path)] ?? "Fotografías";
-    grouped.set(label, [
-        ...(grouped.get(label) ?? []),
-        { meta: mod.default, path },
-    ]);
-}
-
-const Gallery = [...grouped.entries()]
-    .map(([label, items]) => ({ label, items }))
-    .sort((a, b) => a.label.localeCompare(b.label));
-
-// 3. Genera variantes optimizadas por foto, numeradas DENTRO de su categoría
-const perLabel = new Map<string, Picture[]>();
-
-for (const { label, items } of Gallery) {
-    // Orden estable; {numeric:true} evita "141" antes de "20"
-    items.sort((a, b) =>
-        a.path.localeCompare(b.path, undefined, { numeric: true }),
-    );
-
-    const variants: Picture[] = [];
-    for (const { meta } of items) {
-        // Miniaturas (pantallas normal y retina)
-        const thumb1x = await getImage({
-            src: meta,
-            width: 480,
-            format: "webp",
-            quality: 75,
-        });
-        const thumb2x = await getImage({
-            src: meta,
-            width: 960,
-            format: "webp",
-            quality: 75,
-        });
-        // Versión grande para el visor; nunca agranda si la foto es más chica
-        const large = await getImage({
-            src: meta,
-            width: Math.min(1920, meta.width),
-            format: "webp",
-            quality: 80,
-        });
-
-        variants.push({
-            category: label,
-            thumb: thumb1x.src,
-            srcset: `${thumb1x.src} 480w, ${thumb2x.src} 960w`,
-            large: large.src,
-            width: meta.width,
-            height: meta.height,
-            alt: `Fotografía de ${label} ${variants.length + 1}`,
-        });
-    }
-    perLabel.set(label, variants);
-}
-
-// 4. Mezcla variada para "All": rotación alternando una foto de cada categoría.
-//    Las pestañas de categoría siguen filtrando por su etiqueta sin problema.
-const PICTURES: Picture[] = [];
-const queues = [...perLabel.values()];
-
-while (queues.some((q) => q.length > 0)) {
-    for (const queue of queues) {
-        const pic = queue.shift();
-        if (pic) PICTURES.push(pic);
-    }
-}
 
 // Solo el primer lote se renderiza como HTML; el resto queda como texto
 const INITIAL_COUNT = 15;
@@ -166,6 +60,23 @@ const SIZES = "(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw";
                 ))
             }
         </div>
+
+        <nav
+            aria-label="Galerías completas por categoría"
+            class="mb-8 flex flex-wrap items-center justify-center gap-x-5 gap-y-3 text-sm text-gray-300"
+        >
+            <span class="text-gray-500">Ver todas las fotos:</span>
+            {
+                Gallery.map(({ label, slug }) => (
+                    <a
+                        href={`/galeria/${slug}/`}
+                        class="underline decoration-white/30 underline-offset-4 transition-colors hover:text-amber-400"
+                    >
+                        {label}
+                    </a>
+                ))
+            }
+        </nav>
 
         <!-- Rejilla Masonry (columnas CSS): solo el primer lote existe en el DOM -->
         <div id="gallery" class="columns-2 gap-4 md:columns-3">
@@ -223,7 +134,7 @@ const SIZES = "(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw";
 
     <script>
         import PhotoSwipeLightbox from "photoswipe/lightbox";
-
+ 
         const PAGE_SIZE = 15;
         const SIZES = "(max-width: 768px) 50vw, 33vw";
 
