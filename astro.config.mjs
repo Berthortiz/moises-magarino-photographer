@@ -8,7 +8,6 @@ import { imagetools } from "vite-imagetools";
 // https://astro.build/config
 export default defineConfig({
   site: 'https://moisesmagarino.com',
-  output: 'static',
   vite: {
     plugins: [tailwindcss(), imagetools()],
   },
