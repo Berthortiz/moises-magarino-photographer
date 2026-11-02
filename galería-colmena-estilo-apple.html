@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Galería colmena estilo Apple Watch (CSS puro)</title>
+<style>
+  :root { color-scheme: dark; box-sizing: border-box; padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); }
+  html { scroll-padding-top: env(safe-area-inset-top, 0px); }
+  body { margin: 0; min-height: 100vh; display: grid; place-items: center; background: #111; font-family: system-ui, sans-serif; }
+
+  /* Pantalla 16:9 que ocupa casi toda la ventana */
+  .watch {
+    --w: min(96vw, calc(94vh * 16 / 9));   /* ancho: el mayor 16:9 que quepa */
+    --s: calc(var(--w) / 8);             /* diámetro del círculo central */
+    --g: calc(var(--s) * .05);             /* espacio entre círculos */
+    width: var(--w);
+    aspect-ratio: 16 / 9;
+    background: #000;
+    border-radius: 3%;
+    border: clamp(3px, .5vw, 8px) solid #2a2a2c;
+    box-sizing: border-box;
+    display: grid;
+    place-items: center;
+    overflow: visible;
+  }
+
+  /* ====== LA GALERÍA ====== */
+  .hive { display: flex; flex-direction: column; align-items: center; }
+  .row { display: flex; gap: var(--g); }
+  .row + .row { margin-top: calc((var(--s) + var(--g)) * .866 - var(--s)); }
+  .row div {
+    width: var(--s);
+    height: var(--s);
+    border-radius: 50%;
+    /* Cambia el degradado por tu foto: background: url(foto.jpg) center/cover; */
+    background: linear-gradient(135deg, hsl(calc(var(--i) * 47) 80% 60%), hsl(calc(var(--i) * 47 + 60) 80% 35%));
+    transform: scale(var(--k));
+    transition: transform .3s cubic-bezier(.2,.8,.3,1.2), filter .3s ease, box-shadow .3s ease;
+  }
+
+  /* Previsualización grande al pasar el cursor */
+  .row div:hover {
+    transform: scale(2.2);
+    position: relative;
+    z-index: 10;
+    box-shadow: 0 8px 30px rgba(0,0,0,.7), 0 0 0 2px rgba(255,255,255,.85);
+  }
+  .hive:hover .row div:not(:hover) { filter: brightness(.55); }
+
+  /* ====== TABLET Y MENOR: filas de 4 y 3, los demás bajan ====== */
+  @media (max-width: 1024px) {
+    body { overflow-x: clip; }
+    .watch {
+      --s: calc(min(94vw, 760px) / 4.9);   /* círculo según el ancho */
+      --g: calc(var(--s) * .05);
+      --p: calc(var(--s) + var(--g));      /* paso horizontal */
+      --r: calc(var(--p) * 1.732);         /* altura de 2 filas */
+      width: fit-content;
+      aspect-ratio: auto;                  /* deja de ser 16:9 */
+      display: flex;
+      align-items: stretch;
+      padding: calc(var(--s) * .3);
+      border-radius: calc(var(--s) * .6);
+      margin: 3vw 0;
+    }
+    .hive { display: block; width: calc(var(--p) * 4 + 2px); font-size: 0; }
+    /* Truco del float: empuja las filas pares media celda */
+    .hive::before {
+      content: "";
+      float: left;
+      width: calc(var(--p) / 2);
+      height: 100%;
+      shape-outside: repeating-linear-gradient(transparent 0 calc(var(--r) - 3px), #fff 0 var(--r));
+    }
+    .row { display: contents; }            /* los círculos fluyen libres */
+    .row + .row { margin-top: 0; }
+    .row div {
+      display: inline-block;
+      margin: 0 calc(var(--g) / 2) calc(var(--p) * .866 - var(--s));
+      transform: none;                     /* todos del mismo tamaño */
+    }
+    .row div:hover, .row div:active { transform: scale(1.7); position: relative; z-index: 10; }
+  }
+</style>
+</head>
+<body>
+  <div class="watch">
+    <div class="hive">
+      <div class="row"><div style="--i:0;--k:0.71"></div><div style="--i:1;--k:0.80"></div><div style="--i:2;--k:0.84"></div><div style="--i:3;--k:0.80"></div><div style="--i:4;--k:0.71"></div></div>
+      <div class="row"><div style="--i:5;--k:0.70"></div><div style="--i:6;--k:0.81"></div><div style="--i:7;--k:0.92"></div><div style="--i:8;--k:0.92"></div><div style="--i:9;--k:0.81"></div><div style="--i:10;--k:0.70"></div></div>
+      <div class="row"><div style="--i:11;--k:0.64"></div><div style="--i:12;--k:0.75"></div><div style="--i:13;--k:0.87"></div><div style="--i:14;--k:0.95"></div><div style="--i:15;--k:0.87"></div><div style="--i:16;--k:0.75"></div><div style="--i:17;--k:0.64"></div></div>
+      <div class="row"><div style="--i:18;--k:0.66"></div><div style="--i:19;--k:0.76"></div><div style="--i:20;--k:0.83"></div><div style="--i:21;--k:0.83"></div><div style="--i:22;--k:0.76"></div><div style="--i:23;--k:0.66"></div></div>
+    </div>
+  </div>
+</body>
+</html>

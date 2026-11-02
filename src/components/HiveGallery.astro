@@ -1,0 +1,200 @@
+---
+// Galería colmena estilo Apple Watch — convierte el HTML estático
+// "galería-colmena-estilo-apple.html" en un componente Astro funcional.
+// Las imágenes se cargan automáticamente desde /src/assets/pagina web fotos y video/web photoshoot
+
+const modules = import.meta.glob(
+  "../assets/pagina web fotos y video/web photoshoot/*.{jpg,JPG,jpeg,JPEG}",
+  { eager: true },
+);
+
+const photos = Object.values(modules)
+  .map((m) => (m as { default: string }).default)
+  .sort();
+
+// La colmena tiene 24 celdas (filas de 5, 6, 7 y 6).
+// Se toman fotos repartidas uniformemente por todo el photoshoot, no solo las primeras.
+const CELL_COUNT = 24;
+const gallery: string[] = [];
+
+if (photos.length <= CELL_COUNT) {
+  gallery.push(...photos);
+} else {
+  for (let i = 0; i < CELL_COUNT; i++) {
+    gallery.push(photos[Math.floor((i * photos.length) / CELL_COUNT)]);
+  }
+}
+
+// Si no hay suficientes fotos, se rellena repitiendo las disponibles
+while (gallery.length < CELL_COUNT && photos.length > 0) {
+  gallery.push(photos[gallery.length % photos.length]);
+}
+
+// Filas de la colmena: escala (k) de cada celda, igual que el HTML original
+const rows: { k: number }[][] = [
+  [{ k: 0.71 }, { k: 0.8 }, { k: 0.84 }, { k: 0.8 }, { k: 0.71 }],
+  [{ k: 0.7 }, { k: 0.81 }, { k: 0.92 }, { k: 0.92 }, { k: 0.81 }, { k: 0.7 }],
+  [
+    { k: 0.64 },
+    { k: 0.75 },
+    { k: 0.87 },
+    { k: 0.95 },
+    { k: 0.87 },
+    { k: 0.75 },
+    { k: 0.64 },
+  ],
+  [{ k: 0.66 }, { k: 0.76 }, { k: 0.83 }, { k: 0.83 }, { k: 0.76 }, { k: 0.66 }],
+];
+
+// Distribuir las fotos en las filas
+let index = 0;
+const hive = rows.map((row) => {
+  return row.map(() => {
+    const src = gallery[index % Math.max(gallery.length, 1)] ?? "";
+    index++;
+    return { src };
+  });
+});
+---
+
+<section class="hive-section" aria-label="Galería de fotos de Moisés Magariño">
+  <div class="watch">
+    <div class="hive">
+      {
+        hive.map((row, i) => (
+          <div class="row">
+            {row.map((cell, j) => (
+              <div
+                style={`--i:${i * row.length + j};--k:${rows[i][j].k};background-image:url('${cell.src}')`}
+                role="img"
+                aria-label={`Foto ${i * row.length + j + 1}`}
+              />
+            ))}
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .hive-section {
+    background: #111;
+    min-height: 100vh;
+    display: grid;
+    place-items: center;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+
+  /* Pantalla 16:9 que ocupa casi toda la ventana */
+  .watch {
+    --w: min(96vw, calc(94vh * 16 / 9)); /* ancho: el mayor 16:9 que quepa */
+    --s: calc(var(--w) / 8); /* diámetro del círculo central */
+    --g: calc(var(--s) * 0.05); /* espacio entre círculos */
+    width: var(--w);
+    aspect-ratio: 16 / 9;
+    background: #000;
+    border-radius: 3%;
+    border: clamp(3px, 0.5vw, 8px) solid #2a2a2c;
+    box-sizing: border-box;
+    display: grid;
+    place-items: center;
+    overflow: visible;
+  }
+
+  /* ====== LA GALERÍA ====== */
+  .hive {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .row {
+    display: flex;
+    gap: var(--g);
+  }
+  .row + .row {
+    margin-top: calc((var(--s) + var(--g)) * 0.866 - var(--s));
+  }
+  .row div {
+    width: var(--s);
+    height: var(--s);
+    border-radius: 50%;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-color: #222; /* respaldo si la imagen no carga */
+    transform: scale(var(--k));
+    transition:
+      transform 0.3s cubic-bezier(0.2, 0.8, 0.3, 1.2),
+      filter 0.3s ease,
+      box-shadow 0.3s ease;
+    cursor: pointer;
+  }
+
+  /* Previsualización grande al pasar el cursor */
+  .row div:hover {
+    transform: scale(2.2);
+    position: relative;
+    z-index: 10;
+    box-shadow:
+      0 8px 30px rgba(0, 0, 0, 0.7),
+      0 0 0 2px rgba(255, 255, 255, 0.85);
+  }
+  .hive:hover .row div:not(:hover) {
+    filter: brightness(0.55);
+  }
+
+  /* ====== TABLET Y MENOR: filas de 4 y 3, los demás bajan ====== */
+  @media (max-width: 1024px) {
+    .hive-section {
+      overflow-x: clip;
+    }
+    .watch {
+      --s: calc(min(94vw, 760px) / 4.9); /* círculo según el ancho */
+      --g: calc(var(--s) * 0.05);
+      --p: calc(var(--s) + var(--g)); /* paso horizontal */
+      --r: calc(var(--p) * 1.732); /* altura de 2 filas */
+      width: fit-content;
+      aspect-ratio: auto; /* deja de ser 16:9 */
+      display: flex;
+      align-items: stretch;
+      padding: calc(var(--s) * 0.3);
+      border-radius: calc(var(--s) * 0.6);
+      margin: 3vw 0;
+    }
+    .hive {
+      display: block;
+      width: calc(var(--p) * 4 + 2px);
+      font-size: 0;
+    }
+    /* Truco del float: empuja las filas pares media celda */
+    .hive::before {
+      content: "";
+      float: left;
+      width: calc(var(--p) / 2);
+      height: 100%;
+      shape-outside: repeating-linear-gradient(
+        transparent 0 calc(var(--r) - 3px),
+        #fff 0 var(--r)
+      );
+    }
+    .row {
+      display: contents; /* los círculos fluyen libres */
+    }
+    .row + .row {
+      margin-top: 0;
+    }
+    .row div {
+      display: inline-block;
+      margin: 0 calc(var(--g) / 2) calc(var(--p) * 0.866 - var(--s));
+      transform: none; /* todos del mismo tamaño */
+    }
+    .row div:hover,
+    .row div:active {
+      transform: scale(1.7);
+      position: relative;
+      z-index: 10;
+    }
+  }
+</style>
